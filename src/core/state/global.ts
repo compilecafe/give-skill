@@ -1,12 +1,12 @@
-import { homedir } from 'os';
-import { join } from 'path';
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import type { StateFile, SkillState, SkillInstallation } from '../../types/state.js';
-import type { AgentType } from '../../types/agents.js';
-import { isValidSkillInstallation } from '../../utils/validation.js';
+import { homedir } from "os";
+import { join } from "path";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
+import type { StateFile, SkillState, SkillInstallation } from "../../types/state.js";
+import type { AgentType } from "../../types/agents.js";
+import { isValidSkillInstallation } from "../../utils/validation.js";
 
-const STATE_DIR = join(homedir(), '.give-skill');
-const STATE_FILE = join(STATE_DIR, 'state.json');
+const STATE_DIR = join(homedir(), ".give-skill");
+const STATE_FILE = join(STATE_DIR, "state.json");
 
 function ensureStateDir(): void {
   if (!existsSync(STATE_DIR)) {
@@ -27,7 +27,7 @@ export function loadState(): StateFile {
   }
 
   try {
-    const content = readFileSync(STATE_FILE, 'utf-8');
+    const content = readFileSync(STATE_FILE, "utf-8");
     return JSON.parse(content) as StateFile;
   } catch {
     return {
@@ -49,7 +49,7 @@ export function addSkill(
   subpath: string | undefined,
   branch: string,
   commit: string,
-  installation: SkillInstallation
+  installation: SkillInstallation,
 ): { updated: boolean; previousBranch?: string } {
   const state = loadState();
   const key = skillName.toLowerCase();
@@ -79,7 +79,7 @@ export function addSkill(
   }
 
   const existingIndex = state.skills[key].installations.findIndex(
-    i => i.agent === installation.agent && i.path === installation.path
+    (i) => i.agent === installation.agent && i.path === installation.path,
   );
 
   if (existingIndex >= 0) {
@@ -101,7 +101,7 @@ export function removeSkillInstallation(skillName: string, agent: AgentType, pat
   }
 
   state.skills[key].installations = state.skills[key].installations.filter(
-    i => !(i.agent === agent && i.path === path)
+    (i) => !(i.agent === agent && i.path === path),
   );
 
   if (state.skills[key].installations.length === 0) {
@@ -139,14 +139,14 @@ export async function cleanOrphanedEntries(): Promise<void> {
 
     for (const installation of skillState.installations) {
       try {
-        const path = installation.type === 'global'
-          ? installation.path
-          : join(process.cwd(), installation.path);
+        const path =
+          installation.type === "global"
+            ? installation.path
+            : join(process.cwd(), installation.path);
         if (isValidSkillInstallation(path)) {
           validInstallations.push(installation);
         }
-      } catch {
-      }
+      } catch {}
     }
 
     if (validInstallations.length === 0) {
@@ -171,7 +171,7 @@ export function getStateDir(): string {
 }
 
 export function getCacheDir(): string {
-  const cacheDir = join(STATE_DIR, 'cache');
+  const cacheDir = join(STATE_DIR, "cache");
   if (!existsSync(cacheDir)) {
     mkdirSync(cacheDir, { recursive: true });
   }

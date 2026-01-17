@@ -1,5 +1,5 @@
-import { basename, dirname } from 'path';
-import type { Skill } from '../../types/skills.js';
+import { basename, dirname } from "path";
+import type { Skill } from "../../types/skills.js";
 
 interface FrontmatterResult {
   data: Record<string, string>;
@@ -14,25 +14,27 @@ export function parseFrontmatter(content: string): FrontmatterResult {
   const bodyContent = match[2]!;
   const data: Record<string, string> = {};
 
-  for (const line of yamlSection.split('\n')) {
-    const colonIndex = line.indexOf(':');
+  for (const line of yamlSection.split("\n")) {
+    const colonIndex = line.indexOf(":");
     if (colonIndex === -1) continue;
 
     const key = line.slice(0, colonIndex).trim();
     const value = line.slice(colonIndex + 1).trim();
 
-    if ((value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))) {
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
       data[key] = value.slice(1, -1);
-    } else if (key === 'metadata') {
+    } else if (key === "metadata") {
       try {
         const metadata: Record<string, string> = {};
-        const metadataStr = value.replace(/^\{|\}$/g, '').trim();
+        const metadataStr = value.replace(/^\{|\}$/g, "").trim();
         if (metadataStr) {
-          for (const pair of metadataStr.split(',')) {
-            const [k, v] = pair.split('=').map(s => s.trim());
+          for (const pair of metadataStr.split(",")) {
+            const [k, v] = pair.split("=").map((s) => s.trim());
             if (k && v) {
-              metadata[k] = v.replace(/^['\"]|['\"]$/g, '');
+              metadata[k] = v.replace(/^['"]|["']$/g, "");
             }
           }
           data[key] = JSON.stringify(metadata);

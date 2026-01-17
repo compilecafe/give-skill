@@ -1,7 +1,7 @@
-import { homedir } from 'os';
-import { existsSync } from 'fs';
-import type { AgentConfig, AgentType } from '../types/agents.js';
-import agentsConfig from './agents.json' with { type: 'json' };
+import { homedir } from "os";
+import { existsSync } from "fs";
+import type { AgentConfig, AgentType } from "../types/agents.js";
+import agentsConfig from "./agents.json" with { type: "json" };
 
 interface AgentConfigEntry {
   name: string;
@@ -23,11 +23,11 @@ export function loadAgentConfig(): Record<AgentType, AgentConfig> {
     config[agentType] = {
       name: agent.name,
       displayName: agent.displayName,
-      configDir: agent.configDir.replace('~', home),
+      configDir: agent.configDir.replace("~", home),
       skillsDir: agent.skillsDir,
-      globalSkillsDir: agent.globalSkillsDir.replace('~', home),
+      globalSkillsDir: agent.globalSkillsDir.replace("~", home),
       detectInstalled: async () => {
-        const configDirPath = agent.configDir.replace('~', home);
+        const configDirPath = agent.configDir.replace("~", home);
         return existsSync(configDirPath);
       },
     };

@@ -1,17 +1,12 @@
-import { readdir, readFile, stat } from 'fs/promises';
-import { join } from 'path';
-import type { Skill } from '../../types/skills.js';
-import { agents } from '../agents/config.js';
-import { parseSkillMd } from './parser.js';
+import { readdir, readFile, stat } from "fs/promises";
+import { join } from "path";
+import type { Skill } from "../../types/skills.js";
+import { agents } from "../agents/config.js";
+import { parseSkillMd } from "./parser.js";
 
-const SKIP_DIRS = ['node_modules', '.git', 'dist', 'build', '__pycache__'];
+const SKIP_DIRS = ["node_modules", ".git", "dist", "build", "__pycache__"];
 
-const COMMON_SKILL_DIRS = [
-  'skills',
-  'skills/.curated',
-  'skills/.experimental',
-  'skills/.system',
-];
+const COMMON_SKILL_DIRS = ["skills", "skills/.curated", "skills/.experimental", "skills/.system"];
 
 function getPrioritySearchDirs(searchPath: string): string[] {
   const dirs = [searchPath];
@@ -31,7 +26,7 @@ function getPrioritySearchDirs(searchPath: string): string[] {
 
 async function hasSkillMd(dir: string): Promise<boolean> {
   try {
-    const skillPath = join(dir, 'SKILL.md');
+    const skillPath = join(dir, "SKILL.md");
     const stats = await stat(skillPath);
     return stats.isFile();
   } catch {
@@ -57,8 +52,7 @@ async function findSkillDirs(dir: string, depth = 0, maxDepth = 5): Promise<stri
         skillDirs.push(...subDirs);
       }
     }
-  } catch {
-  }
+  } catch {}
 
   return skillDirs;
 }
@@ -69,8 +63,8 @@ export async function discoverSkills(basePath: string, subpath?: string): Promis
   const searchPath = subpath ? join(basePath, subpath) : basePath;
 
   if (await hasSkillMd(searchPath)) {
-    const skillMdPath = join(searchPath, 'SKILL.md');
-    const content = await readFile(skillMdPath, 'utf-8');
+    const skillMdPath = join(searchPath, "SKILL.md");
+    const content = await readFile(skillMdPath, "utf-8");
     const skill = parseSkillMd(skillMdPath, content);
     if (skill) {
       skills.push(skill);
@@ -88,8 +82,8 @@ export async function discoverSkills(basePath: string, subpath?: string): Promis
         if (entry.isDirectory()) {
           const skillDir = join(dir, entry.name);
           if (await hasSkillMd(skillDir)) {
-            const skillMdPath = join(skillDir, 'SKILL.md');
-            const content = await readFile(skillMdPath, 'utf-8');
+            const skillMdPath = join(skillDir, "SKILL.md");
+            const content = await readFile(skillMdPath, "utf-8");
             const skill = parseSkillMd(skillMdPath, content);
             if (skill && !seenNames.has(skill.name)) {
               skills.push(skill);
@@ -98,16 +92,15 @@ export async function discoverSkills(basePath: string, subpath?: string): Promis
           }
         }
       }
-    } catch {
-    }
+    } catch {}
   }
 
   if (skills.length === 0) {
     const allSkillDirs = await findSkillDirs(searchPath);
 
     for (const skillDir of allSkillDirs) {
-      const skillMdPath = join(skillDir, 'SKILL.md');
-      const content = await readFile(skillMdPath, 'utf-8');
+      const skillMdPath = join(skillDir, "SKILL.md");
+      const content = await readFile(skillMdPath, "utf-8");
       const skill = parseSkillMd(skillMdPath, content);
       if (skill && !seenNames.has(skill.name)) {
         skills.push(skill);

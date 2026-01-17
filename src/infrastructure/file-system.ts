@@ -1,14 +1,11 @@
-import { mkdir, cp, access, readdir } from 'fs/promises';
-import { join } from 'path';
+import { mkdir, cp, access, readdir } from "fs/promises";
+import { join } from "path";
 
-const EXCLUDE_FILES = new Set([
-  'README.md',
-  'metadata.json',
-]);
+const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
 
 const isExcluded = (name: string): boolean => {
   if (EXCLUDE_FILES.has(name)) return true;
-  if (name.startsWith('_')) return true;
+  if (name.startsWith("_")) return true;
   return false;
 };
 
@@ -35,7 +32,7 @@ async function copyDirectory(src: string, dest: string): Promise<void> {
 
 export async function installSkillFiles(
   sourceDir: string,
-  targetDir: string
+  targetDir: string,
 ): Promise<{ success: boolean; path: string; error?: string }> {
   try {
     await mkdir(targetDir, { recursive: true });
@@ -49,7 +46,7 @@ export async function installSkillFiles(
     return {
       success: false,
       path: targetDir,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }

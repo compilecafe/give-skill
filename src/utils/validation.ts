@@ -1,4 +1,4 @@
-import { existsSync, readdirSync } from 'fs';
+import { existsSync, readdirSync } from "fs";
 
 export function isValidSkillInstallation(path: string): boolean {
   if (!existsSync(path)) return false;
@@ -6,7 +6,7 @@ export function isValidSkillInstallation(path: string): boolean {
   try {
     const files = readdirSync(path);
     if (files.length === 0) return false;
-    return files.includes('SKILL.md');
+    return files.includes("SKILL.md");
   } catch {
     return false;
   }

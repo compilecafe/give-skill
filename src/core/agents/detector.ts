@@ -1,5 +1,5 @@
-import type { AgentType } from '../../types/agents.js';
-import { agents } from './config.js';
+import type { AgentType } from "../../types/agents.js";
+import { agents } from "./config.js";
 
 export async function detectInstalledAgents(): Promise<AgentType[]> {
   const installed: AgentType[] = [];

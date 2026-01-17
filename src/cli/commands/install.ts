@@ -1,6 +1,6 @@
-import * as p from '@clack/prompts';
-import pc from 'picocolors';
-import { performInstallation } from '../../services/install.js';
+import * as p from "@clack/prompts";
+import pc from "picocolors";
+import { performInstallation } from "../../services/install.js";
 
 export interface InstallOptions {
   global?: boolean;
@@ -11,7 +11,7 @@ export interface InstallOptions {
 }
 
 export async function installCommand(source: string, options: InstallOptions) {
-  p.intro(pc.bgCyan(pc.black(' give-skill ')));
+  p.intro(pc.bgCyan(pc.black(" give-skill ")));
 
   try {
     const result = await performInstallation(source, options);
@@ -24,8 +24,8 @@ export async function installCommand(source: string, options: InstallOptions) {
       process.exit(1);
     }
   } catch (error) {
-    p.log.error(error instanceof Error ? error.message : 'Unknown error occurred');
-    p.outro(pc.red('Installation failed'));
+    p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
+    p.outro(pc.red("Installation failed"));
     process.exit(1);
   }
 }

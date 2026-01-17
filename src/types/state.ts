@@ -1,8 +1,8 @@
-import type { AgentType } from './agents.js';
+import type { AgentType } from "./agents.js";
 
 export interface SkillInstallation {
   agent: AgentType;
-  type: 'global' | 'project';
+  type: "global" | "project";
   path: string;
 }
 

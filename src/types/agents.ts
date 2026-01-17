@@ -1,4 +1,19 @@
-export type AgentType = 'opencode' | 'claude-code' | 'codex' | 'cursor' | 'amp' | 'kilo' | 'roo' | 'goose' | 'antigravity' | 'copilot' | 'gemini' | 'windsurf' | 'trae' | 'factory' | 'letta';
+export type AgentType =
+  | "opencode"
+  | "claude-code"
+  | "codex"
+  | "cursor"
+  | "amp"
+  | "kilo"
+  | "roo"
+  | "goose"
+  | "antigravity"
+  | "copilot"
+  | "gemini"
+  | "windsurf"
+  | "trae"
+  | "factory"
+  | "letta";
 
 export interface AgentConfig {
   name: string;

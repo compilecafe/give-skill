@@ -2,7 +2,27 @@
   "name": "give-skill",
   "version": "1.2.0",
   "description": "Universal skill installer for AI coding agents - Claude, Cursor, Copilot, and more",
-  "type": "module",
+  "keywords": [
+    "agent-skills",
+    "ai-agents",
+    "claude",
+    "cli",
+    "coding-assistant",
+    "copilot",
+    "cursor",
+    "github-copilot",
+    "skills"
+  ],
+  "homepage": "https://github.com/compilecafe/give-skill#readme",
+  "bugs": {
+    "url": "https://github.com/compilecafe/give-skill/issues"
+  },
+  "license": "MIT",
+  "author": "Compile Café",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/compilecafe/give-skill.git"
+  },
   "bin": {
     "give-skill": "./dist/index.js"
   },
@@ -10,33 +30,18 @@
     "dist",
     "README.md"
   ],
+  "type": "module",
+  "module": "src/index.ts",
   "scripts": {
     "build": "bun build src/index.ts --outdir dist --target node --minify",
     "dev": "bun src/index.ts",
     "typecheck": "tsgo --noEmit",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
-  "keywords": [
-    "cli",
-    "skills",
-    "claude",
-    "cursor",
-    "copilot",
-    "github-copilot",
-    "ai-agents",
-    "agent-skills",
-    "coding-assistant"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/compilecafe/give-skill.git"
-  },
-  "homepage": "https://github.com/compilecafe/give-skill#readme",
-  "bugs": {
-    "url": "https://github.com/compilecafe/give-skill/issues"
-  },
-  "author": "Compile Café",
-  "license": "MIT",
   "dependencies": {
     "@clack/prompts": "^0.11.0",
     "commander": "^14.0.2",
@@ -44,7 +49,8 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@typescript/native-preview": "^7.0.0-dev.20260116.1"
-  },
-  "module": "src/index.ts"
+    "@typescript/native-preview": "^7.0.0-dev.20260116.1",
+    "oxfmt": "^0.24.0",
+    "oxlint": "^1.39.0"
+  }
 }

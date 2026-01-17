@@ -6,7 +6,7 @@ export interface Skill {
 }
 
 export interface ParsedSource {
-  type: 'github' | 'gitlab' | 'git';
+  type: "github" | "gitlab" | "git";
   url: string;
   subpath?: string;
   branch?: string;

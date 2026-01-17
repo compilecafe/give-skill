@@ -1,13 +1,13 @@
-import { join } from 'path';
-import { agents } from '../core/agents/config.js';
-import { installSkillFiles, checkSkillInstalled } from './file-system.js';
-import type { Skill } from '../types/skills.js';
-import type { AgentType } from '../types/agents.js';
+import { join } from "path";
+import { agents } from "../core/agents/config.js";
+import { installSkillFiles, checkSkillInstalled } from "./file-system.js";
+import type { Skill } from "../types/skills.js";
+import type { AgentType } from "../types/agents.js";
 
 export async function installSkillForAgent(
   skill: Skill,
   agent: AgentType,
-  options: { global: boolean }
+  options: { global: boolean },
 ): Promise<{ success: boolean; path: string; originalPath: string; error?: string }> {
   const agentConfig = agents[agent];
   const baseDir = options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir;
@@ -24,7 +24,7 @@ export async function installSkillForAgent(
 export async function isSkillInstalled(
   skillName: string,
   agent: AgentType,
-  options: { global: boolean }
+  options: { global: boolean },
 ): Promise<boolean> {
   const path = getInstallPath(skillName, agent, options);
   return checkSkillInstalled(path);
@@ -33,7 +33,7 @@ export async function isSkillInstalled(
 export function getInstallPath(
   skillName: string,
   agent: AgentType,
-  options: { global: boolean }
+  options: { global: boolean },
 ): string {
   const agentConfig = agents[agent];
   const baseDir = options.global ? agentConfig.globalSkillsDir : agentConfig.skillsDir;

@@ -119,12 +119,12 @@ npx give-skill clean
 
 The `status` command shows one of the following states for each skill:
 
-| Icon | Status | Description |
-| ---- | ------ | ----------- |
-| ✓ | `latest` | Skill is up to date with the remote repository |
-| ↓ | `update-available` | A newer version is available |
-| ✗ | `error` | Failed to check for updates (network issues, repo deleted, etc.) |
-| ○ | `orphaned` | No valid installations found (folders were manually deleted) |
+| Icon | Status             | Description                                                      |
+| ---- | ------------------ | ---------------------------------------------------------------- |
+| ✓    | `latest`           | Skill is up to date with the remote repository                   |
+| ↓    | `update-available` | A newer version is available                                     |
+| ✗    | `error`            | Failed to check for updates (network issues, repo deleted, etc.) |
+| ○    | `orphaned`         | No valid installations found (folders were manually deleted)     |
 
 ## Command Reference
 
@@ -190,23 +190,23 @@ npx give-skill expo/skills -s pr-reviewer -g -a copilot -y
 
 ## Where Skills Go
 
-| Agent         | Project Level                        | Global Level (`--global`)                    |
-| ------------- | ------------------------------------ | ------------------------------------------- |
-| Claude Code   | `.claude/skills/<name>/`             | `~/.claude/skills/<name>/`                  |
-| Cursor        | `.cursor/skills/<name>/`             | `~/.cursor/skills/<name>/`                  |
-| Copilot       | `.github/skills/<name>/`             | `~/.copilot/skills/<name>/`                 |
-| Gemini CLI    | `.gemini/skills/<name>/`             | `~/.gemini/skills/<name>/`                  |
-| Windsurf      | `.windsurf/skills/<name>/`           | `~/.codeium/windsurf/skills/<name>/`        |
-| Trae          | `.trae/skills/<name>/`               | Project-level only (SOLO mode)              |
-| Factory Droid | `.factory/skills/<name>/`            | `~/.factory/skills/<name>/`                 |
-| Letta         | `.skills/<name>/`                    | `~/.letta/skills/<name>/`                   |
-| OpenCode      | `.opencode/skill/<name>/`            | `~/.config/opencode/skill/<name>/`          |
-| Codex         | `.codex/skills/<name>/`              | `~/.codex/skills/<name>/`                   |
-| Antigravity   | `.agent/skills/<name>/`              | `~/.gemini/antigravity/skills/<name>/`      |
-| Amp           | `.agents/skills/<name>/`             | `~/.config/agents/skills/<name>/`           |
-| Kilo Code     | `.kilocode/skills/<name>/`           | `~/.kilocode/skills/<name>/`                |
-| Roo Code      | `.roo/skills/<name>/`                | `~/.roo/skills/<name>/`                     |
-| Goose         | `.goose/skills/<name>/`              | `~/.config/goose/skills/<name>/`            |
+| Agent         | Project Level              | Global Level (`--global`)              |
+| ------------- | -------------------------- | -------------------------------------- |
+| Claude Code   | `.claude/skills/<name>/`   | `~/.claude/skills/<name>/`             |
+| Cursor        | `.cursor/skills/<name>/`   | `~/.cursor/skills/<name>/`             |
+| Copilot       | `.github/skills/<name>/`   | `~/.copilot/skills/<name>/`            |
+| Gemini CLI    | `.gemini/skills/<name>/`   | `~/.gemini/skills/<name>/`             |
+| Windsurf      | `.windsurf/skills/<name>/` | `~/.codeium/windsurf/skills/<name>/`   |
+| Trae          | `.trae/skills/<name>/`     | Project-level only (SOLO mode)         |
+| Factory Droid | `.factory/skills/<name>/`  | `~/.factory/skills/<name>/`            |
+| Letta         | `.skills/<name>/`          | `~/.letta/skills/<name>/`              |
+| OpenCode      | `.opencode/skill/<name>/`  | `~/.config/opencode/skill/<name>/`     |
+| Codex         | `.codex/skills/<name>/`    | `~/.codex/skills/<name>/`              |
+| Antigravity   | `.agent/skills/<name>/`    | `~/.gemini/antigravity/skills/<name>/` |
+| Amp           | `.agents/skills/<name>/`   | `~/.config/agents/skills/<name>/`      |
+| Kilo Code     | `.kilocode/skills/<name>/` | `~/.kilocode/skills/<name>/`           |
+| Roo Code      | `.roo/skills/<name>/`      | `~/.roo/skills/<name>/`                |
+| Goose         | `.goose/skills/<name>/`    | `~/.config/goose/skills/<name>/`       |
 
 ## Creating Skills
 
