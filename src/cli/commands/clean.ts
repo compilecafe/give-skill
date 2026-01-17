@@ -1,6 +1,6 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
-import { cleanOrphaned } from "../../services/update.js";
+import { cleanOrphaned } from "@/services/update";
 
 export async function cleanCommand() {
   p.intro(pc.bgCyan(pc.black(" give-skill ")));

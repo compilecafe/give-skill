@@ -1,6 +1,6 @@
 import { homedir } from "os";
 import { existsSync } from "fs";
-import type { AgentConfig, AgentType } from "../types/agents.js";
+import type { AgentConfig, AgentType } from "@/types/agents";
 import agentsConfig from "./agents.json" with { type: "json" };
 
 interface AgentConfigEntry {

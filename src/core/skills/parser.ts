@@ -1,5 +1,5 @@
 import { basename, dirname } from "path";
-import type { Skill } from "../../types/skills.js";
+import type { Skill } from "@/types/skills";
 
 interface FrontmatterResult {
   data: Record<string, string>;

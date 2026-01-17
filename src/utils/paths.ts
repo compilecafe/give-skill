@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import type { SkillInstallation } from "../types/state.js";
+import type { SkillInstallation } from "@/types/state";
 
 export function resolveInstallationPath(installation: SkillInstallation): string {
   return installation.type === "global"

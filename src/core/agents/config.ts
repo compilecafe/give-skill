@@ -1,3 +1,3 @@
-import { loadAgentConfig } from "../../config/index.js";
+import { loadAgentConfig } from "@/config/index";
 
 export const agents = loadAgentConfig();

@@ -2,12 +2,12 @@
 
 import { program } from "commander";
 import packageJson from "../package.json" with { type: "json" };
-import { installCommand, type InstallOptions } from "./cli/commands/install.js";
-import { updateCommand, type UpdateOptions } from "./cli/commands/update.js";
-import { statusCommand, type StatusOptions } from "./cli/commands/status.js";
-import { removeCommand, type RemoveOptions } from "./cli/commands/remove.js";
-import { listCommand } from "./cli/commands/list.js";
-import { cleanCommand } from "./cli/commands/clean.js";
+import { installCommand, type InstallOptions } from "@/cli/commands/install";
+import { updateCommand, type UpdateOptions } from "@/cli/commands/update";
+import { statusCommand, type StatusOptions } from "@/cli/commands/status";
+import { removeCommand, type RemoveOptions } from "@/cli/commands/remove";
+import { listCommand } from "@/cli/commands/list";
+import { cleanCommand } from "@/cli/commands/clean";
 
 const version = packageJson.version;
 

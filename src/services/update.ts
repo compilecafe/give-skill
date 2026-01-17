@@ -6,21 +6,21 @@ import {
   cleanupTempDir,
   getLatestCommit,
   getCommitHash,
-} from "../infrastructure/git-client.js";
-import { discoverSkills } from "../core/skills/discovery.js";
-import { installSkillForAgent } from "../infrastructure/installer.js";
-import { getAllSkills, updateSkillCommit, cleanOrphanedEntries } from "../core/state/global.js";
+} from "@/infrastructure/git-client";
+import { discoverSkills } from "@/core/skills/discovery";
+import { installSkillForAgent } from "@/infrastructure/installer";
+import { getAllSkills, updateSkillCommit, cleanOrphanedEntries } from "@/core/state/global";
 import {
   getAllLocalSkills,
   findLocalSkillInstallations,
   updateLocalSkillCommit,
-} from "../core/state/local.js";
-import { removeSkillInstallation } from "../core/state/global.js";
-import { agents } from "../core/agents/config.js";
-import { isValidSkillInstallation } from "../utils/validation.js";
-import { resolveInstallationPath } from "../utils/paths.js";
-import { showNoSkillsMessage, Plural } from "../utils/formatting.js";
-import type { SkillState } from "../types/state.js";
+} from "@/core/state/local";
+import { removeSkillInstallation } from "@/core/state/global";
+import { agents } from "@/core/agents/config";
+import { isValidSkillInstallation } from "@/utils/validation";
+import { resolveInstallationPath } from "@/utils/paths";
+import { showNoSkillsMessage, Plural } from "@/utils/formatting";
+import type { SkillState } from "@/types/state";
 
 interface StatusResult {
   skillName: string;

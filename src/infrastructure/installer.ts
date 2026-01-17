@@ -1,8 +1,8 @@
 import { join } from "path";
-import { agents } from "../core/agents/config.js";
-import { installSkillFiles, checkSkillInstalled } from "./file-system.js";
-import type { Skill } from "../types/skills.js";
-import type { AgentType } from "../types/agents.js";
+import { agents } from "@/core/agents/config";
+import { installSkillFiles, checkSkillInstalled } from "./file-system";
+import type { Skill } from "@/types/skills";
+import type { AgentType } from "@/types/agents";
 
 export async function installSkillForAgent(
   skill: Skill,

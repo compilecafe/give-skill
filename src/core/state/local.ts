@@ -1,8 +1,8 @@
 import { join, resolve } from "path";
 import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "fs";
-import type { LocalState, LocalSkillEntry, SkillInstallation, Dirent } from "../../types/state.js";
-import type { AgentType } from "../../types/agents.js";
-import { agents } from "../agents/config.js";
+import type { LocalState, LocalSkillEntry, SkillInstallation, Dirent } from "@/types/state";
+import type { AgentType } from "@/types/agents";
+import { agents } from "../agents/config";
 
 const STATE_VERSION = "1.0.0";
 const LOCAL_STATE_FILE = "skills.lock";

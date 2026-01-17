@@ -1,20 +1,20 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
-import { parseSource } from "../core/git/parser.js";
-import { cloneRepo, cleanupTempDir, getCommitHash } from "../infrastructure/git-client.js";
-import { discoverSkills } from "../core/skills/discovery.js";
-import { getSkillDisplayName } from "../core/skills/parser.js";
+import { parseSource } from "@/core/git/parser";
+import { cloneRepo, cleanupTempDir, getCommitHash } from "@/infrastructure/git-client";
+import { discoverSkills } from "@/core/skills/discovery";
+import { getSkillDisplayName } from "@/core/skills/parser";
 import {
   installSkillForAgent,
   isSkillInstalled,
   getInstallPath,
-} from "../infrastructure/installer.js";
-import { detectInstalledAgents } from "../core/agents/detector.js";
-import { agents } from "../core/agents/config.js";
-import { addSkill } from "../core/state/global.js";
-import { addLocalSkill } from "../core/state/local.js";
-import type { Skill, ParsedSource } from "../types/skills.js";
-import type { AgentType } from "../types/agents.js";
+} from "@/infrastructure/installer";
+import { detectInstalledAgents } from "@/core/agents/detector";
+import { agents } from "@/core/agents/config";
+import { addSkill } from "@/core/state/global";
+import { addLocalSkill } from "@/core/state/local";
+import type { Skill, ParsedSource } from "@/types/skills";
+import type { AgentType } from "@/types/agents";
 
 interface Options {
   global?: boolean;
