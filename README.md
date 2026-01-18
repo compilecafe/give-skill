@@ -38,7 +38,8 @@ All agents support the [Agent Skills](https://agentskills.io) open standard:
 | [Goose](https://block.github.io/goose)                | ✅     |
 | [Qoder](https://qoder.com)                            | ✅     |
 
-¹ Trae only supports project-level installation (SOLO mode). Global installation is not available.
+> [!NOTE]
+> ¹ Trae only supports project-level installation (SOLO mode). Global installation is not available.
 
 Missing an agent? [Create an issue](https://github.com/compilecafe/give-skill/issues)
 
@@ -313,48 +314,72 @@ Commit `skills.lock` to ensure consistent skill versions across your team. New c
 
 ## Troubleshooting
 
-### No skills found
+<details>
+  <summary>
+    <h4>
+      No skills found
+    </h4>
+  </summary>
+  
+  Make sure your `SKILL.md` follows the [Agent Skills](https://agentskills.io) format:
+  
+  ```markdown
+  ---
+  name: my-skill
+  description: This describes what the skill does
+  ---
+  ```
+</details>
 
-Make sure your `SKILL.md` follows the [Agent Skills](https://agentskills.io) format:
+<details>
+  <summary>
+    <h4>
+      Permission denied
+    </h4>
+  </summary>
+  
+  Check you have write permissions for the target directory.
+</details>
 
-```markdown
----
-name: my-skill
-description: This describes what the skill does
----
-```
+<details>
+  <summary>
+    <h4>
+      Agent not detected
+    </h4>
+  </summary>
+  
+  The CLI automatically detects installed agents by checking their default directories. To see which agents are detected, run a command and review the agent selection prompt. Manually specify with `-a` if needed.
+</details>
 
-### Permission denied
-
-Check you have write permissions for the target directory.
-
-### Agent not detected
-
-The CLI automatically detects installed agents by checking their default directories. To see which agents are detected, run a command and review the agent selection prompt. Manually specify with `-a` if needed.
-
-### Source URL formats
-
-`give-skill` supports multiple source formats:
-
-```bash
-# GitHub shorthand
-npx give-skill expo/skills
-
-# Full GitHub URL
-npx give-skill https://github.com/expo/skills
-
-# Specific branch
-npx give-skill https://github.com/expo/skills/tree/develop
-
-# Specific branch with subpath
-npx give-skill https://github.com/expo/skills/tree/develop/skills/custom
-
-# GitLab
-npx give-skill https://gitlab.com/org/repo
-
-# Any git repository
-npx give-skill https://example.com/repo.git
-```
+<details>
+  <summary>
+    <h4>
+      Source URL formats
+    </h4>
+  </summary>
+  
+  `give-skill` supports multiple source formats:
+  
+  ```bash
+  # GitHub shorthand
+  npx give-skill expo/skills
+  
+  # Full GitHub URL
+  npx give-skill https://github.com/expo/skills
+  
+  # Specific branch
+  npx give-skill https://github.com/expo/skills/tree/develop
+  
+  # Specific branch with subpath
+  npx give-skill https://github.com/expo/skills/tree/develop/skills/custom
+  
+  # GitLab
+  npx give-skill https://gitlab.com/org/repo
+  
+  # Any git repository
+  npx give-skill https://example.com/repo.git
+  ```
+</details>
 
 ## License
 
