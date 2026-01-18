@@ -13,10 +13,10 @@ export async function statusCommand(skills: string[], options: StatusOptions = {
     const results = await checkStatus(skills.length > 0 ? skills : undefined);
     const verbose = options.verbose || skills.length > 0;
     await displayStatus(results, verbose);
-    p.outro("Done!");
+    p.outro(pc.green("All checks complete"));
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("Status check failed"));
+    p.outro(pc.red("Couldn't check status"));
     process.exit(1);
   }
 }

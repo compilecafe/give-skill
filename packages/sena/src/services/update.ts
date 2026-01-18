@@ -179,6 +179,7 @@ export async function performUpdate(
 
   if (skillsToUpdate.length === 0) {
     p.log.warn("No skills found to update");
+    p.outro(pc.yellow("Nothing to update"));
     return [];
   }
 
@@ -189,13 +190,14 @@ export async function performUpdate(
     const orphaned = statusResults.filter((r) => r.status === "orphaned");
     if (orphaned.length > 0) {
       p.log.warn(
-        `${orphaned.length} skill${orphaned.length > 1 ? "s" : ""} have no valid installations`,
+        `${orphaned.length} skill${orphaned.length > 1 ? "s" : ""} ${orphaned.length > 1 ? "have" : "has"} no valid installations`,
       );
       for (const o of orphaned) {
-        p.log.message(`  ${pc.yellow("○")} ${pc.cyan(o.skillName)} - all installations removed`);
+        p.log.message(`  ${pc.yellow("○")} ${pc.cyan(o.skillName)} - files were removed`);
       }
     }
     p.log.success(pc.green("All skills are up to date"));
+    p.outro(pc.green("Already up to date"));
     return [];
   }
 
@@ -356,7 +358,7 @@ export async function performUpdate(
   }
 
   if (successful.length > 0) {
-    p.outro(pc.green("Done!"));
+    p.outro(pc.green("Skills updated successfully"));
   } else {
     p.outro(pc.yellow("No skills were updated"));
   }
@@ -443,5 +445,5 @@ export async function cleanOrphaned(): Promise<void> {
   const spinner = p.spinner();
   spinner.start("Checking for orphaned entries...");
   await cleanOrphanedEntries();
-  spinner.stop(pc.green("Cleaned up orphaned entries"));
+  spinner.stop(pc.green("State cleaned up"));
 }

@@ -298,7 +298,11 @@ export async function performRemove(
     }
   }
 
-  p.outro(pc.green("Done!"));
+  if (successful.length > 0) {
+    p.outro(pc.green("Skills removed successfully"));
+  } else {
+    p.outro(pc.yellow("No skills were removed"));
+  }
 
   return results;
 }

@@ -8,13 +8,13 @@ export async function searchCommand() {
   try {
     const spinner = p.spinner();
 
-    spinner.start("Fetching directory...");
+    spinner.start("Loading skill directory...");
     const entries = await listDirectory();
-    spinner.stop("Directory fetched");
+    spinner.stop("Directory loaded");
 
     if (entries.length === 0) {
-      p.log.warn("No entries found in directory");
-      p.outro("Directory is empty");
+      p.log.warn("No skills found in directory");
+      p.outro("Check back later for new skills");
       return;
     }
 
@@ -49,7 +49,7 @@ export async function searchCommand() {
     });
 
     if (p.isCancel(install) || !install) {
-      p.outro("Use " + pc.green(`npx sena@latest ${entry.name}`) + " to install");
+      p.outro("Install anytime with " + pc.green(`npx sena@latest ${entry.name}`));
       return;
     }
 
@@ -57,7 +57,7 @@ export async function searchCommand() {
     await installCommand(entry.name, {});
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Failed to fetch directory");
-    p.outro(pc.red("Search failed"));
+    p.outro(pc.red("Couldn't load directory"));
     process.exit(1);
   }
 }
@@ -74,5 +74,5 @@ function showEntryDetails(entry: DirectoryEntry) {
 
   p.log.message(`  ${pc.bold("Author:")} ${pc.yellow(entry.author)}`);
   p.log.message(`  ${pc.bold("Source:")} ${pc.dim(entry.source)}`);
-  p.log.message(`  ${pc.dim("Install:")} ${pc.green(`npx sena@latest ${entry.name}`)}`);
+  p.log.message(`  ${pc.dim("Install with:")} ${pc.green(`npx sena@latest ${entry.name}`)}`);
 }

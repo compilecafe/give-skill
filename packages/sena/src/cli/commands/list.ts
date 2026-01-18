@@ -7,10 +7,10 @@ export async function listCommand() {
 
   try {
     await listRemovableSkills();
-    p.outro("Done!");
+    p.outro(pc.green("Showing all installed skills"));
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("List failed"));
+    p.outro(pc.red("Couldn't list skills"));
     process.exit(1);
   }
 }

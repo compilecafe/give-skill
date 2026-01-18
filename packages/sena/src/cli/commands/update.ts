@@ -13,7 +13,7 @@ export async function updateCommand(skills: string[], options: UpdateOptions) {
     await performUpdate(skills.length > 0 ? skills : undefined, options);
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("Update failed"));
+    p.outro(pc.red("Couldn't update skill(s)"));
     process.exit(1);
   }
 }

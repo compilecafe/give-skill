@@ -412,7 +412,11 @@ async function performParallelInstall(
     }
   }
 
-  p.outro(pc.green("Done!"));
+  if (successful.length > 0) {
+    p.outro(pc.green("Skills installed successfully"));
+  } else {
+    p.outro(pc.yellow("No skills were installed"));
+  }
 
   return {
     success: failed.length === 0,

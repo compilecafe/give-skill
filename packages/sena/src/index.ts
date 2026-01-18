@@ -18,7 +18,10 @@ program
     "Universal skill package manager for AI coding agents. Install, manage, and update custom skills across Claude Code, Cursor, Copilot, Gemini, Windsurf, Trae, Factory, Letta, OpenCode, Codex, and 8+ more AI development tools from a single unified interface.",
   )
   .version(version)
-  .argument("<source>", "Git repo URL, GitHub shorthand (owner/repo), directory name, or direct path to skill")
+  .argument(
+    "<source>",
+    "Git repo URL, GitHub shorthand (owner/repo), directory name, or direct path to skill",
+  )
   .option("-g, --global", "Install skill globally (user-level) instead of project-level")
   .option(
     "-a, --agent <agents...>",

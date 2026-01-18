@@ -22,11 +22,11 @@ export async function installCommand(source: string, options: InstallOptions) {
       const directorySource = await resolveSourceFromDirectory(source);
 
       if (!directorySource) {
-        p.log.error(`Directory entry "${pc.cyan(source)}" not found.`);
+        p.log.error(`Skill "${pc.cyan(source)}" not found in directory.`);
 
         const directory = await listDirectory();
         if (directory.length > 0) {
-          p.log.info("Available directory entries:");
+          p.log.info("Available skills:");
           for (const entry of directory) {
             p.log.message(`  ${pc.cyan(entry.name)} - ${pc.dim(entry.description)}`);
           }
@@ -49,7 +49,7 @@ export async function installCommand(source: string, options: InstallOptions) {
     }
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("Installation failed"));
+    p.outro(pc.red("Couldn't install skill"));
     process.exit(1);
   }
 }

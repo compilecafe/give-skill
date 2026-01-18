@@ -7,10 +7,10 @@ export async function cleanCommand() {
 
   try {
     await cleanOrphaned();
-    p.outro(pc.green("Done!"));
+    p.outro(pc.green("State cleaned up"));
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("Clean failed"));
+    p.outro(pc.red("Cleanup failed"));
     process.exit(1);
   }
 }
