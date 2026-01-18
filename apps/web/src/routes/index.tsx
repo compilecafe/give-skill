@@ -32,7 +32,6 @@ import directory from '../directory.json'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
-import { Card, CardPanel } from '@/components/ui/card'
 import { Tooltip, TooltipPopup, TooltipTrigger } from '@/components/ui/tooltip'
 import { SUPPORTED_AGENTS } from '@/config/agents'
 
