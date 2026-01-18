@@ -23,6 +23,8 @@ interface RemoveResult {
 
 interface RemoveOptions {
   yes?: boolean;
+  force?: boolean;
+  silent?: boolean;
 }
 
 function getAllRemovableSkills(): Array<{
@@ -118,7 +120,9 @@ export async function performRemove(
       return [];
     }
 
-    if (options.yes) {
+    const autoConfirm = options.yes || options.force;
+
+    if (autoConfirm) {
       skillsToRemove = allSkills.filter(({ skillName }) =>
         validChoices.some((c) => c.value === skillName),
       );
@@ -185,7 +189,9 @@ export async function performRemove(
 
   let selectedToRemove: string[];
 
-  if (options.yes || skipSecondMultiselect) {
+  const autoConfirm = options.yes || options.force;
+
+  if (autoConfirm || skipSecondMultiselect) {
     selectedToRemove = toRemove.map(({ skillName }) => skillName);
   } else {
     const removeChoices = toRemove.map(({ skillName, installations }) => ({
@@ -220,7 +226,7 @@ export async function performRemove(
     }
   }
 
-  if (!options.yes) {
+  if (!autoConfirm) {
     const confirmed = await p.confirm({ message: "Remove these skills?" });
     if (p.isCancel(confirmed) || !confirmed) {
       p.cancel("Remove cancelled");
@@ -353,7 +359,6 @@ export async function listRemovableSkills(): Promise<void> {
 
   if (globalSkills.length > 0) {
     if (localSkills.length > 0) {
-      p.log.message("");
       p.log.message(pc.bold(pc.cyan("Global skills (from ~/.sena/state.json)")));
     }
     for (const { skillName, state } of globalSkills) {

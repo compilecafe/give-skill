@@ -163,7 +163,7 @@ export async function checkStatus(skillNames?: string[]): Promise<StatusResult[]
 
 export async function performUpdate(
   skillNames?: string[],
-  options: { yes?: boolean } = {},
+  options: { yes?: boolean; force?: boolean; silent?: boolean } = {},
 ): Promise<UpdateResult[]> {
   const allSkills = getAllSkillsFromBothSources();
   const results: UpdateResult[] = [];
@@ -211,7 +211,9 @@ export async function performUpdate(
 
   let selectedToUpdate: string[];
 
-  if (options.yes) {
+  const autoConfirm = options.yes || options.force;
+
+  if (autoConfirm) {
     selectedToUpdate = skillsWithUpdates.map((r) => r.skillName);
   } else {
     const selected = await p.multiselect({
@@ -240,7 +242,7 @@ export async function performUpdate(
     }
   }
 
-  if (!options.yes) {
+  if (!autoConfirm) {
     const confirmed = await p.confirm({ message: "Proceed with update?" });
     if (p.isCancel(confirmed) || !confirmed) {
       p.cancel("Update cancelled");
@@ -441,7 +443,9 @@ export async function displayStatus(
   }
 }
 
-export async function cleanOrphaned(): Promise<void> {
+export async function cleanOrphaned(
+  _options: { yes?: boolean; force?: boolean; silent?: boolean } = {},
+): Promise<void> {
   const spinner = p.spinner();
   spinner.start("Checking for orphaned entries...");
   await cleanOrphanedEntries();

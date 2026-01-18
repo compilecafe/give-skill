@@ -49,7 +49,7 @@ export async function searchCommand() {
     });
 
     if (p.isCancel(install) || !install) {
-      p.outro("Install anytime with " + pc.green(`npx sena@latest ${entry.name}`));
+      p.outro("Install anytime with " + pc.green(`sena add ${entry.name}`));
       return;
     }
 
@@ -74,5 +74,5 @@ function showEntryDetails(entry: DirectoryEntry) {
 
   p.log.message(`  ${pc.bold("Author:")} ${pc.yellow(entry.author)}`);
   p.log.message(`  ${pc.bold("Source:")} ${pc.dim(entry.source)}`);
-  p.log.message(`  ${pc.dim("Install with:")} ${pc.green(`npx sena@latest ${entry.name}`)}`);
+  p.log.message(`  ${pc.dim("Install with:")} ${pc.green(`sena add ${entry.name}`)}`);
 }

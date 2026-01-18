@@ -4,16 +4,22 @@ import { performRemove } from "@/services/remove";
 
 export interface RemoveOptions {
   yes?: boolean;
+  force?: boolean;
+  silent?: boolean;
 }
 
 export async function removeCommand(skills: string[], options: RemoveOptions) {
-  p.intro(pc.bgCyan(pc.black(" sena ")));
+  if (!options.silent) {
+    p.intro(pc.bgCyan(pc.black(" sena ")));
+  }
 
   try {
     await performRemove(skills, options);
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("Couldn't remove skill(s)"));
+    if (!options.silent) {
+      p.outro(pc.red("Couldn't remove skill(s)"));
+    }
     process.exit(1);
   }
 }

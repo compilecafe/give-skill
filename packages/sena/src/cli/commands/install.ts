@@ -7,18 +7,24 @@ export interface InstallOptions {
   global?: boolean;
   agent?: string[];
   yes?: boolean;
+  force?: boolean;
+  silent?: boolean;
   skill?: string[];
   list?: boolean;
 }
 
 export async function installCommand(source: string, options: InstallOptions) {
-  p.intro(pc.bgCyan(pc.black(" sena ")));
+  if (!options.silent) {
+    p.intro(pc.bgCyan(pc.black(" sena ")));
+  }
 
   try {
     let resolvedSource = source;
 
     if (isDirectoryName(source)) {
-      p.log.info(`Looking up "${pc.cyan(source)}" in sena directory...`);
+      if (!options.silent) {
+        p.log.info(`Looking up "${pc.cyan(source)}" in sena directory...`);
+      }
       const directorySource = await resolveSourceFromDirectory(source);
 
       if (!directorySource) {
@@ -35,7 +41,9 @@ export async function installCommand(source: string, options: InstallOptions) {
       }
 
       resolvedSource = directorySource;
-      p.log.success(`Found: ${pc.cyan(resolvedSource)}`);
+      if (!options.silent) {
+        p.log.success(`Found: ${pc.cyan(resolvedSource)}`);
+      }
     }
 
     const result = await performInstallation(resolvedSource, options);
@@ -49,7 +57,9 @@ export async function installCommand(source: string, options: InstallOptions) {
     }
   } catch (error) {
     p.log.error(error instanceof Error ? error.message : "Unknown error occurred");
-    p.outro(pc.red("Couldn't install skill"));
+    if (!options.silent) {
+      p.outro(pc.red("Couldn't install skill"));
+    }
     process.exit(1);
   }
 }

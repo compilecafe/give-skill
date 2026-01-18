@@ -16,6 +16,8 @@ interface Options {
   global?: boolean;
   agent?: string[];
   yes?: boolean;
+  force?: boolean;
+  silent?: boolean;
   skill?: string[];
   list?: boolean;
 }
@@ -151,7 +153,7 @@ async function selectSkills(skills: Skill[], options: Options): Promise<Skill[] 
     const firstSkill = skills[0]!;
     p.log.info(`Skill: ${pc.cyan(getSkillDisplayName(firstSkill))}`);
     p.log.message(pc.dim(firstSkill.description));
-  } else if (options.yes) {
+  } else if (options.yes || options.force) {
     selectedSkills = skills;
     p.log.info(`Installing all ${skills.length} skills`);
   } else {
@@ -202,7 +204,8 @@ async function selectAgents(
   );
 
   if (installedAgents.length === 0) {
-    if (options.yes) {
+    const autoConfirm = options.yes || options.force;
+    if (autoConfirm) {
       const allAgents = Object.keys(agents) as AgentType[];
       p.log.info("Installing to all agents (none detected)");
       return allAgents;
@@ -227,7 +230,7 @@ async function selectAgents(
 
       return selected as AgentType[];
     }
-  } else if (installedAgents.length === 1 || options.yes) {
+  } else if (installedAgents.length === 1 || options.yes || options.force) {
     if (installedAgents.length === 1) {
       const firstAgent = installedAgents[0]!;
       p.log.info(`Installing to: ${pc.cyan(agents[firstAgent].displayName)}`);
@@ -263,7 +266,7 @@ async function selectAgents(
 async function determineScope(options: Options): Promise<boolean | null> {
   let installGlobally = options.global ?? false;
 
-  if (options.global === undefined && !options.yes) {
+  if (options.global === undefined && !(options.yes || options.force)) {
     const scope = await p.select({
       message: "Installation scope",
       options: [
@@ -309,7 +312,9 @@ async function showSummaryAndConfirm(
     }
   }
 
-  if (!options.yes) {
+  const autoConfirm = options.yes || options.force;
+
+  if (!autoConfirm) {
     const confirmed = await p.confirm({ message: "Proceed with installation?" });
 
     if (p.isCancel(confirmed) || !confirmed) {
