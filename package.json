@@ -7,5 +7,17 @@
     "packages/*",
     "apps/*"
   ],
-  "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a"
+  "scripts": {
+    "dev": "bun --filter '*' dev",
+    "dev:web": "bun --filter 'web' dev",
+    "build:web": "bun --filter 'web' build",
+    "build:sena": "bun --filter 'sena' build",
+    "build": "bun --filter '*' build",
+    "lint": "bun --filter '*' lint",
+    "fmt": "bun --filter '*' fmt",
+    "lint:sena": "bun --filter 'sena' lint",
+    "fmt:sena": "bun --filter 'sena' fmt",
+    "lint:web": "bun --filter 'web' lint",
+    "fmt:web": "bun --filter 'web' fmt"
+  }
 }
