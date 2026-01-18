@@ -1,21 +1,60 @@
 [
     {
-        "name": "better-auth",
-        "source": "https://github.com/better-auth/skills",
-        "description": "A  list of better-auth skills",
-        "author": "better-auth",
-        "tags": [
-            "better-auth"
-        ]
-    },
-    {
         "name": "expo",
         "source": "https://github.com/expo/skills",
-        "description": "A  list of expo skills",
+        "description": "Official AI agent skills from the Expo team for building, deploying, and debugging robust Expo apps",
         "author": "expo",
         "tags": [
             "expo",
-            "react-native"
+            "react-native",
+            "mobile"
+        ]
+    },
+    {
+        "name": "cloudflare",
+        "source": "https://github.com/dmmulroy/cloudflare-skill",
+        "description": "Comprehensive Cloudflare platform reference docs for AI/LLM consumption. Covers Workers, Pages, storage (KV, D1, R2), AI (Workers AI, Vectorize, Agents SDK), networking, security, and infrastructure-as-code",
+        "author": "dmmulroy",
+        "tags": [
+            "cloudflare",
+            "workers",
+            "serverless",
+            "storage"
+        ]
+    },
+    {
+        "name": "better-auth",
+        "source": "https://github.com/better-auth/skills",
+        "description": "AI agent skills for working with Better Auth authentication framework",
+        "author": "better-auth",
+        "tags": [
+            "better-auth",
+            "authentication",
+            "security"
+        ]
+    },
+    {
+        "name": "convex",
+        "source": "https://github.com/waynesutton/convexskills/",
+        "description": "AI agent skills and templates for building production ready apps with Convex. Patterns for queries, mutations, cron jobs, webhooks, migrations, and more",
+        "author": "waynesutton",
+        "tags": [
+            "convex",
+            "database",
+            "realtime",
+            "backend"
+        ]
+    },
+    {
+        "name": "react-native",
+        "source": "https://github.com/callstackincubator/agent-skills/",
+        "description": "React Native optimization best practices from Callstack. Covers JavaScript/React profiling, FPS, re-renders, native iOS/Android profiling, TTI, memory management, and bundle optimization",
+        "author": "callstackincubator",
+        "tags": [
+            "react-native",
+            "performance",
+            "optimization",
+            "mobile"
         ]
     }
 ]
