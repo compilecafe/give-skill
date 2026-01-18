@@ -7,6 +7,7 @@ import { updateCommand, type UpdateOptions } from "@/cli/commands/update";
 import { statusCommand, type StatusOptions } from "@/cli/commands/status";
 import { removeCommand, type RemoveOptions } from "@/cli/commands/remove";
 import { listCommand } from "@/cli/commands/list";
+import { searchCommand } from "@/cli/commands/search";
 import { cleanCommand } from "@/cli/commands/clean";
 
 const version = packageJson.version;
@@ -17,7 +18,7 @@ program
     "Install skills onto coding agents (Claude Code, Cursor, Copilot, Gemini, Windsurf, Trae, Factory, Letta, OpenCode, Codex, Antigravity, Amp, Kilo, Roo, Goose)",
   )
   .version(version)
-  .argument("<source>", "Git repo URL, GitHub shorthand (owner/repo), or direct path to skill")
+  .argument("<source>", "Git repo URL, GitHub shorthand (owner/repo), directory name, or direct path to skill")
   .option("-g, --global", "Install skill globally (user-level) instead of project-level")
   .option(
     "-a, --agent <agents...>",
@@ -59,6 +60,13 @@ program
   .description("List all installed skills")
   .action(async () => {
     await listCommand();
+  });
+
+program
+  .command("search")
+  .description("Search sena directory for available skills")
+  .action(async () => {
+    await searchCommand();
   });
 
 program

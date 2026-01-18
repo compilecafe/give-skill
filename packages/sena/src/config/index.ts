@@ -13,6 +13,8 @@ interface AgentConfigEntry {
 
 const home = homedir();
 
+export const DIRECTORY_URL = process.env.DIRECTORY_URL || "https://sena.website/directory.json";
+
 export function loadAgentConfig(): Record<AgentType, AgentConfig> {
   const config = {} as Record<AgentType, AgentConfig>;
   const agentsConfigTyped = agentsConfig as Record<string, AgentConfigEntry>;

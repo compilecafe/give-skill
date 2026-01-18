@@ -46,19 +46,44 @@ Missing an agent? [Create an issue](https://github.com/compilecafe/sena/issues)
 
 ```bash
 # Using npx
-npx sena <repo>
+npx sena <name>
 
 # Using bunx
-bunx sena <repo>
+bunx sena <name>
 
 # Or install globally
 npm install -g sena
-sena <repo>
+sena <name>
 ```
 
 ## Quick Start
 
-Install skills from any git repository:
+### Install from Directory
+
+Install skills by name from the sena directory:
+
+```bash
+# Install a skill by directory name
+npx sena better-auth
+
+# Install with specific agent
+npx sena expo -a claude-code
+
+# Install globally
+npx sena expo --global
+```
+
+### Search & Browse
+
+Discover and search available skills interactively:
+
+```bash
+npx sena search
+```
+
+Type to filter skills, select to view details, and install directly.
+
+### Install from Git
 
 ```bash
 # Install from GitHub (shorthand)
@@ -133,7 +158,7 @@ The `status` command shows one of the following states for each skill:
 sena <source> [options]
 
 Arguments:
-  source                  Git repo URL, GitHub shorthand (owner/repo), or direct path to skill
+  source                  Directory name, git repo URL, GitHub shorthand (owner/repo), or direct path to skill
 
 Options:
   -g, --global            Install skill globally (user-level) instead of project-level
@@ -145,11 +170,22 @@ Options:
   -h, --help              Show help
 
 Commands:
+  search                  Search sena directory for available skills
   update [skills...]      Update installed skills to their latest versions
   status [skills...]      Check status of installed skills (compact view, use -v for details)
   remove [skills...]      Remove installed skills (use -y to skip confirmation)
   list                    List all installed skills
   clean                   Remove orphaned skill entries from state
+```
+
+### Directory Lookup
+
+When you use a simple name as the source (e.g., `better-auth`), `sena` automatically looks it up in the sena directory and fetches the actual repository URL.
+
+```bash
+# These are equivalent:
+npx sena better-auth
+npx sena https://github.com/better-auth/skills
 ```
 
 ## Examples
