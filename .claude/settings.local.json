@@ -1,13 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bun run build:*)",
-      "Bash(bun lint:*)",
-      "Bash(bun fmt:*)",
-      "Bash(bun run lint:*)",
-      "Bash(bun run fmt:*)",
-      "Bash(tree:*)",
-      "Bash(find:*)"
+      "mcp__ide__getDiagnostics"
     ]
   }
 }

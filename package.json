@@ -1,56 +1,10 @@
 {
-  "name": "give-skill",
-  "version": "1.2.1",
-  "description": "Universal skill installer for AI coding agents - Claude, Cursor, Copilot, and more",
-  "keywords": [
-    "agent-skills",
-    "ai-agents",
-    "claude",
-    "cli",
-    "coding-assistant",
-    "copilot",
-    "cursor",
-    "github-copilot",
-    "skills"
-  ],
-  "homepage": "https://github.com/compilecafe/give-skill#readme",
-  "bugs": {
-    "url": "https://github.com/compilecafe/give-skill/issues"
-  },
-  "license": "MIT",
-  "author": "Compile Café",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/compilecafe/give-skill.git"
-  },
-  "bin": {
-    "give-skill": "./dist/index.js"
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "name": "sena",
+  "module": "index.ts",
   "type": "module",
-  "module": "src/index.ts",
-  "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target node --minify",
-    "dev": "bun src/index.ts",
-    "typecheck": "tsgo --noEmit",
-    "prepublishOnly": "bun run build",
-    "lint": "oxlint",
-    "lint:fix": "oxlint --fix",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
-  },
-  "dependencies": {
-    "@clack/prompts": "^0.11.0",
-    "commander": "^14.0.2",
-    "picocolors": "^1.1.1"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@typescript/native-preview": "^7.0.0-dev.20260116.1",
-    "oxfmt": "^0.24.0",
-    "oxlint": "^1.39.0"
-  }
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
 }

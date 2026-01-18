@@ -1,0 +1,21 @@
+[
+    {
+        "name": "better-auth",
+        "source": "https://github.com/better-auth/skills",
+        "description": "A  list of better-auth skills",
+        "author": "better-auth",
+        "tags": [
+            "better-auth"
+        ]
+    },
+    {
+        "name": "expo",
+        "source": "https://github.com/expo/skills",
+        "description": "A  list of expo skills",
+        "author": "expo",
+        "tags": [
+            "expo",
+            "react-native"
+        ]
+    }
+]

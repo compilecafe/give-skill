@@ -1,19 +1,19 @@
 <div align="center">
 
-# give-skill
+# sena
 
-**Universal skill installer for AI coding agents**
+**Open-source universal skill installer for coding AI agents**
 
-One CLI to install agent skills across all your coding assistants.
+One CLI to install skills from any git repository across all your coding assistants.
 
-[![npm version](https://badge.fury.io/js/give-skill.svg)](https://www.npmjs.org/package/give-skill)
+[![npm version](https://badge.fury.io/js/sena.svg)](https://www.npmjs.org/package/sena)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-standard-blue)](https://agentskills.io)
 
 </div>
 
-## Why give-skill?
+## Why sena?
 
-The [Agent Skills](https://agentskills.io) format is an open standard for extending AI agents with new capabilities. `give-skill` lets you install skills from any git repository to all your skill-compatible agents in one command.
+The [Agent Skills](https://agentskills.io) format is an open standard for extending AI agents with new capabilities. **sena** is an open-source CLI that lets you install skills from any git repository to all your skill-compatible coding agents in one command.
 
 ### Supported Agents
 
@@ -40,20 +40,20 @@ All agents support the [Agent Skills](https://agentskills.io) open standard:
 
 ¹ Trae only supports project-level installation (SOLO mode). Global installation is not available.
 
-Missing an agent? [Create an issue](https://github.com/compilecafe/give-skill/issues)
+Missing an agent? [Create an issue](https://github.com/compilecafe/sena/issues)
 
 ## Installation
 
 ```bash
 # Using npx
-npx give-skill <repo>
+npx sena <repo>
 
 # Using bunx
-bunx give-skill <repo>
+bunx sena <repo>
 
 # Or install globally
-npm install -g give-skill
-give-skill <repo>
+npm install -g sena
+sena <repo>
 ```
 
 ## Quick Start
@@ -62,58 +62,58 @@ Install skills from any git repository:
 
 ```bash
 # Install from GitHub (shorthand)
-npx give-skill expo/skills
+npx sena expo/skills
 
 # Install from full URL
-npx give-skill https://github.com/expo/skills
+npx sena https://github.com/expo/skills
 
 # Install to specific agent
-npx give-skill expo/skills -a copilot
+npx sena expo/skills -a copilot
 
 # Install globally (available across all projects)
-npx give-skill expo/skills --global
+npx sena expo/skills --global
 
 # List available skills first
-npx give-skill expo/skills --list
+npx sena expo/skills --list
 ```
 
 ## Managing Skills
 
-`give-skill` tracks installed skills and makes it easy to manage them.
+`sena` tracks installed skills and makes it easy to manage them.
 
 ```bash
 # List all installed skills
-npx give-skill list
+npx sena list
 
 # Check status of all installed skills (compact view)
-npx give-skill status
+npx sena status
 
 # Check status with detailed information
-npx give-skill status --verbose
+npx sena status --verbose
 
 # Check status of specific skills (automatically shows details)
-npx give-skill status pr-reviewer test-generator
+npx sena status pr-reviewer test-generator
 
 # Update all skills with available updates (interactive selection)
-npx give-skill update
+npx sena update
 
 # Update specific skills
-npx give-skill update pr-reviewer test-generator
+npx sena update pr-reviewer test-generator
 
 # Update without confirmation (auto-selects all with updates)
-npx give-skill update -y
+npx sena update -y
 
 # Remove specific skills
-npx give-skill remove pr-reviewer
+npx sena remove pr-reviewer
 
 # Remove without confirmation (auto-selects all)
-npx give-skill remove -y
+npx sena remove -y
 
 # Interactive removal (shows multiselect of all installed skills)
-npx give-skill remove
+npx sena remove
 
 # Clean up orphaned entries
-npx give-skill clean
+npx sena clean
 ```
 
 ### Status Indicators
@@ -130,7 +130,7 @@ The `status` command shows one of the following states for each skill:
 ## Command Reference
 
 ```
-give-skill <source> [options]
+sena <source> [options]
 
 Arguments:
   source                  Git repo URL, GitHub shorthand (owner/repo), or direct path to skill
@@ -156,17 +156,17 @@ Commands:
 
 ### Install from specific branch
 
-By default, `give-skill` uses the repository's default branch. To install from a specific branch, use the full GitHub URL with the branch:
+By default, `sena` uses the repository's default branch. To install from a specific branch, use the full GitHub URL with the branch:
 
 ```bash
 # Install from develop branch
-npx give-skill https://github.com/org/repo/tree/develop
+npx sena https://github.com/org/repo/tree/develop
 
 # Install from develop branch with subpath
-npx give-skill https://github.com/org/repo/tree/develop/skills/custom
+npx sena https://github.com/org/repo/tree/develop/skills/custom
 
 # Install from a feature branch
-npx give-skill https://github.com/org/repo/tree/feature/new-skill
+npx sena https://github.com/org/repo/tree/feature/new-skill
 ```
 
 The branch is saved in the state file, so future updates will continue using the same branch.
@@ -174,19 +174,19 @@ The branch is saved in the state file, so future updates will continue using the
 ### Install specific skills
 
 ```bash
-npx give-skill expo/skills -s pr-reviewer -s test-generator
+npx sena expo/skills -s pr-reviewer -s test-generator
 ```
 
 ### Target multiple agents
 
 ```bash
-npx give-skill expo/skills -a claude-code -a copilot -a cursor
+npx sena expo/skills -a claude-code -a copilot -a cursor
 ```
 
 ### CI/CD automation
 
 ```bash
-npx give-skill expo/skills -s pr-reviewer -g -a copilot -y
+npx sena expo/skills -s pr-reviewer -g -a copilot -y
 ```
 
 ## Where Skills Go
@@ -272,8 +272,8 @@ If a folder matches an agent's skill directory, the CLI will find it.
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌──────────────────┐
-│   Source    │────▶│  give-skill │────▶│  Agent Folders   │
-│  (git repo) │     │    (CLI)    │     │  (installed)     │
+│   Source    │────▶│    sena     │────▶│  Agent Folders   │
+│  (git repo) │     │  (open CLI) │     │  (installed)     │
 └─────────────┘     └─────────────┘     └──────────────────┘
                           │
                           ▼
@@ -291,10 +291,10 @@ If a folder matches an agent's skill directory, the CLI will find it.
 
 ## State Management
 
-`give-skill` tracks installed skills for version control and updates:
+`sena` tracks installed skills for version control and updates:
 
 - **Local**: `skills.lock` in project directory (commit to git for team consistency)
-- **Global**: `~/.give-skill/state.json` for machine-wide installations
+- **Global**: `~/.sena/state.json` for machine-wide installations
 
 ```json
 {
@@ -309,7 +309,7 @@ If a folder matches an agent's skill directory, the CLI will find it.
 }
 ```
 
-Commit `skills.lock` to ensure consistent skill versions across your team. New contributors can run `give-skill update` to synchronize.
+Commit `skills.lock` to ensure consistent skill versions across your team. New contributors can run `sena update` to synchronize.
 
 ## Troubleshooting
 
@@ -334,27 +334,31 @@ The CLI automatically detects installed agents by checking their default directo
 
 ### Source URL formats
 
-`give-skill` supports multiple source formats:
+`sena` supports multiple source formats:
 
 ```bash
 # GitHub shorthand
-npx give-skill expo/skills
+npx sena expo/skills
 
 # Full GitHub URL
-npx give-skill https://github.com/expo/skills
+npx sena https://github.com/expo/skills
 
 # Specific branch
-npx give-skill https://github.com/expo/skills/tree/develop
+npx sena https://github.com/expo/skills/tree/develop
 
 # Specific branch with subpath
-npx give-skill https://github.com/expo/skills/tree/develop/skills/custom
+npx sena https://github.com/expo/skills/tree/develop/skills/custom
 
 # GitLab
-npx give-skill https://gitlab.com/org/repo
+npx sena https://gitlab.com/org/repo
 
 # Any git repository
-npx give-skill https://example.com/repo.git
+npx sena https://example.com/repo.git
 ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
