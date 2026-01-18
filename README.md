@@ -2,229 +2,220 @@
 
 # sena
 
-**Open-source universal skill installer for coding AI agents**
+**Universal skill package manager for AI coding agents**
 
-One CLI to install skills from any git repository across all your coding assistants.
+Install, manage, and update skills across 15+ AI development tools from a single unified interface.
 
 [![npm version](https://badge.fury.io/js/sena.svg)](https://www.npmjs.org/package/sena)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-standard-blue)](https://agentskills.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 </div>
 
-> **Note:** We're actively improving sena based on real-world usage, and your feedback helps shape future releases. The [Agent Skills](https://agentskills.io) format continues to evolve alongside the AI agent ecosystem.
+> **Note:** sena is actively evolving alongside the [Agent Skills](https://agentskills.io) format and the AI agent ecosystem. Your feedback helps shape future releases.
 
-## Why sena?
+## Overview
 
-The [Agent Skills](https://agentskills.io) format is an open standard for extending AI agents with new capabilities. **sena** is an open-source CLI that lets you install skills from any git repository to all your skill-compatible coding agents in one command.
+**sena** is an open-source CLI that provides a unified interface for managing agent skills across all skill-compatible coding assistants. Inspired by package managers like `pnpm`, sena follows a familiar command pattern while working seamlessly with the [Agent Skills](https://agentskills.io) open standard.
 
-### Supported Agents
+## Supported Agents
 
-All agents support the [Agent Skills](https://agentskills.io) open standard:
+All agents support the Agent Skills open standard:
 
-| Agent                                                 | Status |
-| ----------------------------------------------------- | ------ |
-| [Claude Code](https://claude.com/product/claude-code) | ✅     |
-| [Cursor](https://cursor.sh)                           | ✅     |
-| [GitHub Copilot](https://github.com/features/copilot) | ✅     |
-| [Gemini CLI](https://geminicli.com)                   | ✅     |
-| [Windsurf](https://windsurf.com)                      | ✅     |
-| [Trae](https://trae.ai)                               | ✅¹    |
-| [Factory Droid](https://factory.ai)                   | ✅     |
-| [Letta](https://www.letta.com)                        | ✅     |
-| [OpenCode](https://opencode.ai)                       | ✅     |
-| [Codex](https://openai.com/codex)                     | ✅     |
-| [Antigravity](https://antigravity.google)             | ✅     |
-| [Amp](http://ampcode.com)                             | ✅     |
-| [Kilo Code](https://kilocode.ai)                      | ✅     |
-| [Roo Code](https://roocode.com)                       | ✅     |
-| [Goose](https://block.github.io/goose)                | ✅     |
-| [Qoder](https://qoder.com)                            | ✅     |
-
-¹ Trae only supports project-level installation (SOLO mode). Global installation is not available.
+| Agent                                                         | Status | Notes                          |
+| ------------------------------------------------------------- | ------ | ------------------------------ |
+| ![Claude Code](https://img.shields.io/badge/Claude_Code-blue) | ✅     | Full support                   |
+| ![Cursor](https://img.shields.io/badge/Cursor-green)          | ✅     | Full support                   |
+| ![GitHub Copilot](https://img.shields.io/badge/Copilot-black) | ✅     | Full support                   |
+| ![Gemini CLI](https://img.shields.io/badge/Gemini-blue)       | ✅     | Full support                   |
+| ![Windsurf](https://img.shields.io/badge/Windsurf-cyan)       | ✅     | Full support                   |
+| ![Trae](https://img.shields.io/badge/Trae-purple)             | ✅     | Project-level only (SOLO mode) |
+| ![Factory Droid](https://img.shields.io/badge/Factory-orange) | ✅     | Full support                   |
+| ![Letta](https://img.shields.io/badge/Letta-teal)             | ✅     | Full support                   |
+| ![OpenCode](https://img.shields.io/badge/OpenCode-indigo)     | ✅     | Full support                   |
+| ![Codex](https://img.shields.io/badge/Codex-green)            | ✅     | Full support                   |
+| ![Antigravity](https://img.shields.io/badge/Antigravity-red)  | ✅     | Full support                   |
+| ![Amp](https://img.shields.io/badge/Amp-yellow)               | ✅     | Full support                   |
+| ![Kilo Code](https://img.shields.io/badge/Kilo_Code-blue)     | ✅     | Full support                   |
+| ![Roo Code](https://img.shields.io/badge/Roo_Code-orange)     | ✅     | Full support                   |
+| ![Goose](https://img.shields.io/badge/Goose-gray)             | ✅     | Full support                   |
+| ![Qoder](https://img.shields.io/badge/Qoder-pink)             | ✅     | Full support                   |
 
 Missing an agent? [Create an issue](https://github.com/compilecafe/sena/issues)
 
 ## Installation
 
 ```bash
-# Using npx
-npx sena <name>
+# Using npx (recommended)
+npx sena add <source>
 
 # Using bunx
-bunx sena <name>
+bunx sena add <source>
 
-# Or install globally
+# Install globally
 npm install -g sena
-sena <name>
+sena add <source>
 ```
 
 ## Quick Start
 
 ### Install from Directory
 
-Install skills by name from the sena directory:
-
 ```bash
-# Install a skill by directory name
-npx sena better-auth
+# Install a skill by name from the sena directory
+sena add better-auth
 
-# Install with specific agent
-npx sena expo -a claude-code
+# Install to specific agent
+sena add expo -a claude-code
 
-# Install globally
-npx sena expo --global
+# Install globally (available across all projects)
+sena add expo --global
 ```
 
 ### Search & Browse
 
-Discover and search available skills interactively:
-
 ```bash
-npx sena search
+sena search
 ```
 
-Type to filter skills, select to view details, and install directly.
+Interactive skill browser with filtering, details view, and one-click install.
 
 ### Install from Git
 
 ```bash
-# Install from GitHub (shorthand)
-npx sena expo/skills
+# GitHub shorthand
+sena add expo/skills
 
-# Install from full URL
-npx sena https://github.com/expo/skills
+# Full URL
+sena add https://github.com/expo/skills
 
-# Install to specific agent
-npx sena expo/skills -a copilot
+# Specific agent
+sena add expo/skills -a copilot
 
-# Install globally (available across all projects)
-npx sena expo/skills --global
-
-# List available skills first
-npx sena expo/skills --list
+# List skills without installing
+sena add expo/skills --list
 ```
 
-## Managing Skills
+## Commands
 
-`sena` tracks installed skills and makes it easy to manage them.
+### `sena add <source>` | `sena a <source>`
+
+Install skills from a git repository.
 
 ```bash
-# List all installed skills
-npx sena list
-
-# Check status of all installed skills (compact view)
-npx sena status
-
-# Check status with detailed information
-npx sena status --verbose
-
-# Check status of specific skills (automatically shows details)
-npx sena status pr-reviewer test-generator
-
-# Update all skills with available updates (interactive selection)
-npx sena update
-
-# Update specific skills
-npx sena update pr-reviewer test-generator
-
-# Update without confirmation (auto-selects all with updates)
-npx sena update -y
-
-# Remove specific skills
-npx sena remove pr-reviewer
-
-# Remove without confirmation (auto-selects all)
-npx sena remove -y
-
-# Interactive removal (shows multiselect of all installed skills)
-npx sena remove
-
-# Clean up orphaned entries
-npx sena clean
-```
-
-### Status Indicators
-
-The `status` command shows one of the following states for each skill:
-
-| Icon | Status             | Description                                                      |
-| ---- | ------------------ | ---------------------------------------------------------------- |
-| ✓    | `latest`           | Skill is up to date with the remote repository                   |
-| ↓    | `update-available` | A newer version is available                                     |
-| ✗    | `error`            | Failed to check for updates (network issues, repo deleted, etc.) |
-| ○    | `orphaned`         | No valid installations found (folders were manually deleted)     |
-
-## Command Reference
-
-```
-sena <source> [options]
-
-Arguments:
-  source                  Directory name, git repo URL, GitHub shorthand (owner/repo), or direct path to skill
+sena add <source> [options]
 
 Options:
-  -g, --global            Install skill globally (user-level) instead of project-level
-  -a, --agent <...>       Specify agents to install to (windsurf, gemini, claude-code, cursor, copilot, etc.)
-  -s, --skill <...>       Specify skill names to install (skip selection prompt)
-  -l, --list              List available skills in the repository without installing
-  -y, --yes               Skip all prompts (CI-friendly)
-  -V, --version           Show version
-  -h, --help              Show help
-
-Commands:
-  search                  Search sena directory for available skills
-  update [skills...]      Update installed skills to their latest versions
-  status [skills...]      Check status of installed skills (compact view, use -v for details)
-  remove [skills...]      Remove installed skills (use -y to skip confirmation)
-  list                    List all installed skills
-  clean                   Remove orphaned skill entries from state
+  -g, --global              Install globally (user-level)
+  -a, --agent <agents...>   Target specific agents
+  -s, --skill <skills...>   Install specific skills by name
+  -l, --list                List available skills without installing
+  -y, --yes                 Auto-confirm all prompts
+  -f, --force               Skip all confirmations
+  --silent                  Suppress banner and non-error output
 ```
 
-### Directory Lookup
+### `sena outdated [skills...]`
 
-When you use a simple name as the source (e.g., `better-auth`), `sena` automatically looks it up in the sena directory and fetches the actual repository URL.
+Check for available updates.
 
 ```bash
-# These are equivalent:
-npx sena better-auth
-npx sena https://github.com/better-auth/skills
+sena outdated [skills...] [options]
+
+Options:
+  -v, --verbose             Show detailed information
+```
+
+**Status indicators:**
+
+| Icon | Status           | Description                          |
+| ---- | ---------------- | ------------------------------------ |
+| `✓`  | latest           | Up to date                           |
+| `↓`  | update-available | New version available                |
+| `✗`  | error            | Failed to check (network/repo issue) |
+| `○`  | orphaned         | No valid installations               |
+
+### `sena update [skills...]`
+
+Update installed skills.
+
+```bash
+sena update [skills...] [options]
+
+Options:
+  -y, --yes                 Auto-confirm all prompts
+  -f, --force               Skip all confirmations
+  --silent                  Suppress banner and output
+```
+
+### `sena remove [skills...]`
+
+Uninstall skills.
+
+```bash
+sena remove [skills...] [options]
+
+Options:
+  -y, --yes                 Auto-confirm all prompts
+  -f, --force               Skip all confirmations
+  --silent                  Suppress banner and output
+```
+
+### `sena list`
+
+List all installed skills.
+
+```bash
+sena list
+```
+
+### `sena search`
+
+Browse available skills interactively.
+
+```bash
+sena search
+```
+
+### `sena clean`
+
+Remove orphaned state entries.
+
+```bash
+sena clean [options]
+
+Options:
+  -y, --yes                 Auto-confirm prompts
+  -f, --force               Skip confirmations
+  --silent                  Suppress output
 ```
 
 ## Examples
 
-### Install from specific branch
-
-By default, `sena` uses the repository's default branch. To install from a specific branch, use the full GitHub URL with the branch:
-
-```bash
-# Install from develop branch
-npx sena https://github.com/org/repo/tree/develop
-
-# Install from develop branch with subpath
-npx sena https://github.com/org/repo/tree/develop/skills/custom
-
-# Install from a feature branch
-npx sena https://github.com/org/repo/tree/feature/new-skill
-```
-
-The branch is saved in the state file, so future updates will continue using the same branch.
-
 ### Install specific skills
 
 ```bash
-npx sena expo/skills -s pr-reviewer -s test-generator
+sena add expo/skills -s pr-reviewer -s test-generator
 ```
 
 ### Target multiple agents
 
 ```bash
-npx sena expo/skills -a claude-code -a copilot -a cursor
+sena add expo/skills -a claude-code -a copilot -a cursor
+```
+
+### Install from specific branch
+
+```bash
+# Branch is saved for future updates
+sena add https://github.com/org/repo/tree/develop
 ```
 
 ### CI/CD automation
 
 ```bash
-npx sena expo/skills -s pr-reviewer -g -a copilot -y
+# Non-interactive, global installation
+sena add expo/skills -s pr-reviewer -g -a copilot -f
 ```
 
 ## Where Skills Go
@@ -236,7 +227,7 @@ npx sena expo/skills -s pr-reviewer -g -a copilot -y
 | Copilot       | `.github/skills/<name>/`   | `~/.copilot/skills/<name>/`            |
 | Gemini CLI    | `.gemini/skills/<name>/`   | `~/.gemini/skills/<name>/`             |
 | Windsurf      | `.windsurf/skills/<name>/` | `~/.codeium/windsurf/skills/<name>/`   |
-| Trae          | `.trae/skills/<name>/`     | Project-level only (SOLO mode)         |
+| Trae          | `.trae/skills/<name>/`     | Project-level only                     |
 | Factory Droid | `.factory/skills/<name>/`  | `~/.factory/skills/<name>/`            |
 | Letta         | `.skills/<name>/`          | `~/.letta/skills/<name>/`              |
 | OpenCode      | `.opencode/skill/<name>/`  | `~/.config/opencode/skill/<name>/`     |
@@ -254,9 +245,10 @@ Skills follow the [Agent Skills](https://agentskills.io) open standard. A skill 
 
 ```markdown
 ---
+
 name: pr-reviewer
 description: Reviews pull requests against team guidelines
----
+tags: [code-review, pr, quality]
 
 # PR Reviewer
 
@@ -271,11 +263,9 @@ Reviews pull requests for:
 Activate when reviewing a pull request.
 ```
 
-For complete skill authoring guidance, see [agentskills.io](https://agentskills.io).
+### Skill Discovery Locations
 
-### Skill Locations
-
-The CLI automatically searches these paths in a repository:
+The CLI automatically searches:
 
 **Common locations:**
 
@@ -285,7 +275,7 @@ The CLI automatically searches these paths in a repository:
 - `skills/.experimental/`
 - `skills/.system/`
 
-**Agent-specific locations** (auto-detected from agent configs):
+**Agent-specific:**
 
 - `.claude/skills/`
 - `.cursor/skills/`
@@ -304,14 +294,39 @@ The CLI automatically searches these paths in a repository:
 - `.goose/skills/`
 - `.qoder/skills/`
 
-If a folder matches an agent's skill directory, the CLI will find it.
+For complete guidance, see [agentskills.io](https://agentskills.io).
+
+## State Management
+
+sena tracks installed skills for version control:
+
+| Type       | Location             | Purpose                          |
+| ---------- | -------------------- | -------------------------------- |
+| **Local**  | `skills.lock`        | Project-specific (commit to git) |
+| **Global** | `~/.sena/state.json` | Machine-wide installations       |
+
+```json
+{
+  "version": "1.0.0",
+  "skills": {
+    "pr-reviewer": {
+      "url": "https://github.com/expo/skills.git",
+      "branch": "main",
+      "commit": "abc123...",
+      "installations": [...]
+    }
+  }
+}
+```
+
+Commit `skills.lock` for team consistency. New contributors run `sena update` to sync.
 
 ## How It Works
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌──────────────────┐
 │   Source    │────▶│    sena     │────▶│  Agent Folders   │
-│  (git repo) │     │  (open CLI) │     │  (installed)     │
+│  (git repo) │     │   (CLI)     │     │  (installed)     │
 └─────────────┘     └─────────────┘     └──────────────────┘
                           │
                           ▼
@@ -321,83 +336,62 @@ If a folder matches an agent's skill directory, the CLI will find it.
                    └──────────────┘
 ```
 
-1. **Clone** the source repository (supports specific branches and subpaths)
-2. **Discover** all `SKILL.md` files in common and agent-specific directories
-3. **Detect** installed agents on your system automatically
-4. **Install** skills to agent-specific directories
-5. **Track** installation state for future updates and management
-
-## State Management
-
-`sena` tracks installed skills for version control and updates:
-
-- **Local**: `skills.lock` in project directory (commit to git for team consistency)
-- **Global**: `~/.sena/state.json` for machine-wide installations
-
-```json
-{
-  "version": "1.0.0",
-  "skills": {
-    "pr-reviewer": {
-      "url": "https://github.com/expo/skills.git",
-      "branch": "main",
-      "commit": "abc123..."
-    }
-  }
-}
-```
-
-Commit `skills.lock` to ensure consistent skill versions across your team. New contributors can run `sena update` to synchronize.
+1. **Clone** source repository (branch/subpath support)
+2. **Discover** all `SKILL.md` files
+3. **Detect** installed agents automatically
+4. **Install** to agent-specific directories
+5. **Track** state for updates and management
 
 ## Troubleshooting
 
 ### No skills found
 
-Make sure your `SKILL.md` follows the [Agent Skills](https://agentskills.io) format:
+Ensure `SKILL.md` follows the format:
 
 ```markdown
 ---
 name: my-skill
-description: This describes what the skill does
+description: What it does
 ---
 ```
 
 ### Permission denied
 
-Check you have write permissions for the target directory.
+Check write permissions for target directory.
 
 ### Agent not detected
 
-The CLI automatically detects installed agents by checking their default directories. To see which agents are detected, run a command and review the agent selection prompt. Manually specify with `-a` if needed.
+Agents are detected by checking default directories. Manually specify with `-a` if needed.
 
-### Source URL formats
+## Source Formats
 
-`sena` supports multiple source formats:
+sena supports multiple source formats for installing skills:
 
 ```bash
+# Directory name (looks up in sena directory)
+sena add better-auth
+
 # GitHub shorthand
-npx sena expo/skills
+sena add expo/skills
 
 # Full GitHub URL
-npx sena https://github.com/expo/skills
+sena add https://github.com/expo/skills
 
 # Specific branch
-npx sena https://github.com/expo/skills/tree/develop
+sena add https://github.com/expo/skills/tree/develop
 
-# Specific branch with subpath
-npx sena https://github.com/expo/skills/tree/develop/skills/custom
+# Branch with subpath
+sena add https://github.com/expo/skills/tree/develop/skills/custom
 
-# GitLab
-npx sena https://gitlab.com/org/repo
-
-# Any git repository
-npx sena https://example.com/repo.git
+# GitLab or any git host
+sena add https://gitlab.com/org/repo
+sena add https://example.com/repo.git
 ```
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT © [Compile Café](https://github.com/compilecafe)
+MIT © [sena](https://github.com/senahq)
