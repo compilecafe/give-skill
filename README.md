@@ -24,10 +24,10 @@ Install, manage, and update skills and commands across 16+ AI development tools 
 
 ```bash
 # Using npx (recommended)
-npx flins add <source>
+npx flins@latest add <source>
 
 # Using bunx
-bunx flins add <source>
+bunx --bun flins@latest add <source>
 
 # Install globally
 npm install -g flins
