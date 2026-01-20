@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { SiGithub } from '@icons-pack/react-simple-icons'
 import { PlusIcon, SearchIcon } from 'lucide-react'
+import { useDebouncer } from '@tanstack/react-pacer'
 import { useState } from 'react'
 import {
   Popover,
@@ -189,12 +190,19 @@ function App() {
   const { skills, categories, searchParams } = Route.useLoaderData()
   const navigate = useNavigate({ from: Route.fullPath })
 
+  const [searchInput, setSearchInput] = useState(searchParams.search ?? '')
+
   const updateSearch = (params: Partial<typeof searchParams>) => {
     navigate({
       search: (prev) => ({ ...prev, ...params }),
       resetScroll: false,
     })
   }
+
+  const debouncedSearchUpdate = useDebouncer(
+    (search: string | undefined) => updateSearch({ search }),
+    { wait: 300 }
+  )
 
   const toggleTag = (tag: string) => {
     const currentTags = searchParams.tags ?? []
@@ -278,15 +286,17 @@ function App() {
               </PopoverPopup>
             </Popover>
 
-            <InputGroup>
+            <InputGroup className="h-14 px-4 text-base gap-2">
               <InputGroupInput
                 aria-label="Search skills"
                 placeholder="Search skills..."
                 type="search"
-                value={searchParams.search ?? ''}
-                onInput={(e) =>
-                  updateSearch({ search: e.currentTarget.value || undefined })
-                }
+                value={searchInput}
+                onInput={(e) => {
+                  const value = e.currentTarget.value
+                  setSearchInput(value)
+                  debouncedSearchUpdate.maybeExecute(value || undefined)
+                }}
               />
               <InputGroupAddon>
                 <SearchIcon aria-hidden="true" />
