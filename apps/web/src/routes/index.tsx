@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { GrainGradient } from '@paper-design/shaders-react'
 import { Button } from '@/components/ui/button'
 import { FlinsCommands } from '@/components/flins-command'
 import directory from '../directory.json'
@@ -165,22 +164,7 @@ function App() {
   return (
     <>
       <main>
-        <div className="max-w-7xl md:min-h-160 min-h-dvh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative">
-          <GrainGradient
-            className="absolute inset-0"
-            colors={['#01413f', '#4ab0b0', '#c6d5d7']}
-            colorBack="#000a0f"
-            softness={0.7}
-            intensity={0.25}
-            noise={0.5}
-            shape="wave"
-            speed={0.5}
-            scale={0.32}
-            rotation={345}
-            offsetX={0.25}
-            offsetY={0.15}
-          />
-
+        <div className="max-w-7xl md:min-h-160 min-h-dvh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative bg-[url('/hero.png')] bg-cover bg-no-repeat">
           <div className="flex flex-col items-start gap-12 isolate">
             <div className="flex flex-col text-xs font-mono">
               <span className="flex gap-2">
