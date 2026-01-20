@@ -1,5 +1,5 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { SiDiscord, SiGithub } from '@icons-pack/react-simple-icons'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import { PlusIcon, SearchIcon, GitPullRequestIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -30,7 +30,6 @@ import { CodeBlockCommand } from '@/components/code-block-command'
 import directory from '../directory.json'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
-import logo from '../logo.svg'
 
 export const Route = createFileRoute('/directory')({
   component: App,

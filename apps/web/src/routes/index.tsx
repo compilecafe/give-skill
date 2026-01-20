@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { GrainGradient } from '@paper-design/shaders-react'
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -236,7 +236,17 @@ function App() {
                 using the same commands you already know from your favorite
                 package managers.
               </p>
-              <Button>Read Docs</Button>
+              <Button
+                render={
+                  <a
+                    href="https://github.com/flinstech/flins?tab=readme-ov-file#flins"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                Read Docs
+              </Button>
             </div>
             <div className="p-10 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
               <div className="bg-background p-8 space-y-2">
@@ -320,8 +330,19 @@ function App() {
                 companies and trusted developers in the ecosystem.
               </p>
               <div className="flex items-center gap-2">
-                <Button>Browse Directory</Button>
-                <Button variant="outline">Submit Yours</Button>
+                <Button render={<Link to="/directory" />}>Browse Directory</Button>
+                <Button
+                  variant="outline"
+                  render={
+                    <a
+                      href="https://github.com/flinstech/flins/blob/main/CONTRIBUTING_SKILLS.md"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  }
+                >
+                  Submit Yours
+                </Button>
               </div>
             </div>
           </div>
