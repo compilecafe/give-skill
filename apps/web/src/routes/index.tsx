@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { FlinsCommands } from '@/components/flins-command'
 import { GitSourceExamples } from '@/components/git-source-examples'
+import { CodeBlockCommand } from '@/components/code-block-command'
 import directory from '../directory.json'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
@@ -350,6 +351,45 @@ function App() {
               <div className="bg-background p-8 space-y-2">
                 <GitSourceExamples />
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      <section>
+        <div className="max-w-7xl mx-auto border-x flex flex-col relative">
+          <div className="flex flex-col items-center gap-8 p-8 text-center">
+            <div className="space-y-4">
+              <h2 className="text-4xl">Get started</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl">
+                Install flins and add your first skill
+              </p>
+            </div>
+            <div className="w-full max-w-md">
+              <CodeBlockCommand skill="better-auth" />
+            </div>
+            <div className="flex gap-4">
+              <Button
+                size="xl"
+                render={
+                  <a
+                    href="https://github.com/flinstech/flins"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                GitHub
+              </Button>
+              <Button
+                size="xl"
+                variant="outline"
+                render={<Link to="/directory" />}
+              >
+                Browse Skills
+              </Button>
             </div>
           </div>
         </div>
