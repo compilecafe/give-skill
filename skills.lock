@@ -10,6 +10,71 @@
       "url": "https://github.com/flinshq/skills.git",
       "branch": "main",
       "commit": "133352b14db9f400d43d554c30eb54f849c8a71a"
+    },
+    "skill:avoid-feature-creep": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex agents": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex best practices": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex component authoring": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex cron jobs": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex file storage": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex functions": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex http actions": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex migrations": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex realtime": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex schema validator": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex security audit": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
+    },
+    "skill:convex security check": {
+      "url": "https://github.com/waynesutton/convexskills.git",
+      "branch": "main",
+      "commit": "1982d5f943ee49c862748823e25df2ed6c2c45bf"
     }
   }
 }

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Skill(Convex Best Practices)",
+      "Skill(Convex Functions)",
+      "Skill(Convex HTTP Actions)",
+      "Skill(Convex Schema Validator)"
     ]
   }
 }
