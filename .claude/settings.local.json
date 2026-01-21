@@ -5,7 +5,10 @@
       "Skill(Convex Best Practices)",
       "Skill(Convex Functions)",
       "Skill(Convex HTTP Actions)",
-      "Skill(Convex Schema Validator)"
+      "Skill(Convex Schema Validator)",
+      "Bash(bun run typecheck:*)",
+      "Bash(bun run fmt:*)",
+      "Bash(bun run lint:*)"
     ]
   }
 }

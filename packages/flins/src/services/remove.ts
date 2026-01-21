@@ -1,6 +1,6 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
-import { existsSync, rmSync } from "fs";
+import { rmSync } from "fs";
 import { getAllSkills, removeSkill, findGlobalSkillInstallations } from "@/core/state/global";
 import {
   getAllLocalSkills,
@@ -13,6 +13,7 @@ import { agents } from "@/core/agents/config";
 import { isValidInstallation } from "@/utils/validation";
 import { resolveInstallationPath } from "@/utils/paths";
 import { showNoSkillsMessage, Plural } from "@/utils/formatting";
+import { removeSymlinkSource } from "@/infrastructure/file-system";
 
 interface RemoveResult {
   skillName: string;
@@ -91,11 +92,13 @@ function getAllRemovableSkills(): Array<{
 
 async function removeSkillDirectory(path: string): Promise<{ success: boolean; error?: string }> {
   try {
-    if (existsSync(path)) {
-      rmSync(path, { recursive: true, force: true });
-    }
+    rmSync(path, { recursive: true, force: true });
     return { success: true };
   } catch (error) {
+    const code = (error as { code?: string })?.code;
+    if (code === "ENOENT") {
+      return { success: true };
+    }
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -286,16 +289,18 @@ export async function performRemove(
     };
 
     for (const { installation, resolvedPath } of installations) {
+      const symlinkSourceResult = await removeSymlinkSource(resolvedPath);
+
       const removeResult = await removeSkillDirectory(resolvedPath);
 
       result.installations.push({
         agent: agents[installation.agent].displayName,
         path: resolvedPath,
-        removed: removeResult.success,
-        error: removeResult.error,
+        removed: removeResult.success && symlinkSourceResult.success,
+        error: removeResult.error || symlinkSourceResult.error,
       });
 
-      if (removeResult.success) {
+      if (removeResult.success && symlinkSourceResult.success) {
         result.removed++;
       } else {
         result.failed++;

@@ -1,5 +1,5 @@
 import { join } from "path";
-import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, lstatSync } from "fs";
 import { expandHomeDir, getFlinsHomeDir } from "@/utils/paths";
 import type { StateFile, SkillEntry, SkillInstallation, Dirent } from "@/types/state";
 import type { AgentType } from "@/types/agents";
@@ -143,9 +143,20 @@ export function findGlobalSkillInstallations(
       if (existsSync(globalSkillsDirPath)) {
         try {
           const entries = readdirSync(globalSkillsDirPath, { withFileTypes: true }) as Dirent[];
-          const matchingEntry = entries.find(
-            (e) => e.isDirectory() && e.name.toLowerCase() === skillName.toLowerCase(),
-          );
+          const matchingEntry = entries.find((e) => {
+            if (e.name.toLowerCase() !== skillName.toLowerCase()) {
+              return false;
+            }
+            if (e.isDirectory()) {
+              return true;
+            }
+            const fullPath = join(globalSkillsDirPath, e.name);
+            try {
+              return lstatSync(fullPath).isSymbolicLink();
+            } catch {
+              return false;
+            }
+          });
 
           if (matchingEntry) {
             installations.push({

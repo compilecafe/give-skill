@@ -1,5 +1,5 @@
 import { join, resolve } from "path";
-import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync, lstatSync } from "fs";
 import type { LocalState, LocalSkillEntry, SkillInstallation, Dirent } from "@/types/state";
 import type { AgentType } from "@/types/agents";
 import type { InstallableType } from "@/types/skills";
@@ -181,9 +181,20 @@ export function findLocalSkillInstallations(
       if (existsSync(skillsDirPath)) {
         try {
           const entries = readdirSync(skillsDirPath, { withFileTypes: true }) as Dirent[];
-          const matchingEntry = entries.find(
-            (e) => e.isDirectory() && e.name.toLowerCase() === skillName.toLowerCase(),
-          );
+          const matchingEntry = entries.find((e) => {
+            if (e.name.toLowerCase() !== skillName.toLowerCase()) {
+              return false;
+            }
+            if (e.isDirectory()) {
+              return true;
+            }
+            const fullPath = join(skillsDirPath, e.name);
+            try {
+              return lstatSync(fullPath).isSymbolicLink();
+            } catch {
+              return false;
+            }
+          });
 
           if (matchingEntry) {
             installations.push({

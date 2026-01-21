@@ -1,5 +1,6 @@
 import { mkdir, cp, access, readdir, symlink, rm } from "fs/promises";
-import { join, relative, dirname } from "path";
+import { lstatSync, readlinkSync, rmSync } from "fs";
+import { join, relative, dirname, resolve } from "path";
 import { getSkillsSourceDir, getCommandsSourceDir } from "@/utils/paths";
 
 export const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
@@ -122,5 +123,32 @@ export async function checkSkillInstalled(skillDir: string): Promise<boolean> {
     return true;
   } catch {
     return false;
+  }
+}
+
+export async function removeSymlinkSource(
+  installPath: string,
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const stat = lstatSync(installPath);
+    if (!stat.isSymbolicLink()) {
+      return { success: true };
+    }
+
+    const linkTarget = readlinkSync(installPath);
+    const resolvedTarget = resolve(dirname(installPath), linkTarget);
+
+    rmSync(resolvedTarget, { recursive: true, force: true });
+
+    return { success: true };
+  } catch (error) {
+    const code = (error as { code?: string })?.code;
+    if (code === "ENOENT" || code === "ENOTDIR") {
+      return { success: true };
+    }
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
   }
 }
