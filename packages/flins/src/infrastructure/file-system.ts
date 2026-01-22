@@ -58,25 +58,48 @@ export async function installSkillFiles(
   }, targetDir);
 }
 
-export async function installSkillAsSymlink(
+export async function copySkillToStorage(
   sourceDir: string,
   skillName: string,
-  targetDir: string,
-  options: { global?: boolean; skillsDir?: string } = {},
+  options: { global?: boolean } = {},
 ): Promise<{ success: boolean; path: string; error?: string }> {
-  return withErrorHandling(async () => {
-    const agentsSkillsDir = options.skillsDir ?? getSkillsSourceDir(options);
-    const sourceStorePath = join(agentsSkillsDir, skillName);
+  const agentsSkillsDir = getSkillsSourceDir(options);
+  const sourceStorePath = join(agentsSkillsDir, skillName);
 
+  return withErrorHandling(async () => {
     await mkdir(agentsSkillsDir, { recursive: true });
     await rm(sourceStorePath, { recursive: true, force: true });
     await copyDirectory(sourceDir, sourceStorePath);
+  }, sourceStorePath);
+}
 
+export async function createSkillSymlink(
+  skillName: string,
+  targetDir: string,
+  options: { global?: boolean } = {},
+): Promise<{ success: boolean; path: string; error?: string }> {
+  const agentsSkillsDir = getSkillsSourceDir(options);
+  const sourceStorePath = join(agentsSkillsDir, skillName);
+
+  return withErrorHandling(async () => {
     const targetParent = join(targetDir, "..");
     await mkdir(targetParent, { recursive: true });
     await rm(targetDir, { recursive: true, force: true });
     await symlink(relative(targetParent, sourceStorePath), targetDir);
   }, targetDir);
+}
+
+export async function installSkillAsSymlink(
+  sourceDir: string,
+  skillName: string,
+  targetDir: string,
+  options: { global?: boolean } = {},
+): Promise<{ success: boolean; path: string; error?: string }> {
+  const copyResult = await copySkillToStorage(sourceDir, skillName, options);
+  if (!copyResult.success) {
+    return { ...copyResult, path: targetDir };
+  }
+  return createSkillSymlink(skillName, targetDir, options);
 }
 
 export async function installCommandAsSymlink(

@@ -6,7 +6,7 @@ import { discoverSkills } from "@/core/skills/discovery";
 import { discoverCommands } from "@/core/commands/discovery";
 import { getSkillDisplayName } from "@/core/skills/parser";
 import { getCommandDisplayName } from "@/core/commands/parser";
-import { installSkillForAgent } from "@/infrastructure/skill-installer";
+import { installSkillForAgent, copySkillsToStorage } from "@/infrastructure/skill-installer";
 import {
   installCommandForAgent,
   supportsCommands,
@@ -555,12 +555,31 @@ async function performParallelInstall(
   symlink: boolean,
   tempDir: string,
 ): Promise<InstallResult> {
+  const skillCopyResults = symlink
+    ? await copySkillsToStorage(selectedSkills, { global: installGlobally })
+    : new Map<string, { success: boolean; error?: string }>();
+
   const installPromises = [
-    ...selectedSkills.flatMap((skill) =>
-      skillsAgents.map((agent) =>
-        installSkillForAgent(skill, agent, { global: installGlobally, symlink }),
-      ),
-    ),
+    ...selectedSkills.flatMap((skill) => {
+      const copyResult = skillCopyResults.get(skill.name);
+      if (symlink && copyResult && !copyResult.success) {
+        return skillsAgents.map(() =>
+          Promise.resolve({
+            success: false,
+            path: "",
+            originalPath: skill.path,
+            error: copyResult.error,
+          }),
+        );
+      }
+      return skillsAgents.map((agent) =>
+        installSkillForAgent(skill, agent, {
+          global: installGlobally,
+          symlink,
+          skipCopy: symlink,
+        }),
+      );
+    }),
     ...selectedCommands.flatMap((command) =>
       commandsAgents.map((agent) =>
         installCommandForAgent(command, agent, {
