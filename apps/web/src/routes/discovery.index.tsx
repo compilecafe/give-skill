@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { ArrowUpRightIcon, DownloadIcon, PlusIcon, SearchIcon, SparkleIcon } from 'lucide-react'
 import { useDebouncer } from '@tanstack/react-pacer'
 import { useState } from 'react'
@@ -20,42 +20,29 @@ import {
 } from '@/components/ui/input-group'
 
 import { CodeBlockCommand } from '@/components/code-block-command'
-import directory from '../directory.json'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
 import { Badge } from '@/components/ui/badge'
 
-export const Route = createFileRoute('/directory/')({
+export const Route = createFileRoute('/discovery/')({
   component: App,
   validateSearch: zodValidator(
     z.object({
-      repoSearch: z.string().optional(),
-      skillSearch: z.string().optional(),
+      search: z.string().optional(),
+      featured: z.boolean().optional(),
     }),
   ),
-  loaderDeps: ({ search: { repoSearch, skillSearch } }) => ({
-    repoSearch,
-    skillSearch,
+  loaderDeps: ({ search: { search, featured } }) => ({
+    search,
+    featured,
   }),
-  loader: async ({ deps: { repoSearch, skillSearch }, context }) => {
+  loader: async ({ deps: { search, featured }, context }) => {
     let allSkills = await context.queryClient.ensureQueryData(
       convexQuery(api.stats.getAllSkills, {})
     )
 
-    let featuredRepos = [...directory]
-
-    if (repoSearch) {
-      const query = repoSearch.toLowerCase()
-      featuredRepos = featuredRepos.filter(
-        (repo) =>
-          repo.name.toLowerCase().includes(query) ||
-          repo.description.toLowerCase().includes(query) ||
-          repo.author.toLowerCase().includes(query),
-      )
-    }
-
-    if (skillSearch) {
-      const query = skillSearch.toLowerCase()
+    if (search) {
+      const query = search.toLowerCase()
       allSkills = allSkills.filter(
         (skill) =>
           skill.name.toLowerCase().includes(query) ||
@@ -63,36 +50,39 @@ export const Route = createFileRoute('/directory/')({
       )
     }
 
+    if (featured) {
+      allSkills = allSkills.filter((skill) => skill.isFeatured)
+    }
+
     return {
-      featuredRepos,
       allSkills,
-      searchParams: { repoSearch, skillSearch },
+      searchParams: { search, featured },
     }
   },
   head: () => ({
     meta: [
       {
         title:
-          'Skills Directory: Agent skills for Claude, Cursor, Copilot, and more',
+          'Discovery: Find AI agent skills for Claude, Cursor, Copilot, and more',
       },
       {
         name: 'description',
         content:
-          'Browse and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
+          'Discover and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
       },
       // Open Graph
       {
         property: 'og:title',
         content:
-          'Skills Directory: Agent skills for Claude, Cursor, Copilot, and more',
+          'Discovery: Find AI agent skills for Claude, Cursor, Copilot, and more',
       },
       {
         property: 'og:description',
         content:
-          'Browse and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
+          'Discover and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
       },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://flins.tech' },
+      { property: 'og:url', content: 'https://flins.tech/discovery' },
       { property: 'og:image', content: 'https://flins.tech/og.png' },
       { property: 'og:site_name', content: 'flins' },
       // Twitter Card
@@ -100,12 +90,12 @@ export const Route = createFileRoute('/directory/')({
       {
         name: 'twitter:title',
         content:
-          'Skills Directory: Agent skills for Claude, Cursor, Copilot, and more',
+          'Discovery: Find AI agent skills for Claude, Cursor, Copilot, and more',
       },
       {
         name: 'twitter:description',
         content:
-          'Browse and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
+          'Discover and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
       },
       { name: 'twitter:image', content: 'https://flins.tech/og.png' },
       { name: 'author', content: 'flinstech' },
@@ -114,7 +104,7 @@ export const Route = createFileRoute('/directory/')({
     links: [
       {
         rel: 'canonical',
-        href: 'https://flins.tech/directory',
+        href: 'https://flins.tech/discovery',
       },
     ],
     scripts: [
@@ -125,8 +115,8 @@ export const Route = createFileRoute('/directory/')({
           '@type': 'SoftwareApplication',
           name: 'flins',
           description:
-            'Browse and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
-          url: 'https://flins.tech',
+            'Discover and install AI agent skills. Works with Claude Code, Cursor, Copilot, Windsurf, Gemini CLI, and 10+ other AI dev tools.',
+          url: 'https://flins.tech/discovery',
           applicationCategory: 'DeveloperApplication',
           operatingSystem: 'macOS, Linux, Windows',
           offers: {
@@ -140,7 +130,7 @@ export const Route = createFileRoute('/directory/')({
             url: 'https://github.com/flinstech',
           },
           keywords: [
-            'skills directory',
+            'skills discovery',
             'agent skills',
             'Claude Code skills',
             'Cursor skills',
@@ -148,27 +138,11 @@ export const Route = createFileRoute('/directory/')({
             'AI coding agents',
             'Windsurf skills',
             'Gemini CLI skills',
-            'Trae skills',
-            'Factory Droid skills',
-            'Letta skills',
-            'OpenCode skills',
-            'Codex skills',
-            'Antigravity skills',
-            'Amp skills',
-            'Kilo Code skills',
-            'Roo Code skills',
-            'Goose skills',
-            'Qoder skills',
             'AI developer tools',
             'skills manager',
             'CLI',
             'flins',
           ],
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '5',
-            ratingCount: '1',
-          },
         }),
       },
     ],
@@ -178,9 +152,7 @@ export const Route = createFileRoute('/directory/')({
 function App() {
   const { allSkills, searchParams } = Route.useLoaderData()
   const navigate = useNavigate({ from: Route.fullPath })
-  const [skillSearchInput, setSkillSearchInput] = useState(
-    searchParams.skillSearch ?? ''
-  )
+  const [searchInput, setSearchInput] = useState(searchParams.search ?? '')
 
   const updateSearch = (params: Partial<typeof searchParams>) => {
     navigate({
@@ -189,14 +161,18 @@ function App() {
     })
   }
 
-  const debouncedSkillSearch = useDebouncer(
-    (skillSearch: string | undefined) => updateSearch({ skillSearch }),
+  const debouncedSearch = useDebouncer(
+    (search: string | undefined) => updateSearch({ search }),
     { wait: 300 }
   )
 
-  const clearSkillFilters = () => {
-    setSkillSearchInput('')
-    updateSearch({ skillSearch: undefined })
+  const clearFilters = () => {
+    setSearchInput('')
+    updateSearch({ search: undefined, featured: undefined })
+  }
+
+  const toggleFeatured = () => {
+    updateSearch({ featured: searchParams.featured ? undefined : true })
   }
 
   return (
@@ -213,36 +189,53 @@ function App() {
 
           <div className="p-8">
             <h1 className="text-4xl">
-              Skills Directory
+              Discovery
             </h1>
             <p className="text-zinc-400 max-w-2xl mt-1 mb-4">
-              Browse and install curated skills for your AI dev workflow
+              Find and install skills for your AI dev workflow
             </p>
 
-            <InputGroup className="h-12 px-2 gap-2">
-              <InputGroupInput
-                aria-label="Search skills"
-                placeholder="Search skills..."
-                type="search"
-                value={skillSearchInput}
-                onInput={(e) => {
-                  const value = e.currentTarget.value
-                  setSkillSearchInput(value)
-                  debouncedSkillSearch.maybeExecute(value || undefined)
-                }}
-              />
-              <InputGroupAddon>
-                <SearchIcon aria-hidden="true" />
-              </InputGroupAddon>
-            </InputGroup>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <InputGroup className="h-10 px-2 gap-2 flex-1">
+                <InputGroupInput
+                  aria-label="Search skills"
+                  placeholder="Search skills..."
+                  type="search"
+                  value={searchInput}
+                  onInput={(e) => {
+                    const value = e.currentTarget.value
+                    setSearchInput(value)
+                    debouncedSearch.maybeExecute(value || undefined)
+                  }}
+                />
+                <InputGroupAddon>
+                  <SearchIcon aria-hidden="true" />
+                </InputGroupAddon>
+              </InputGroup>
+
+              <Button
+                variant={searchParams.featured ? 'default' : 'outline'}
+                size="xl"
+                onClick={toggleFeatured}
+              >
+                <SparkleIcon className="size-4" />
+                Curated only
+              </Button>
+            </div>
           </div>
 
-          <div className="px-8 pb-8">
-            <p className="text-sm text-zinc-400 mb-3">
+          <div className="px-8 pb-8 space-y-3">
+            <p className="text-sm text-muted-foreground">
               Don't see your skill? Run command below and
               it'll automatically show up here.
             </p>
             <CodeBlockCommand skill="<user>/<repo>" />
+            <p className="text-sm text-muted-foreground">
+              Looking for curated skills from trusted teams?{' '}
+              <Link to="/curated" className="text-cyan-400 hover:underline">
+                Browse curated repos
+              </Link>
+            </p>
           </div>
 
           {allSkills.length > 0 ? (
@@ -253,7 +246,7 @@ function App() {
                     {skill.isFeatured && (
                       <Badge variant="outline">
                         <SparkleIcon />
-                        featured
+                        curated
                       </Badge>
                     )}
                     <Badge variant="outline">{skill.type}</Badge>
@@ -298,7 +291,7 @@ function App() {
                   </EmptyDescription>
                 </EmptyHeader>
                 <EmptyContent>
-                  <Button onClick={clearSkillFilters}>Clear filters</Button>
+                  <Button onClick={clearFilters}>Clear filters</Button>
                 </EmptyContent>
               </Empty>
             </div>

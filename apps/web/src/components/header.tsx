@@ -15,8 +15,11 @@ const Header = () => {
             flins
           </Link>
           <nav aria-label="Main navigation" className="flex items-center">
-            <Button variant="ghost" render={<Link to="/directory" />}>
-              Directory
+            <Button variant="ghost" render={<Link to="/discovery" />}>
+              Discovery
+            </Button>
+            <Button variant="ghost" render={<Link to="/curated" />}>
+              Curated
             </Button>
             <Button
               variant="ghost"

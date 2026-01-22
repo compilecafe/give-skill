@@ -12,7 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as DirectoryDotjsonRouteImport } from './routes/directory[.]json'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DirectoryIndexRouteImport } from './routes/directory.index'
+import { Route as DiscoveryIndexRouteImport } from './routes/discovery.index'
+import { Route as CuratedIndexRouteImport } from './routes/curated.index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -29,9 +30,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DirectoryIndexRoute = DirectoryIndexRouteImport.update({
-  id: '/directory/',
-  path: '/directory/',
+const DiscoveryIndexRoute = DiscoveryIndexRouteImport.update({
+  id: '/discovery/',
+  path: '/discovery/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuratedIndexRoute = CuratedIndexRouteImport.update({
+  id: '/curated/',
+  path: '/curated/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,34 +45,49 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/directory.json': typeof DirectoryDotjsonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/directory/': typeof DirectoryIndexRoute
+  '/curated/': typeof CuratedIndexRoute
+  '/discovery/': typeof DiscoveryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/directory.json': typeof DirectoryDotjsonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/directory': typeof DirectoryIndexRoute
+  '/curated': typeof CuratedIndexRoute
+  '/discovery': typeof DiscoveryIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/directory.json': typeof DirectoryDotjsonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/directory/': typeof DirectoryIndexRoute
+  '/curated/': typeof CuratedIndexRoute
+  '/discovery/': typeof DiscoveryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/directory.json' | '/sitemap.xml' | '/directory/'
+  fullPaths:
+    | '/'
+    | '/directory.json'
+    | '/sitemap.xml'
+    | '/curated/'
+    | '/discovery/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/directory.json' | '/sitemap.xml' | '/directory'
-  id: '__root__' | '/' | '/directory.json' | '/sitemap.xml' | '/directory/'
+  to: '/' | '/directory.json' | '/sitemap.xml' | '/curated' | '/discovery'
+  id:
+    | '__root__'
+    | '/'
+    | '/directory.json'
+    | '/sitemap.xml'
+    | '/curated/'
+    | '/discovery/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DirectoryDotjsonRoute: typeof DirectoryDotjsonRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  DirectoryIndexRoute: typeof DirectoryIndexRoute
+  CuratedIndexRoute: typeof CuratedIndexRoute
+  DiscoveryIndexRoute: typeof DiscoveryIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +113,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/directory/': {
-      id: '/directory/'
-      path: '/directory'
-      fullPath: '/directory/'
-      preLoaderRoute: typeof DirectoryIndexRouteImport
+    '/discovery/': {
+      id: '/discovery/'
+      path: '/discovery'
+      fullPath: '/discovery/'
+      preLoaderRoute: typeof DiscoveryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curated/': {
+      id: '/curated/'
+      path: '/curated'
+      fullPath: '/curated/'
+      preLoaderRoute: typeof CuratedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,7 +134,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DirectoryDotjsonRoute: DirectoryDotjsonRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  DirectoryIndexRoute: DirectoryIndexRoute,
+  CuratedIndexRoute: CuratedIndexRoute,
+  DiscoveryIndexRoute: DiscoveryIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

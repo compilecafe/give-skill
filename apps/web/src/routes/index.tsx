@@ -299,8 +299,8 @@ function App() {
                 and trusted developers.
               </p>
               <div className="flex items-center gap-2">
-                <Button size="xl" render={<Link to="/directory" />}>
-                  Browse Directory
+                <Button size="xl" render={<Link to="/curated" />}>
+                  Browse Curated
                 </Button>
                 <Button
                   size="xl"
@@ -484,7 +484,7 @@ function App() {
               <Button
                 size="xl"
                 variant="outline"
-                render={<Link to="/directory" />}
+                render={<Link to="/discovery" />}
               >
                 Browse Skills
               </Button>
