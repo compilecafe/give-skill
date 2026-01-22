@@ -85,5 +85,19 @@
       "remotion",
       "video"
     ]
+  },
+  {
+    "name": "marketing",
+    "source": "https://github.com/coreyhaines31/marketingskills",
+    "description": "Marketing skills for Claude Code and AI agents. CRO, copywriting, SEO, analytics, and growth engineering. Contains 140 proven marketing approaches organized by category",
+    "author": "coreyhaines31",
+    "tags": [
+      "marketing",
+      "cro",
+      "copywriting",
+      "seo",
+      "analytics",
+      "growth"
+    ]
   }
 ]
