@@ -3,37 +3,42 @@ import { Link } from '@tanstack/react-router'
 import SectionDivider from './section-divider'
 import { Button } from './ui/button'
 import logo from '../logo.svg'
-import { ArrowUpRightIcon } from 'lucide-react'
+import { ArrowUpRightIcon, MenuIcon } from 'lucide-react'
+import { useState } from 'react'
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <>
-      <header className="border-b">
+      <header className="border-b relative z-10">
         <div className="max-w-7xl border-x px-8 mx-auto h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-2xl">
             <img className="size-6" src={logo} alt="flins logo" />
             flins
           </Link>
           <nav aria-label="Main navigation" className="flex items-center">
-            <Button variant="ghost" render={<Link to="/discovery" />}>
-              Discovery
-            </Button>
-            <Button variant="ghost" render={<Link to="/curated" />}>
-              Curated
-            </Button>
-            <Button
-              variant="ghost"
-              render={
-                <a
-                  href="https://github.com/flinstech/flins?tab=readme-ov-file#flins"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              }
-            >
-              Docs
-              <ArrowUpRightIcon aria-hidden="true" />
-            </Button>
+            {isOpen && <div className="flex sm:items-center sm:static border-b sm:border-b-0 inset-x-0 absolute top-full sm:flex-row flex-col bg-background divide-y sm:divide-y-0">
+              <Button variant="ghost" render={<Link to="/discovery" />}>
+                Discovery
+              </Button>
+              <Button variant="ghost" render={<Link to="/curated" />}>
+                Curated
+              </Button>
+              <Button
+                variant="ghost"
+                render={
+                  <a
+                    href="https://github.com/flinstech/flins?tab=readme-ov-file#flins"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                Docs
+                <ArrowUpRightIcon aria-hidden="true" />
+              </Button>
+            </div>}
             <Button
               variant="ghost"
               size="icon-xl"
@@ -61,6 +66,15 @@ const Header = () => {
               }
             >
               <SiGithub />
+            </Button>
+            <Button
+              onClick={() => setIsOpen((isOpen) => !isOpen)}
+              variant="ghost"
+              size="icon-xl"
+              className='sm:hidden'
+              aria-label="Open menu"
+            >
+              <MenuIcon />
             </Button>
           </nav>
         </div>

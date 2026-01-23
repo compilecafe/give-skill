@@ -169,7 +169,7 @@ function App() {
   return (
     <>
       <main>
-        <div className="max-w-7xl md:min-h-160 min-h-dvh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative bg-[url('/hero.webp')] bg-cover bg-no-repeat">
+        <div className="max-w-7xl md:min-h-160 min-h-svh h-full py-16 px-8 mx-auto border-x items-start border-b flex flex-col relative bg-[url('/hero.webp')] bg-cover bg-no-repeat">
           <div className="flex flex-col items-start gap-12 isolate">
             <div className="flex flex-col text-xs font-mono">
               <span className="flex gap-2">
@@ -230,7 +230,7 @@ function App() {
                 Read Docs
               </Button>
             </div>
-            <div className="p-10 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
+            <div className="sm:p-10 p-4 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
               <div className="bg-background p-8 space-y-2">
                 <FlinsCommands />
               </div>
@@ -244,7 +244,7 @@ function App() {
       <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
           <div className="grid lg:grid-cols-2 grid-cols-1 items-center">
-            <div className="p-10 lg:order-1 order-2 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
+            <div className="sm:p-10 p-4 lg:order-1 order-2 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
               <div className="bg-background p-8 space-y-2">
                 <div className="flex flex-col -space-y-px">
                   <div className="border flex gap-4 border-zinc-600 border-dashed p-4">
@@ -349,7 +349,7 @@ function App() {
                 View All Formats
               </Button>
             </div>
-            <div className="p-10 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
+            <div className="sm:p-10 p-4 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
               <div className="bg-background p-8 space-y-2">
                 <GitSourceExamples />
               </div>
@@ -363,7 +363,7 @@ function App() {
       <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
           <div className="grid lg:grid-cols-2 grid-cols-1 items-center">
-            <div className="p-10 lg:order-1 order-2 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
+            <div className="sm:p-10 p-4 lg:order-1 order-2 relative bg-linear-to-bl from-cyan-600 via-transparent to-cyan-600">
               <div className="bg-background p-8">
                 <pre className="text-sm font-mono leading-relaxed">
                   <code>
@@ -461,7 +461,7 @@ function App() {
 
       <section>
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
-          <div className="grid lg:grid-cols-2 items-center">
+          <div className="grid lg:grid-cols-2 grid-cols-1 items-center">
             <div className="flex flex-col items-start gap-6 p-8">
               <div className="flex items-center gap-3">
                 <img
@@ -497,8 +497,8 @@ function App() {
                 View RFC Spec
               </Button>
             </div>
-            <div className="p-10 relative bg-linear-to-bl from-orange-600 via-transparent to-orange-600">
-              <div className="bg-background p-8 space-y-4">
+            <div className="sm:p-10 p-4 relative bg-linear-to-bl from-orange-600 via-transparent to-orange-600">
+              <div className="bg-background p-8 space-y-4 overflow-x-auto">
                 <div className="space-y-1">
                   <span className="text-xs text-zinc-500 font-mono">
                     # Install from Cloudflare docs
