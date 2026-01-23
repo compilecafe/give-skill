@@ -1,13 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-
-@font-face {
-  font-family: 'UnifontEX';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(https://cdn.jsdelivr.net/fontsource/fonts/unifontex@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/unifontex@latest/latin-400-normal.woff) format('woff');
-}
+@plugin '@tailwindcss/typography';
 
 @font-face {
   font-family: 'IBM Plex Mono';
@@ -15,7 +8,16 @@
   font-display: swap;
   font-weight: 400;
   src: url(https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-400-normal.woff) format('woff');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'DM Sans Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 1000;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/dm-sans:vf@latest/latin-wght-normal.woff2) format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -67,6 +69,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   @keyframes skeleton {
     to {
       background-position: -200% 0;
@@ -76,6 +79,7 @@
 
 :root {
   --font-mono: 'IBM Plex Mono', ui-sans-serif, system-ui, -apple-system;
+  --font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, -apple-system;
   --radius: 0;
   --background: var(--color-white);
   --foreground: var(--color-neutral-800);
@@ -88,11 +92,9 @@
   --secondary: --alpha(var(--color-black) / 4%);
   --secondary-foreground: var(--color-neutral-800);
   --muted: --alpha(var(--color-black) / 4%);
-  --muted-foreground: color-mix(
-    in srgb,
-    var(--color-neutral-500) 90%,
-    var(--color-black)
-  );
+  --muted-foreground: color-mix(in srgb,
+      var(--color-neutral-500) 90%,
+      var(--color-black));
   --accent: --alpha(var(--color-black) / 4%);
   --accent-foreground: var(--color-neutral-800);
   --destructive: var(--color-red-500);
@@ -133,18 +135,14 @@
   --secondary: --alpha(var(--color-white) / 4%);
   --secondary-foreground: var(--color-neutral-100);
   --muted: --alpha(var(--color-white) / 4%);
-  --muted-foreground: color-mix(
-    in srgb,
-    var(--color-neutral-500) 90%,
-    var(--color-white)
-  );
+  --muted-foreground: color-mix(in srgb,
+      var(--color-neutral-500) 90%,
+      var(--color-white));
   --accent: --alpha(var(--color-white) / 4%);
   --accent-foreground: var(--color-neutral-100);
-  --destructive: color-mix(
-    in srgb,
-    var(--color-red-500) 90%,
-    var(--color-white)
-  );
+  --destructive: color-mix(in srgb,
+      var(--color-red-500) 90%,
+      var(--color-white));
   --border: --alpha(var(--color-white) / 8%);
   --input: --alpha(var(--color-white) / 10%);
   --ring: var(--color-neutral-500);
@@ -174,10 +172,8 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground antialiased font-mono;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'UnifontEX', ui-sans-serif, system-ui, -apple-system;
+    @apply bg-background text-foreground antialiased;
   }
 }

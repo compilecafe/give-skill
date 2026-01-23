@@ -26,6 +26,9 @@ const Header = () => {
               <Button variant="ghost" render={<Link to="/curated" />}>
                 Curated
               </Button>
+              <Button variant="ghost" render={<Link to="/blog" />}>
+                Blog
+              </Button>
               <Button
                 variant="ghost"
                 render={

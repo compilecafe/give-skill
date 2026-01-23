@@ -463,16 +463,6 @@ function App() {
         <div className="max-w-7xl mx-auto border-x flex flex-col relative">
           <div className="grid lg:grid-cols-2 grid-cols-1 items-center">
             <div className="flex flex-col items-start gap-6 p-8">
-              <div className="flex items-center gap-3">
-                <img
-                  className="h-8"
-                  src="/brands/cloudflare.svg"
-                  alt="Cloudflare logo"
-                />
-                <span className="text-xs font-mono px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">
-                  RFC Supported
-                </span>
-              </div>
               <h2 className="text-5xl">
                 Install from .well-known/skills
               </h2>
