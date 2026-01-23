@@ -1,5 +1,22 @@
 import type { ParsedSource } from "@/types/skills";
 
+export function isWellKnownSource(source: string): boolean {
+  if (source.includes("/") && !source.includes("://")) {
+    return false;
+  }
+
+  if (source.includes("github.com") || source.includes("gitlab.com")) {
+    return false;
+  }
+
+  if (source.endsWith(".git")) {
+    return false;
+  }
+
+  const pattern = /^(?:https?:\/\/)?([a-zA-Z0-9][-a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+  return pattern.test(source);
+}
+
 export function buildFileUrl(parsed: ParsedSource, tempDir: string, filePath: string): string {
   const baseUrl = parsed.url.replace(/\.git$/, "");
   const branch = parsed.branch ?? "main";

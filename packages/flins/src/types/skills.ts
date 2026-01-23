@@ -18,3 +18,13 @@ export interface ParsedSource {
   subpath?: string;
   branch?: string;
 }
+
+export interface WellKnownSkillEntry {
+  name: string;
+  description: string;
+  files: string[];
+}
+
+export interface WellKnownSkillIndex {
+  skills: WellKnownSkillEntry[];
+}

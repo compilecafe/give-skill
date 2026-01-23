@@ -1,7 +1,13 @@
 import * as p from "@clack/prompts";
 import pc from "picocolors";
-import { parseSource, buildFileUrl } from "@/core/git/parser";
+import { parseSource, buildFileUrl, isWellKnownSource } from "@/core/git/source-parser";
 import { cloneRepo, cleanupTempDir, getCommitHash } from "@/infrastructure/git-client";
+import {
+  downloadSkills as downloadWellKnownSkills,
+  listSkills as listWellKnownSkills,
+  buildSkillUrl,
+  cleanupTempDir as cleanupWellKnownTempDir,
+} from "@/infrastructure/well-known-client";
 import { discoverSkills } from "@/core/skills/discovery";
 import { discoverCommands } from "@/core/commands/discovery";
 import { getSkillDisplayName } from "@/core/skills/parser";
@@ -50,6 +56,16 @@ interface ServiceContext {
   spinner: ReturnType<typeof p.spinner>;
 }
 
+interface SourceInfo {
+  type: "git" | "well-known";
+  displayName: string;
+  url: string;
+  branch: string;
+  commit: string;
+  subpath?: string;
+  parsed?: ParsedSource;
+}
+
 export async function performInstallation(
   source: string,
   options: Options,
@@ -59,29 +75,28 @@ export async function performInstallation(
     spinner: p.spinner(),
   };
 
+  const isWellKnown = isWellKnownSource(source);
+  const host = isWellKnown ? source.replace(/^https?:\/\//, "").replace(/\/$/, "") : "";
+
   try {
-    context.spinner.start("Reading repository...");
-    const parsed = parseSource(source);
-    const branch = parsed.branch ?? "main";
-    context.spinner.stop(
-      `Source: ${pc.cyan(parsed.url)}${
-        parsed.subpath ? ` (${parsed.subpath})` : ""
-      }${parsed.branch ? ` @ ${pc.cyan(parsed.branch)}` : ""}`,
-    );
+    if (options.list) {
+      return await handleListMode(source, isWellKnown, host, context);
+    }
 
-    context.spinner.start("Downloading...");
-    context.tempDir = await cloneRepo(parsed.url, parsed.branch);
-    context.spinner.stop("Repository cloned");
-
-    const commit = await getCommitHash(context.tempDir);
+    const sourceInfo = await downloadSource(source, isWellKnown, host, options, context);
+    if (!sourceInfo) {
+      return { success: false, installed: 0, failed: 0, results: [] };
+    }
 
     context.spinner.start("Finding skills...");
-    const skills = await discoverSkills(context.tempDir, parsed.subpath);
-    const commands = await discoverCommands(context.tempDir, parsed.subpath);
+    const skills = await discoverSkills(context.tempDir!, sourceInfo.subpath);
+    const commands = isWellKnown
+      ? []
+      : await discoverCommands(context.tempDir!, sourceInfo.subpath);
 
     if (skills.length === 0 && commands.length === 0) {
       context.spinner.stop(pc.red("No skills or commands found"));
-      p.outro(pc.red("No skills found. Repository must have SKILL.md files."));
+      p.outro(pc.red("No skills found. Source must have SKILL.md files."));
       return { success: false, installed: 0, failed: 0, results: [] };
     }
 
@@ -92,25 +107,6 @@ export async function performInstallation(
           ? ` and ${pc.yellow(commands.length)} command${commands.length !== 1 ? "s" : ""}`
           : ""),
     );
-
-    if (options.list) {
-      if (skills.length > 0) {
-        p.log.step(pc.bold("Available Skills"));
-        for (const skill of skills) {
-          p.log.message(`  ${pc.cyan(getSkillDisplayName(skill))}`);
-          p.log.message(`    ${pc.dim(skill.description)}`);
-        }
-      }
-      if (commands.length > 0) {
-        p.log.step(pc.bold("Available Commands"));
-        for (const command of commands) {
-          p.log.message(`  ${pc.cyan(getCommandDisplayName(command))}`);
-          p.log.message(`    ${pc.dim(command.description || `Command: ${command.name}`)}`);
-        }
-      }
-      p.outro("Use --skill <name> to install specific skills or commands");
-      return { success: true, installed: 0, failed: 0, results: [] };
-    }
 
     const selectedSkills = await selectSkills(skills, options);
     const skillsAgents = selectedSkills ? await selectAgentsForSkills(options, context) : null;
@@ -144,6 +140,7 @@ export async function performInstallation(
       selectedCommands,
       commandsAgents,
       installGlobally,
+      sourceInfo.displayName,
     );
     if (!confirmed) {
       return { success: false, installed: 0, failed: 0, results: [] };
@@ -156,9 +153,7 @@ export async function performInstallation(
       selectedCommands || [],
       commandsAgents || [],
       installGlobally,
-      parsed,
-      commit,
-      branch,
+      sourceInfo,
       options.symlink ?? true,
       context.tempDir!,
     );
@@ -167,9 +162,118 @@ export async function performInstallation(
     return results;
   } finally {
     if (context.tempDir) {
-      await cleanupTempDir(context.tempDir);
+      if (isWellKnown) {
+        cleanupWellKnownTempDir(context.tempDir);
+      } else {
+        await cleanupTempDir(context.tempDir);
+      }
     }
   }
+}
+
+async function handleListMode(
+  source: string,
+  isWellKnown: boolean,
+  host: string,
+  context: ServiceContext,
+): Promise<InstallResult> {
+  if (isWellKnown) {
+    context.spinner.start(`Fetching skills from ${host}...`);
+    const indexSkills = await listWellKnownSkills(host);
+    context.spinner.stop(
+      `Found ${pc.green(indexSkills.length)} skill${indexSkills.length !== 1 ? "s" : ""}`,
+    );
+
+    p.log.step(pc.bold(`Available Skills from ${host}`));
+    for (const skill of indexSkills) {
+      p.log.message(`  ${pc.cyan(skill.name)}`);
+      p.log.message(`    ${pc.dim(skill.description)}`);
+    }
+    p.outro(`Use ${pc.cyan(`flins add ${host} --skill <name>`)} to install`);
+  } else {
+    context.spinner.start("Reading repository...");
+    const parsed = parseSource(source);
+    context.spinner.stop(
+      `Source: ${pc.cyan(parsed.url)}${parsed.subpath ? ` (${parsed.subpath})` : ""}`,
+    );
+
+    context.spinner.start("Downloading...");
+    context.tempDir = await cloneRepo(parsed.url, parsed.branch);
+    context.spinner.stop("Repository cloned");
+
+    context.spinner.start("Finding skills...");
+    const skills = await discoverSkills(context.tempDir, parsed.subpath);
+    const commands = await discoverCommands(context.tempDir, parsed.subpath);
+    context.spinner.stop(`Found ${pc.green(skills.length)} skill${skills.length !== 1 ? "s" : ""}`);
+
+    if (skills.length > 0) {
+      p.log.step(pc.bold("Available Skills"));
+      for (const skill of skills) {
+        p.log.message(`  ${pc.cyan(getSkillDisplayName(skill))}`);
+        p.log.message(`    ${pc.dim(skill.description)}`);
+      }
+    }
+    if (commands.length > 0) {
+      p.log.step(pc.bold("Available Commands"));
+      for (const command of commands) {
+        p.log.message(`  ${pc.cyan(getCommandDisplayName(command))}`);
+        p.log.message(`    ${pc.dim(command.description || `Command: ${command.name}`)}`);
+      }
+    }
+    p.outro("Use --skill <name> to install specific skills or commands");
+  }
+
+  return { success: true, installed: 0, failed: 0, results: [] };
+}
+
+async function downloadSource(
+  source: string,
+  isWellKnown: boolean,
+  host: string,
+  options: Options,
+  context: ServiceContext,
+): Promise<SourceInfo | null> {
+  if (isWellKnown) {
+    context.spinner.start(`Fetching skills from ${host}...`);
+    const { tempDir, skills: indexSkills } = await downloadWellKnownSkills(host, options.skill);
+    context.tempDir = tempDir;
+    context.spinner.stop(
+      `Downloaded ${pc.green(indexSkills.length)} skill${indexSkills.length !== 1 ? "s" : ""}`,
+    );
+
+    return {
+      type: "well-known",
+      displayName: host,
+      url: `well-known:${host}`,
+      branch: "main",
+      commit: "well-known",
+    };
+  }
+
+  context.spinner.start("Reading repository...");
+  const parsed = parseSource(source);
+  const branch = parsed.branch ?? "main";
+  context.spinner.stop(
+    `Source: ${pc.cyan(parsed.url)}${parsed.subpath ? ` (${parsed.subpath})` : ""}${
+      parsed.branch ? ` @ ${pc.cyan(parsed.branch)}` : ""
+    }`,
+  );
+
+  context.spinner.start("Downloading...");
+  context.tempDir = await cloneRepo(parsed.url, parsed.branch);
+  context.spinner.stop("Repository cloned");
+
+  const commit = await getCommitHash(context.tempDir);
+
+  return {
+    type: "git",
+    displayName: parsed.url,
+    url: parsed.url,
+    branch,
+    commit,
+    subpath: parsed.subpath,
+    parsed,
+  };
 }
 
 async function selectSkills(skills: Skill[], options: Options): Promise<Skill[] | null> {
@@ -250,19 +354,33 @@ async function selectCommands(commands: Command[], options: Options): Promise<Co
           getCommandDisplayName(c).toLowerCase() === name.toLowerCase(),
       ),
     );
-  }
 
-  if (selectedCommands.length === 0 && !options.yes && !options.force) {
+    if (selectedCommands.length > 0) {
+      p.log.info(
+        `Selected ${selectedCommands.length} command${
+          selectedCommands.length !== 1 ? "s" : ""
+        }: ${selectedCommands.map((c) => pc.cyan(getCommandDisplayName(c))).join(", ")}`,
+      );
+    }
+  } else if (options.yes || options.force) {
+    selectedCommands = commands;
+    p.log.info(`Installing all ${commands.length} commands`);
+  } else {
     const commandChoices = commands.map((c) => ({
       value: c,
       label: getCommandDisplayName(c),
-      hint: (c.description || `Command: ${c.name}`).slice(0, 55),
+      hint: c.description
+        ? c.description.length > 60
+          ? c.description.slice(0, 57) + "..."
+          : c.description
+        : `Command: ${c.name}`,
     }));
 
     const selected = await p.multiselect({
       message: "Choose commands to add",
       options: commandChoices,
       required: false,
+      initialValues: commands.length === 1 ? [commands[0]] : undefined,
     });
 
     if (p.isCancel(selected)) {
@@ -276,17 +394,6 @@ async function selectCommands(commands: Command[], options: Options): Promise<Co
     }
 
     selectedCommands = selected as Command[];
-  } else if (options.yes || options.force) {
-    selectedCommands = commands;
-    p.log.info(`Installing all ${commands.length} commands`);
-  }
-
-  if (selectedCommands.length > 0) {
-    p.log.info(
-      `Selected ${selectedCommands.length} command${
-        selectedCommands.length !== 1 ? "s" : ""
-      }: ${selectedCommands.map((c) => pc.yellow(getCommandDisplayName(c))).join(", ")}`,
-    );
   }
 
   return selectedCommands.length > 0 ? selectedCommands : null;
@@ -412,15 +519,14 @@ async function selectAgentsForCommands(
     return availableCommandAgents;
   }
 
-  const agentChoices = availableCommandAgents.map((a) => ({
+  const commandAgentChoices = availableCommandAgents.map((a) => ({
     value: a,
     label: agents[a].displayName,
-    hint: agents[a].commandsDir || "",
   }));
 
   const selected = await p.multiselect({
-    message: "Select agents to install commands to",
-    options: agentChoices,
+    message: "Choose agents to install commands to",
+    options: commandAgentChoices,
     required: true,
     initialValues: availableCommandAgents,
   });
@@ -430,44 +536,40 @@ async function selectAgentsForCommands(
     return null;
   }
 
-  p.log.info(
-    `Installing commands to: ${(selected as AgentType[])
-      .map((a) => pc.cyan(agents[a].displayName))
-      .join(", ")}`,
-  );
-
   return selected as AgentType[];
 }
 
 async function determineScope(options: Options): Promise<boolean | null> {
-  let installGlobally = options.global ?? false;
-
-  if (options.global === undefined && !(options.yes || options.force)) {
-    const scope = await p.select({
-      message: "Where to install?",
-      options: [
-        {
-          value: false,
-          label: "Project",
-          hint: "saved with this project",
-        },
-        {
-          value: true,
-          label: "Global",
-          hint: "available for all projects",
-        },
-      ],
-    });
-
-    if (p.isCancel(scope)) {
-      p.cancel("Installation cancelled");
-      return null;
-    }
-
-    installGlobally = scope as boolean;
+  if (options.global !== undefined) {
+    return options.global;
   }
 
-  return installGlobally;
+  if (options.yes || options.force) {
+    return false;
+  }
+
+  const scope = await p.select({
+    message: "Install scope",
+    options: [
+      {
+        value: false,
+        label: "Project",
+        hint: "for this project only",
+      },
+      {
+        value: true,
+        label: "Global",
+        hint: "available for all projects",
+      },
+    ],
+  });
+
+  if (p.isCancel(scope)) {
+    p.cancel("Installation cancelled");
+    return null;
+  }
+
+  return scope;
 }
 
 async function showSummaryAndConfirm(
@@ -477,8 +579,11 @@ async function showSummaryAndConfirm(
   selectedCommands: Command[] | null,
   commandsAgents: AgentType[] | null,
   _installGlobally: boolean,
+  sourceName: string,
 ): Promise<boolean> {
   p.log.step(pc.bold("Installation Summary"));
+
+  p.log.message(pc.bold(pc.cyan("Source:")) + " " + sourceName);
 
   if (selectedSkills && selectedSkills.length > 0 && skillsAgents) {
     p.log.message(
@@ -531,9 +636,7 @@ async function performParallelInstall(
   selectedCommands: Command[],
   commandsAgents: AgentType[],
   installGlobally: boolean,
-  parsed: ParsedSource,
-  commit: string,
-  branch: string,
+  sourceInfo: SourceInfo,
   symlink: boolean,
   tempDir: string,
 ): Promise<InstallResult> {
@@ -575,8 +678,8 @@ async function performParallelInstall(
   const installResults = await Promise.all(installPromises);
 
   const results = installResults.map((result, i) => {
-    const skillIndex = Math.floor(i / Math.max(skillsAgents.length, commandsAgents.length));
-    const agentIndex = i % Math.max(skillsAgents.length, commandsAgents.length);
+    const skillIndex = Math.floor(i / Math.max(skillsAgents.length, commandsAgents.length, 1));
+    const agentIndex = i % Math.max(skillsAgents.length, commandsAgents.length, 1);
     const isSkill = i < selectedSkills.length * skillsAgents.length;
     const item = isSkill
       ? selectedSkills[skillIndex % selectedSkills.length]!
@@ -587,8 +690,13 @@ async function performParallelInstall(
       ? getSkillDisplayName(item as Skill)
       : getCommandDisplayName(item as Command);
 
-    const filePath = isSkill ? `${item.path}/SKILL.md` : item.path;
-    const sourceUrl = buildFileUrl(parsed, tempDir, filePath);
+    let sourceUrl: string;
+    if (sourceInfo.type === "well-known") {
+      sourceUrl = buildSkillUrl(sourceInfo.displayName, (item as Skill).name);
+    } else {
+      const filePath = isSkill ? `${item.path}/SKILL.md` : item.path;
+      sourceUrl = buildFileUrl(sourceInfo.parsed!, tempDir, filePath);
+    }
 
     return {
       skill: name,
@@ -611,13 +719,20 @@ async function performParallelInstall(
         const skillIndex = Math.floor(i / skillsAgents.length);
         const skill = selectedSkills[skillIndex % selectedSkills.length]!;
 
-        const addResult = addSkill(skill.name, parsed.url, parsed.subpath, branch, commit, "skill");
+        const addResult = addSkill(
+          skill.name,
+          sourceInfo.url,
+          sourceInfo.subpath,
+          sourceInfo.branch,
+          sourceInfo.commit,
+          "skill",
+        );
 
         if (addResult.updated && addResult.previousBranch) {
           const existing = branchChanges.get(skill.name);
           branchChanges.set(skill.name, {
             previous: existing?.previous ?? addResult.previousBranch,
-            current: existing?.current ?? branch,
+            current: existing?.current ?? sourceInfo.branch,
           });
         }
       } else {
@@ -626,27 +741,40 @@ async function performParallelInstall(
         );
         const command = selectedCommands[commandIndex % selectedCommands.length]!;
 
-        addSkill(command.name, parsed.url, parsed.subpath, branch, commit, "command");
+        addSkill(
+          command.name,
+          sourceInfo.url,
+          sourceInfo.subpath,
+          sourceInfo.branch,
+          sourceInfo.commit,
+          "command",
+        );
       }
-    }
-  }
-
-  if (!installGlobally) {
-    for (const [i, result] of installResults.entries()) {
-      if (!result.success) continue;
-
-      const isSkill = i < selectedSkills.length * skillsAgents.length;
-
+    } else {
       if (isSkill) {
         const skillIndex = Math.floor(i / skillsAgents.length);
         const skill = selectedSkills[skillIndex % selectedSkills.length]!;
-        addLocalSkill(skill.name, parsed.url, parsed.subpath, branch, commit, "skill");
+        addLocalSkill(
+          skill.name,
+          sourceInfo.url,
+          sourceInfo.subpath,
+          sourceInfo.branch,
+          sourceInfo.commit,
+          "skill",
+        );
       } else {
         const commandIndex = Math.floor(
           (i - selectedSkills.length * skillsAgents.length) / commandsAgents.length,
         );
         const command = selectedCommands[commandIndex % selectedCommands.length]!;
-        addLocalSkill(command.name, parsed.url, parsed.subpath, branch, commit, "command");
+        addLocalSkill(
+          command.name,
+          sourceInfo.url,
+          sourceInfo.subpath,
+          sourceInfo.branch,
+          sourceInfo.commit,
+          "command",
+        );
       }
     }
   }

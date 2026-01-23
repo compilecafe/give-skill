@@ -93,9 +93,3 @@ export async function discoverCommands(basePath: string, subpath?: string): Prom
 
   return commands;
 }
-
-export async function hasCommands(basePath: string, subpath?: string): Promise<boolean> {
-  const searchPath = subpath ? join(basePath, subpath) : basePath;
-  const commandsDirs = await findCommandsDirs(searchPath);
-  return commandsDirs.length > 0;
-}

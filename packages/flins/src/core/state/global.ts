@@ -1,14 +1,6 @@
 import { globalStore } from "./store";
-import type { StateFile, SkillEntry, SkillInstallation } from "@/types/state";
+import type { StateFile, SkillInstallation } from "@/types/state";
 import type { InstallableType } from "@/types/skills";
-
-export function loadState(): StateFile {
-  return globalStore.load() as StateFile;
-}
-
-export function saveState(state: StateFile): void {
-  globalStore.save(state);
-}
 
 export function addSkill(
   skillName: string,
@@ -38,13 +30,6 @@ export function updateSkillCommit(
   commit: string,
 ): void {
   globalStore.updateCommit(skillName, installableType, commit);
-}
-
-export function getSkillEntry(
-  skillName: string,
-  installableType: InstallableType,
-): SkillEntry | null {
-  return globalStore.getEntry(skillName, installableType);
 }
 
 export function getAllSkills(): StateFile {

@@ -7,13 +7,6 @@ import { skillKey, commandKey, findInstallations } from "@/utils/state";
 
 const STATE_VERSION = "1.0.0";
 
-type Scope = "global" | "local";
-
-interface StoreOptions {
-  scope: Scope;
-  cwd?: string;
-}
-
 interface AddSkillParams {
   name: string;
   url: string;
@@ -346,13 +339,6 @@ function createLocalStoreInternal(cwd?: string): StateStore {
     findInstallations: findSkillInstallations,
     cleanOrphanedEntries,
   };
-}
-
-export function createStateStore(options: StoreOptions): StateStore {
-  if (options.scope === "global") {
-    return createGlobalStore();
-  }
-  return createLocalStoreInternal(options.cwd);
 }
 
 export const globalStore = createGlobalStore();

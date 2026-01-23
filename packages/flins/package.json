@@ -1,6 +1,6 @@
 {
   "name": "flins",
-  "version": "0.1.16",
+  "version": "0.2.0",
   "description": "Universal skill installer for AI coding agents - Claude, Cursor, Copilot, and more",
   "keywords": [
     "agent-skills",

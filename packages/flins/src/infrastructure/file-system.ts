@@ -1,9 +1,9 @@
-import { mkdir, cp, access, readdir, symlink, rm } from "fs/promises";
+import { mkdir, cp, readdir, symlink, rm } from "fs/promises";
 import { lstatSync, readlinkSync, rmSync } from "fs";
 import { join, relative, dirname, resolve } from "path";
 import { getSkillsSourceDir, getCommandsSourceDir } from "@/utils/paths";
 
-export const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
+const EXCLUDE_FILES = new Set(["README.md", "metadata.json"]);
 
 const isExcluded = (name: string): boolean => {
   if (EXCLUDE_FILES.has(name)) return true;
@@ -27,7 +27,7 @@ async function withErrorHandling<T>(
   }
 }
 
-export async function copyDirectory(src: string, dest: string): Promise<void> {
+async function copyDirectory(src: string, dest: string): Promise<void> {
   await mkdir(dest, { recursive: true });
 
   const entries = await readdir(src, { withFileTypes: true });
@@ -89,19 +89,6 @@ export async function createSkillSymlink(
   }, targetDir);
 }
 
-export async function installSkillAsSymlink(
-  sourceDir: string,
-  skillName: string,
-  targetDir: string,
-  options: { global?: boolean } = {},
-): Promise<{ success: boolean; path: string; error?: string }> {
-  const copyResult = await copySkillToStorage(sourceDir, skillName, options);
-  if (!copyResult.success) {
-    return { ...copyResult, path: targetDir };
-  }
-  return createSkillSymlink(skillName, targetDir, options);
-}
-
 export async function installCommandAsSymlink(
   sourcePath: string,
   commandName: string,
@@ -121,15 +108,6 @@ export async function installCommandAsSymlink(
     await rm(targetPath, { force: true });
     await symlink(relative(targetParent, sourceStorePath), targetPath);
   }, targetPath);
-}
-
-export async function checkSkillInstalled(skillDir: string): Promise<boolean> {
-  try {
-    await access(skillDir);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 export async function removeSymlinkSource(

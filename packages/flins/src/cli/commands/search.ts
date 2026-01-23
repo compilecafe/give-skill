@@ -73,5 +73,3 @@ export async function searchCommand() {
     process.exit(1);
   }
 }
-
-

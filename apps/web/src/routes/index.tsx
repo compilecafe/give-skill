@@ -150,6 +150,9 @@ export const Route = createFileRoute('/')({
             'command palette',
             'AI extensions',
             'flins',
+            'well-known skills',
+            'agent skills discovery',
+            'Cloudflare RFC',
           ],
           aggregateRating: {
             '@type': 'AggregateRating',
@@ -449,6 +452,101 @@ function App() {
                   <span className="text-emerald-400">+</span> Easier maintenance
                 </li>
               </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      <section>
+        <div className="max-w-7xl mx-auto border-x flex flex-col relative">
+          <div className="grid lg:grid-cols-2 items-center">
+            <div className="flex flex-col items-start gap-6 p-8">
+              <div className="flex items-center gap-3">
+                <img
+                  className="h-8"
+                  src="/brands/cloudflare.svg"
+                  alt="Cloudflare logo"
+                />
+                <span className="text-xs font-mono px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                  RFC Supported
+                </span>
+              </div>
+              <h2 className="text-5xl">
+                Install from .well-known/skills
+              </h2>
+              <p className="text-muted-foreground text-lg text-balance leading-relaxed">
+                flins supports Cloudflare's Agent Skills Discovery RFC. Install
+                skills directly from any domain hosting a{' '}
+                <code className="text-cyan-400">
+                  .well-known/skills/index.json
+                </code>{' '}
+                endpoint.
+              </p>
+              <Button
+                size="xl"
+                render={
+                  <a
+                    href="https://github.com/cloudflare/agent-skills-discovery-rfc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                View RFC Spec
+              </Button>
+            </div>
+            <div className="p-10 relative bg-linear-to-bl from-orange-600 via-transparent to-orange-600">
+              <div className="bg-background p-8 space-y-4">
+                <div className="space-y-1">
+                  <span className="text-xs text-zinc-500 font-mono">
+                    # Install from domain
+                  </span>
+                  <pre className="text-sm font-mono">
+                    <code>
+                      <span className="text-zinc-400">$ </span>
+                      <span className="text-cyan-400">flins add</span>{' '}
+                      <span className="text-emerald-400">example.com</span>
+                    </code>
+                  </pre>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-zinc-500 font-mono">
+                    # List available skills
+                  </span>
+                  <pre className="text-sm font-mono">
+                    <code>
+                      <span className="text-zinc-400">$ </span>
+                      <span className="text-cyan-400">flins add</span>{' '}
+                      <span className="text-emerald-400">example.com</span>{' '}
+                      <span className="text-zinc-400">--list</span>
+                    </code>
+                  </pre>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-zinc-500 font-mono">
+                    # Install specific skill
+                  </span>
+                  <pre className="text-sm font-mono">
+                    <code>
+                      <span className="text-zinc-400">$ </span>
+                      <span className="text-cyan-400">flins add</span>{' '}
+                      <span className="text-emerald-400">example.com</span>{' '}
+                      <span className="text-zinc-400">--skill</span>{' '}
+                      <span className="text-yellow-400">my-skill</span>
+                    </code>
+                  </pre>
+                </div>
+                <div className="border-t border-zinc-700 pt-4 mt-4">
+                  <span className="text-xs text-zinc-500 font-mono block mb-2">
+                    # Fetches from
+                  </span>
+                  <code className="text-xs text-orange-400">
+                    https://example.com/.well-known/skills/index.json
+                  </code>
+                </div>
+              </div>
             </div>
           </div>
         </div>

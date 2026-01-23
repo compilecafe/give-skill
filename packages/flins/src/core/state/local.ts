@@ -1,14 +1,6 @@
 import { createLocalStore } from "./store";
-import type { LocalState, SkillEntry, SkillInstallation } from "@/types/state";
+import type { SkillInstallation } from "@/types/state";
 import type { InstallableType } from "@/types/skills";
-
-export function loadLocalState(cwd?: string): LocalState | null {
-  return createLocalStore(cwd).load() as LocalState | null;
-}
-
-export function saveLocalState(state: LocalState, cwd?: string): void {
-  createLocalStore(cwd).save(state);
-}
 
 export function addLocalSkill(
   skillName: string,
@@ -46,16 +38,8 @@ export function updateLocalSkillCommit(
   createLocalStore(cwd).updateCommit(skillName, installableType, commit);
 }
 
-export function getLocalSkill(
-  skillName: string,
-  installableType: InstallableType,
-  cwd?: string,
-): SkillEntry | null {
-  return createLocalStore(cwd).getEntry(skillName, installableType);
-}
-
-export function getAllLocalSkills(cwd?: string): LocalState | null {
-  return createLocalStore(cwd).getAll() as LocalState | null;
+export function getAllLocalSkills(cwd?: string) {
+  return createLocalStore(cwd).getAll();
 }
 
 export function findLocalSkillInstallations(

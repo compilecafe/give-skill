@@ -87,35 +87,3 @@ export async function installCommandForAgent(
     originalPath: command.path,
   };
 }
-
-export async function isCommandInstalled(
-  commandName: string,
-  agent: AgentType,
-  options: { global: boolean },
-): Promise<boolean> {
-  const agentConfig = agents[agent];
-  const baseDir = resolveAgentCommandsDir(
-    options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!,
-    { global: options.global },
-  );
-
-  try {
-    await mkdir(baseDir, { recursive: true });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-export function getCommandInstallPath(
-  commandName: string,
-  agent: AgentType,
-  options: { global: boolean },
-): string {
-  const agentConfig = agents[agent];
-  const baseDir = resolveAgentCommandsDir(
-    options.global ? agentConfig.globalCommandsDir! : agentConfig.commandsDir!,
-    { global: options.global },
-  );
-  return join(baseDir, commandName);
-}

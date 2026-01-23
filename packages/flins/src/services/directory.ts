@@ -4,8 +4,8 @@ export interface DirectoryEntry {
   name: string;
   source: string;
   description: string;
-  author: string;
-  tags: string[];
+  author?: string;
+  tags?: string[];
 }
 
 let directoryCache: DirectoryEntry[] | null = null;
