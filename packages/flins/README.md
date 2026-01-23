@@ -27,12 +27,32 @@ npx flins@latest add expo/skills
 # Install from any git repo
 npx flins@latest add https://gitlab.com/org/repo
 
+# Install from well-known endpoint (RFC)
+npx flins@latest add developer.cloudflare.com
+
 # Install globally
 npx flins@latest add expo --global
 
 # Browse available skills
 npx flins@latest search
 ```
+
+## Well-Known Skills Discovery (RFC)
+
+flins supports [Cloudflare's Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc). Install skills from any domain hosting a `/.well-known/skills/index.json` endpoint:
+
+```bash
+# Install from Cloudflare docs
+flins add developer.cloudflare.com
+
+# List available skills
+flins add developer.cloudflare.com --list
+
+# Install specific skill
+flins add developer.cloudflare.com --skill cloudflare
+```
+
+Works with any RFC-compatible domain.
 
 ## Available Commands
 

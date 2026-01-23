@@ -125,7 +125,27 @@ flins add https://example.com/repo.git
 
 # Specific branch
 flins add https://github.com/expo/skills/tree/develop
+
+# Well-known skills endpoint (RFC)
+flins add developer.cloudflare.com
 ```
+
+### Well-Known Skills Discovery (RFC)
+
+flins supports [Cloudflare's Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc). Install skills directly from any domain hosting a `/.well-known/skills/index.json` endpoint:
+
+```bash
+# Install from Cloudflare docs
+flins add developer.cloudflare.com
+
+# List available skills
+flins add developer.cloudflare.com --list
+
+# Install specific skill
+flins add developer.cloudflare.com --skill cloudflare
+```
+
+Works with any RFC-compatible domain — just run `flins add <domain>` to fetch from `/.well-known/skills/`.
 
 ## Symlink-First Architecture
 

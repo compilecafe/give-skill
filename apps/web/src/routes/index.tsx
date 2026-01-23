@@ -482,7 +482,9 @@ function App() {
                 <code className="text-cyan-400">
                   .well-known/skills/index.json
                 </code>{' '}
-                endpoint.
+                endpoint — including{' '}
+                <code className="text-orange-400">developer.cloudflare.com</code>
+                .
               </p>
               <Button
                 size="xl"
@@ -501,13 +503,15 @@ function App() {
               <div className="bg-background p-8 space-y-4">
                 <div className="space-y-1">
                   <span className="text-xs text-zinc-500 font-mono">
-                    # Install from domain
+                    # Install from Cloudflare docs
                   </span>
                   <pre className="text-sm font-mono">
                     <code>
                       <span className="text-zinc-400">$ </span>
                       <span className="text-cyan-400">flins add</span>{' '}
-                      <span className="text-emerald-400">example.com</span>
+                      <span className="text-orange-400">
+                        developer.cloudflare.com
+                      </span>
                     </code>
                   </pre>
                 </div>
@@ -519,7 +523,9 @@ function App() {
                     <code>
                       <span className="text-zinc-400">$ </span>
                       <span className="text-cyan-400">flins add</span>{' '}
-                      <span className="text-emerald-400">example.com</span>{' '}
+                      <span className="text-orange-400">
+                        developer.cloudflare.com
+                      </span>{' '}
                       <span className="text-zinc-400">--list</span>
                     </code>
                   </pre>
@@ -532,18 +538,20 @@ function App() {
                     <code>
                       <span className="text-zinc-400">$ </span>
                       <span className="text-cyan-400">flins add</span>{' '}
-                      <span className="text-emerald-400">example.com</span>{' '}
+                      <span className="text-orange-400">
+                        developer.cloudflare.com
+                      </span>{' '}
                       <span className="text-zinc-400">--skill</span>{' '}
-                      <span className="text-yellow-400">my-skill</span>
+                      <span className="text-yellow-400">cloudflare</span>
                     </code>
                   </pre>
                 </div>
                 <div className="border-t border-zinc-700 pt-4 mt-4">
                   <span className="text-xs text-zinc-500 font-mono block mb-2">
-                    # Fetches from
+                    # Works with any RFC-compatible domain
                   </span>
-                  <code className="text-xs text-orange-400">
-                    https://example.com/.well-known/skills/index.json
+                  <code className="text-xs text-zinc-400">
+                    flins add {'<domain>'} → fetches /.well-known/skills/
                   </code>
                 </div>
               </div>
