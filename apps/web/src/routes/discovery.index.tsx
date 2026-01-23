@@ -1,5 +1,11 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { ArrowUpRightIcon, DownloadIcon, PlusIcon, SearchIcon, SparkleIcon } from 'lucide-react'
+import {
+  ArrowUpRightIcon,
+  DownloadIcon,
+  PlusIcon,
+  SearchIcon,
+  SparkleIcon,
+} from 'lucide-react'
 import { useDebouncer } from '@tanstack/react-pacer'
 import { useState } from 'react'
 import { convexQuery } from '@convex-dev/react-query'
@@ -38,7 +44,7 @@ export const Route = createFileRoute('/discovery/')({
   }),
   loader: async ({ deps: { search, featured }, context }) => {
     let allSkills = await context.queryClient.ensureQueryData(
-      convexQuery(api.stats.getAllSkills, {})
+      convexQuery(api.stats.getAllSkills, {}),
     )
 
     if (search) {
@@ -163,7 +169,7 @@ function App() {
 
   const debouncedSearch = useDebouncer(
     (search: string | undefined) => updateSearch({ search }),
-    { wait: 300 }
+    { wait: 300 },
   )
 
   const clearFilters = () => {
@@ -177,7 +183,7 @@ function App() {
 
   return (
     <>
-      <main className='w-full'>
+      <main className="w-full">
         <div className="max-w-7xl min-h-80 justify-center h-full mx-auto border-x border-b flex flex-col relative">
           <PlusIcon
             aria-hidden="true"
@@ -188,9 +194,7 @@ function App() {
           <PlusIcon className="absolute text-neutral-300 z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
 
           <div className="p-8">
-            <h1 className="text-4xl">
-              Discovery
-            </h1>
+            <h1 className="text-4xl">Discovery</h1>
             <p className="text-zinc-400 max-w-2xl mt-1 mb-4">
               Find and install skills for your AI dev workflow
             </p>
@@ -226,8 +230,8 @@ function App() {
 
           <div className="px-8 pb-8 space-y-3">
             <p className="text-sm text-muted-foreground">
-              Don't see your skill? Run command below and
-              it'll automatically show up here.
+              Don't see your skill? Run command below and it'll automatically
+              show up here.
             </p>
             <CodeBlockCommand skill="<user>/<repo>" />
             <p className="text-sm text-muted-foreground">
@@ -242,7 +246,7 @@ function App() {
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-x divide-y border-y">
               {allSkills.map((skill) => (
                 <div key={skill.name} className="p-8">
-                  <div className='flex items-center gap-1'>
+                  <div className="flex items-center gap-1">
                     {skill.isFeatured && (
                       <Badge variant="outline">
                         <SparkleIcon />
@@ -273,7 +277,9 @@ function App() {
                     </div>
                   </div>
                   {skill.repo && (
-                    <CodeBlockCommand skill={skill.isFeatured && skill.featuredName ? skill.featuredName : skill.repo} />
+                    <CodeBlockCommand
+                      skill={`${skill.isFeatured && skill.featuredName ? skill.featuredName : skill.repo} --skill ${skill.name}`}
+                    />
                   )}
                 </div>
               ))}
