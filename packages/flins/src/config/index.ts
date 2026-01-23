@@ -6,11 +6,11 @@ import agentsConfig from "./agents.json" with { type: "json" };
 interface AgentConfigEntry {
   name: string;
   displayName: string;
-  configDir: string;
   skillsDir: string;
   globalSkillsDir: string;
   commandsDir?: string;
   globalCommandsDir?: string;
+  installDir: string;
 }
 
 const home = homedir();
@@ -27,14 +27,14 @@ export function loadAgentConfig(): Record<AgentType, AgentConfig> {
     config[agentType] = {
       name: agent.name,
       displayName: agent.displayName,
-      configDir: agent.configDir.replace("~", home),
       skillsDir: agent.skillsDir,
       globalSkillsDir: agent.globalSkillsDir.replace("~", home),
       commandsDir: agent.commandsDir,
       globalCommandsDir: agent.globalCommandsDir?.replace("~", home),
+      installDir: agent.installDir.replace("~", home),
       detectInstalled: async () => {
-        const configDirPath = agent.configDir.replace("~", home);
-        return existsSync(configDirPath);
+        const installPath = agent.installDir.replace("~", home);
+        return existsSync(installPath);
       },
     };
   }

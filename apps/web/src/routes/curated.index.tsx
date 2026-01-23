@@ -213,7 +213,7 @@ function App() {
           </div>
 
           <div className="px-8 pb-4">
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-muted-foreground">
               Looking for community skills?{' '}
               <Link to="/discovery" className="text-cyan-400 hover:underline">
                 Browse all skills in discovery

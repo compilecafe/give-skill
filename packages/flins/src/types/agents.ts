@@ -15,15 +15,21 @@ export type AgentType =
   | "factory"
   | "letta"
   | "qoder"
-  | "qwen";
+  | "qwen"
+  | "clawdbot"
+  | "kiro"
+  | "openhands"
+  | "zencoder"
+  | "neovate"
+  | "commandcode";
 
 export interface AgentConfig {
   name: string;
   displayName: string;
-  configDir: string;
   skillsDir: string;
   globalSkillsDir: string;
   commandsDir?: string;
   globalCommandsDir?: string;
+  installDir: string;
   detectInstalled: () => Promise<boolean>;
 }

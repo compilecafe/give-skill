@@ -2,7 +2,7 @@
   "opencode": {
     "name": "opencode",
     "displayName": "OpenCode",
-    "configDir": "~/.config/opencode",
+    "installDir": "~/.config/opencode",
     "skillsDir": ".opencode/skills",
     "globalSkillsDir": "~/.config/opencode/skills",
     "commandsDir": ".opencode/commands",
@@ -11,7 +11,7 @@
   "claude-code": {
     "name": "claude-code",
     "displayName": "Claude Code",
-    "configDir": "~/.claude",
+    "installDir": "~/.claude",
     "skillsDir": ".claude/skills",
     "globalSkillsDir": "~/.claude/skills",
     "commandsDir": ".claude/commands",
@@ -20,84 +20,84 @@
   "codex": {
     "name": "codex",
     "displayName": "Codex",
-    "configDir": "~/.codex",
+    "installDir": "~/.codex",
     "skillsDir": ".codex/skills",
     "globalSkillsDir": "~/.codex/skills"
   },
   "cursor": {
     "name": "cursor",
     "displayName": "Cursor",
-    "configDir": "~/.cursor",
+    "installDir": "~/.cursor",
     "skillsDir": ".cursor/skills",
     "globalSkillsDir": "~/.cursor/skills"
   },
   "amp": {
     "name": "amp",
     "displayName": "Amp",
-    "configDir": "~/.config/agents",
+    "installDir": "~/.amp",
     "skillsDir": ".agents/skills",
     "globalSkillsDir": "~/.config/agents/skills"
   },
   "kilo": {
     "name": "kilo",
     "displayName": "Kilo Code",
-    "configDir": "~/.kilocode",
+    "installDir": "~/.kilocode",
     "skillsDir": ".kilocode/skills",
     "globalSkillsDir": "~/.kilocode/skills"
   },
   "roo": {
     "name": "roo",
     "displayName": "Roo Code",
-    "configDir": "~/.roo",
+    "installDir": "~/.roo",
     "skillsDir": ".roo/skills",
     "globalSkillsDir": "~/.roo/skills"
   },
   "goose": {
     "name": "goose",
     "displayName": "Goose",
-    "configDir": "~/.config/goose",
+    "installDir": "~/.goose",
     "skillsDir": ".goose/skills",
     "globalSkillsDir": "~/.config/goose/skills"
   },
   "antigravity": {
     "name": "antigravity",
     "displayName": "Antigravity",
-    "configDir": "~/.gemini/antigravity",
+    "installDir": "~/.gemini/antigravity",
     "skillsDir": ".agent/skills",
     "globalSkillsDir": "~/.gemini/antigravity/skills"
   },
   "copilot": {
     "name": "copilot",
     "displayName": "GitHub Copilot",
-    "configDir": "~/.copilot",
+    "installDir": "~/.copilot",
     "skillsDir": ".github/skills",
     "globalSkillsDir": "~/.copilot/skills"
   },
   "gemini": {
     "name": "gemini",
     "displayName": "Gemini CLI",
-    "configDir": "~/.gemini",
+    "installDir": "~/.gemini",
     "skillsDir": ".gemini/skills",
     "globalSkillsDir": "~/.gemini/skills"
   },
   "windsurf": {
     "name": "windsurf",
     "displayName": "Windsurf",
-    "configDir": "~/.codeium/windsurf",
+    "installDir": "~/.windsurf",
     "skillsDir": ".windsurf/skills",
     "globalSkillsDir": "~/.codeium/windsurf/skills"
   },
   "trae": {
     "name": "trae",
     "displayName": "Trae",
-    "configDir": "~/.trae",
+    "installDir": "~/.trae",
     "skillsDir": ".trae/skills",
     "globalSkillsDir": "~/.trae/skills"
   },
   "factory": {
     "name": "factory",
     "displayName": "Factory Droid",
-    "configDir": "~/.factory",
+    "installDir": "~/.factory",
     "skillsDir": ".factory/skills",
     "globalSkillsDir": "~/.factory/skills",
     "commandsDir": ".factory/commands",
@@ -106,22 +106,64 @@
   "letta": {
     "name": "letta",
     "displayName": "Letta",
-    "configDir": "~/.letta",
+    "installDir": "~/.letta",
     "skillsDir": ".skills",
     "globalSkillsDir": "~/.letta/skills"
   },
   "qoder": {
     "name": "qoder",
     "displayName": "Qoder",
-    "configDir": "~/.qoder",
+    "installDir": "~/.qoder",
     "skillsDir": ".qoder/skills",
     "globalSkillsDir": "~/.qoder/skills"
   },
   "qwen": {
     "name": "qwen",
     "displayName": "Qwen Code",
-    "configDir": "~/.qwen",
+    "installDir": "~/.qwen",
     "skillsDir": ".qwen/skills",
     "globalSkillsDir": "~/.qwen/skills"
+  },
+  "clawdbot": {
+    "name": "clawdbot",
+    "displayName": "Clawdbot",
+    "installDir": "~/.clawdbot",
+    "skillsDir": ".clawdbot/skills",
+    "globalSkillsDir": "~/.clawdbot/skills"
+  },
+  "kiro": {
+    "name": "kiro",
+    "displayName": "Kiro",
+    "installDir": "~/.kiro",
+    "skillsDir": ".kiro/skills",
+    "globalSkillsDir": "~/.kiro/skills"
+  },
+  "openhands": {
+    "name": "openhands",
+    "displayName": "OpenHands",
+    "installDir": "~/.openhands",
+    "skillsDir": ".openhands/skills",
+    "globalSkillsDir": "~/.openhands/skills"
+  },
+  "zencoder": {
+    "name": "zencoder",
+    "displayName": "Zencoder",
+    "installDir": "~/.zencoder",
+    "skillsDir": ".zencoder/skills",
+    "globalSkillsDir": "~/.zencoder/skills"
+  },
+  "neovate": {
+    "name": "neovate",
+    "displayName": "Neovate",
+    "installDir": "~/.neovate",
+    "skillsDir": ".neovate/skills",
+    "globalSkillsDir": "~/.neovate/skills"
+  },
+  "commandcode": {
+    "name": "commandcode",
+    "displayName": "CommandCode",
+    "installDir": "~/.commandcode",
+    "skillsDir": ".commandcode/skills",
+    "globalSkillsDir": "~/.commandcode/skills"
   }
 }

@@ -18,7 +18,7 @@ Install, manage, and update skills and commands across 17+ AI development tools 
 
 ## Supported Agents
 
-[Antigravity](https://antigravity.google/), [Amp](http://ampcode.com/), [Claude Code](https://claude.com/product/claude-code), [Codex](https://openai.com/codex/), [Copilot](https://github.com/features/copilot), [Cursor](http://cursor.com/), [Factory Droid](https://factory.ai/), [Gemini CLI](https://geminicli.com/), [Goose](https://goose.ai/), [Kilo Code](https://kilo.ai/), [Letta](https://www.letta.com/), [OpenCode](https://opencode.ai/), [Qoder](https://qoder.com/), [Qwen Code](https://qwenlm.github.io/qwen-code-docs/), [Roo Code](https://roocode.com/), [Trae](http://trae.ai/), [Windsurf](http://windsurf.com/)
+[Antigravity](https://antigravity.google/), [Amp](http://ampcode.com/), [Claude Code](https://claude.com/product/claude-code), [Clawdbot](https://clawdbot.com/), [Codex](https://openai.com/codex/), [CommandCode](https://commandcode.ai/), [Copilot](https://github.com/features/copilot), [Cursor](http://cursor.com/), [Factory Droid](https://factory.ai/), [Gemini CLI](https://geminicli.com/), [Goose](https://goose.ai/), [Kilo Code](https://kilo.ai/), [Kiro](https://kiro.dev/), [Letta](https://www.letta.com/), [Neovate](https://neovateai.dev/), [OpenCode](https://opencode.ai/), [OpenHands](https://openhands.ai/), [Qoder](https://qoder.com/), [Qwen Code](https://qwenlm.github.io/qwen-code-docs/), [Roo Code](https://roocode.com/), [Trae](http://trae.ai/), [Windsurf](http://windsurf.com/), [Zencoder](https://zencoder.ai/)
 
 ## Installation
 
@@ -174,6 +174,12 @@ Use `--no-symlink` to copy files directly instead.
 | Goose         | `.goose/skills/<name>/`    | `~/.config/goose/skills/<name>/`       | —                              | —                                       |
 | Qoder         | `.qoder/skills/<name>/`    | `~/.qoder/skills/<name>/`              | —                              | —                                       |
 | Qwen Code     | `.qwen/skills/<name>/`     | `~/.qwen/skills/<name>/`                | —                              | —                                       |
+| Clawdbot      | `.clawdbot/skills/<name>/` | `~/.clawdbot/skills/<name>/`            | —                              | —                                       |
+| Kiro          | `.kiro/skills/<name>/`     | `~/.kiro/skills/<name>/`                | —                              | —                                       |
+| OpenHands     | `.openhands/skills/<name>/`| `~/.openhands/skills/<name>/`           | —                              | —                                       |
+| Zencoder      | `.zencoder/skills/<name>/` | `~/.zencoder/skills/<name>/`            | —                              | —                                       |
+| Neovate       | `.neovate/skills/<name>/`  | `~/.neovate/skills/<name>/`             | —                              | —                                       |
+| CommandCode   | `.commandcode/skills/<name>/` | `~/.commandcode/skills/<name>/`       | —                              | —                                       |
 
 For global installations, source files are stored in `~/.flins/.agents/skills/` and `~/.flins/.agents/commands/`.
 

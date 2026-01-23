@@ -66,4 +66,10 @@ export const SUPPORTED_AGENTS: Agent[] = [
   },
   { name: 'Qoder', link: 'https://qoder.com/', logo: '/brands/qoder.png' },
   { name: 'Qwen Code', logo: '/brands/qwen.png', link: 'https://qwenlm.github.io/qwen-code-docs/' },
+  { name: 'Clawdbot', logo: '/brands/clawdbot.svg', link: 'https://clawd.bot/' },
+  { name: 'Kiro', logo: '/brands/kiro.svg', link: 'https://kiro.dev/' },
+  { name: 'OpenHands', logo: '/brands/openhands.svg', link: 'https://openhands.dev/' },
+  { name: 'Zencoder', logo: '/brands/zencoder.svg', link: 'https://zencoder.ai/' },
+  { name: 'Neovate', logo: '/brands/neovate.svg', link: 'https://neovateai.dev/' },
+  { name: 'CommandCode', logo: '/brands/command-code.svg', link: 'https://commandcode.ai/' },
 ]
