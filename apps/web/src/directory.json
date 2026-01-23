@@ -79,6 +79,18 @@
     ]
   },
   {
+    "name": "huggingface",
+    "source": "https://github.com/huggingface/skills/",
+    "description": "Official AI agent skills from Hugging Face for AI/ML tasks. Dataset creation, model training, evaluation, compute jobs, paper publishing, and experiment tracking",
+    "author": "huggingface",
+    "tags": [
+      "huggingface",
+      "machine-learning",
+      "ai",
+      "transformers"
+    ]
+  },
+  {
     "name": "remotion",
     "source": "https://github.com/remotion-dev/skills",
     "description": "Official AI agent skills from the Remotion team for building programmatic videos with React",
@@ -86,6 +98,17 @@
     "tags": [
       "remotion",
       "video"
+    ]
+  },
+  {
+    "name": "sentry",
+    "source": "https://github.com/getsentry/skills",
+    "description": "Official AI agent skills from Sentry for development workflows. Code review, commit conventions, PR creation, bug finding, and brand guidelines",
+    "author": "getsentry",
+    "tags": [
+      "sentry",
+      "monitoring",
+      "error-tracking"
     ]
   },
   {
@@ -109,6 +132,18 @@
     "author": "supabase",
     "tags": [
       "postgresql"
+    ]
+  },
+  {
+    "name": "trailofbits",
+    "source": "https://github.com/trailofbits/skills",
+    "description": "Official AI agent skills from Trail of Bits for security research and auditing. Smart contract security, static analysis, vulnerability detection, property-based testing, and security workflows",
+    "author": "trailofbits",
+    "tags": [
+      "security",
+      "audit",
+      "smart-contracts",
+      "static-analysis"
     ]
   }
 ]
