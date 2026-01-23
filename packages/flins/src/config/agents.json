@@ -172,5 +172,12 @@
     "installDir": "~/.pi",
     "skillsDir": ".pi/skills",
     "globalSkillsDir": "~/.pi/agent/skills"
+  },
+  "codebuddy": {
+    "name": "codebuddy",
+    "displayName": "CodeBuddy",
+    "installDir": "~/.codebuddy",
+    "skillsDir": ".codebuddy/skills",
+    "globalSkillsDir": "~/.codebuddy/skills"
   }
 }

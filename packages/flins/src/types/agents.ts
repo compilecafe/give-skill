@@ -22,7 +22,8 @@ export type AgentType =
   | "zencoder"
   | "neovate"
   | "commandcode"
-  | "pi";
+    | "pi"
+  | "codebuddy";
 
 export interface AgentConfig {
   name: string;

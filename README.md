@@ -4,7 +4,7 @@
 
 **Universal skill and command manager for AI coding agents**
 
-Install, manage, and update skills and commands across 17+ AI development tools from a single unified interface.
+Install, manage, and update skills and commands across 19+ AI development tools from a single unified interface.
 
 [![npm version](https://badge.fury.io/js/flins.svg)](https://www.npmjs.org/package/flins)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-standard-blue)](https://agentskills.io)
@@ -18,7 +18,7 @@ Install, manage, and update skills and commands across 17+ AI development tools 
 
 ## Supported Agents
 
-[Antigravity](https://antigravity.google/), [Amp](http://ampcode.com/), [Claude Code](https://claude.com/product/claude-code), [Clawdbot](https://clawdbot.com/), [Codex](https://openai.com/codex/), [CommandCode](https://commandcode.ai/), [Copilot](https://github.com/features/copilot), [Cursor](http://cursor.com/), [Factory Droid](https://factory.ai/), [Gemini CLI](https://geminicli.com/), [Goose](https://goose.ai/), [Kilo Code](https://kilo.ai/), [Kiro](https://kiro.dev/), [Letta](https://www.letta.com/), [Neovate](https://neovateai.dev/), [OpenCode](https://opencode.ai/), [OpenHands](https://openhands.ai/), [Pi](https://shittycodingagent.ai/), [Qoder](https://qoder.com/), [Qwen Code](https://qwenlm.github.io/qwen-code-docs/), [Roo Code](https://roocode.com/), [Trae](http://trae.ai/), [Windsurf](http://windsurf.com/), [Zencoder](https://zencoder.ai/)
+[Antigravity](https://antigravity.google/), [Amp](http://ampcode.com/), [Claude Code](https://claude.com/product/claude-code), [Clawdbot](https://clawdbot.com/), [CodeBuddy](https://www.codebuddy.ai/), [Codex](https://openai.com/codex/), [CommandCode](https://commandcode.ai/), [Copilot](https://github.com/features/copilot), [Cursor](http://cursor.com/), [Factory Droid](https://factory.ai/), [Gemini CLI](https://geminicli.com/), [Goose](https://goose.ai/), [Kilo Code](https://kilo.ai/), [Kiro](https://kiro.dev/), [Letta](https://www.letta.com/), [Neovate](https://neovateai.dev/), [OpenCode](https://opencode.ai/), [OpenHands](https://openhands.ai/), [Pi](https://shittycodingagent.ai/), [Qoder](https://qoder.com/), [Qwen Code](https://qwenlm.github.io/qwen-code-docs/), [Roo Code](https://roocode.com/), [Trae](http://trae.ai/), [Windsurf](http://windsurf.com/), [Zencoder](https://zencoder.ai/)
 
 ## Installation
 
@@ -181,6 +181,7 @@ Use `--no-symlink` to copy files directly instead.
 | Neovate       | `.neovate/skills/<name>/`  | `~/.neovate/skills/<name>/`             | —                              | —                                       |
 | CommandCode   | `.commandcode/skills/<name>/` | `~/.commandcode/skills/<name>/`       | —                              | —                                       |
 | Pi            | `.pi/skills/<name>/`       | `~/.pi/agent/skills/<name>/`            | —                              | —                                       |
+| CodeBuddy     | `.codebuddy/skills/<name>/` | `~/.codebuddy/skills/<name>/`          | —                              | —                                       |
 
 For global installations, source files are stored in `~/.flins/.agents/skills/` and `~/.flins/.agents/commands/`.
 
