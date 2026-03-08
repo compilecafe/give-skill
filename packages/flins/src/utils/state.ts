@@ -55,10 +55,10 @@ export function findInstallations(
 
   for (const [agentType, agentConfig] of Object.entries(agents)) {
     if (installableType === "skill") {
+      const skillsDir =
+        options.type === "global" ? agentConfig.globalSkillsDir : agentConfig.skillsDir;
       const skillsDirPath =
-        options.type === "global"
-          ? join(basePath, expandHomeDir(agentConfig.globalSkillsDir))
-          : join(basePath, agentConfig.skillsDir);
+        options.type === "global" ? expandHomeDir(skillsDir) : join(basePath, skillsDir);
 
       if (existsSync(skillsDirPath)) {
         try {
@@ -83,10 +83,7 @@ export function findInstallations(
               agent: agentType as AgentType,
               installableType: "skill",
               type: options.type,
-              path:
-                options.type === "global"
-                  ? join(agentConfig.globalSkillsDir, matchingEntry.name)
-                  : join(agentConfig.skillsDir, matchingEntry.name),
+              path: join(skillsDir, matchingEntry.name),
             });
           }
         } catch {}
@@ -96,9 +93,7 @@ export function findInstallations(
         options.type === "global" ? agentConfig.globalCommandsDir : agentConfig.commandsDir;
       if (commandsDir) {
         const commandsDirPath =
-          options.type === "global"
-            ? join(basePath, expandHomeDir(commandsDir))
-            : join(basePath, commandsDir);
+          options.type === "global" ? expandHomeDir(commandsDir) : join(basePath, commandsDir);
 
         if (existsSync(commandsDirPath)) {
           try {

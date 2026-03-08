@@ -4,7 +4,7 @@
 
 **Universal skill and command manager for AI coding agents**
 
-Install, manage, and update skills and commands across 19+ AI development tools from a single unified interface.
+Install, manage, and update skills and commands across 42 supported agent integrations from one CLI.
 
 [![npm version](https://badge.fury.io/js/flins.svg)](https://www.npmjs.org/package/flins)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-standard-blue)](https://agentskills.io)
@@ -18,55 +18,56 @@ Install, manage, and update skills and commands across 19+ AI development tools 
 
 ## Supported Agents
 
-<table>
-  <tr>
-    <td align="center" width="60"><a href="https://claude.com/product/claude-code"><img src="apps/web/public/brands/claude-code.svg" alt="Claude Code" width="32"></a></td>
-    <td align="center" width="60"><a href="http://cursor.com/"><img src="apps/web/public/brands/cursor.png" alt="Cursor" width="32"></a></td>
-    <td align="center" width="60"><a href="https://github.com/features/copilot"><img src="apps/web/public/brands/github-copilot.png" alt="Copilot" width="32"></a></td>
-    <td align="center" width="60"><a href="http://windsurf.com/"><img src="apps/web/public/brands/windsurf.png" alt="Windsurf" width="32"></a></td>
-    <td align="center" width="60"><a href="https://geminicli.com/"><img src="apps/web/public/brands/gemini-cli.svg" alt="Gemini CLI" width="32"></a></td>
-    <td align="center" width="60"><a href="https://factory.ai/"><img src="apps/web/public/brands/factory.png" alt="Factory Droid" width="32"></a></td>
-  </tr>
-  <tr>
-    <td align="center" width="60"><a href="https://opencode.ai/"><img src="apps/web/public/brands/opencode.svg" alt="OpenCode" width="32"></a></td>
-    <td align="center" width="60"><a href="https://openhands.ai/"><img src="apps/web/public/brands/openhands.svg" alt="OpenHands" width="32"></a></td>
-    <td align="center" width="60"><a href="https://roocode.com/"><img src="apps/web/public/brands/roo.png" alt="Roo Code" width="32"></a></td>
-    <td align="center" width="60"><a href="http://ampcode.com/"><img src="apps/web/public/brands/amp.png" alt="Amp" width="32"></a></td>
-    <td align="center" width="60"><a href="https://goose.ai/"><img src="apps/web/public/brands/goose.png" alt="Goose" width="32"></a></td>
-    <td align="center" width="60"><a href="https://kilo.ai/"><img src="apps/web/public/brands/kilo.png" alt="Kilo Code" width="32"></a></td>
-  </tr>
-  <tr>
-    <td align="center" width="60"><a href="http://trae.ai/"><img src="apps/web/public/brands/trae.svg" alt="Trae" width="32"></a></td>
-    <td align="center" width="60"><a href="https://www.letta.com/"><img src="apps/web/public/brands/letta.png" alt="Letta" width="32"></a></td>
-    <td align="center" width="60"><a href="https://antigravity.google/"><img src="apps/web/public/brands/antigravity.png" alt="Antigravity" width="32"></a></td>
-    <td align="center" width="60"><a href="https://kiro.dev/"><img src="apps/web/public/brands/kiro.svg" alt="Kiro" width="32"></a></td>
-    <td align="center" width="60"><a href="https://qoder.com/"><img src="apps/web/public/brands/qoder.png" alt="Qoder" width="32"></a></td>
-    <td align="center" width="60"><a href="https://shittycodingagent.ai/"><img src="apps/web/public/brands/pi.svg" alt="Pi" width="32"></a></td>
-  </tr>
-  <tr>
-    <td align="center" width="60"><a href="https://neovateai.dev/"><img src="apps/web/public/brands/neovate.svg" alt="Neovate" width="32"></a></td>
-    <td align="center" width="60"><a href="https://commandcode.ai/"><img src="apps/web/public/brands/command-code.svg" alt="CommandCode" width="32"></a></td>
-    <td align="center" width="60"><a href="https://clawdbot.com/"><img src="apps/web/public/brands/clawdbot.svg" alt="Clawdbot" width="32"></a></td>
-    <td align="center" width="60"><a href="https://www.codebuddy.ai/"><img src="apps/web/public/brands/codebuddy.svg" alt="CodeBuddy" width="32"></a></td>
-    <td align="center" width="60"><a href="https://zencoder.ai/"><img src="apps/web/public/brands/zencoder.svg" alt="Zencoder" width="32"></a></td>
-    <td align="center" width="60"><a href="https://qwenlm.github.io/qwen-code-docs/"><img src="apps/web/public/brands/qwen.png" alt="Qwen Code" width="32"></a></td>
-  </tr>
-  <tr>
-    <td align="center" width="60"><a href="https://openai.com/codex/"><img src="apps/web/public/brands/codex.png" alt="Codex" width="32"></a></td>
-  </tr>
-</table>
+flins supports these canonical `--agent` values:
+
+| Project folder | Agents | `--agent` values |
+| --- | --- | --- |
+| `.agents/skills` | Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi Code CLI, OpenCode, Replit, Universal | `amp`, `cline`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, `kimi-cli`, `opencode`, `replit`, `universal` |
+| `.agent/skills` | Antigravity | `antigravity` |
+| `.augment/skills` | Augment | `augment` |
+| `.claude/skills` | Claude Code | `claude-code` |
+| `skills/` | OpenClaw | `openclaw` |
+| `.codebuddy/skills` | CodeBuddy | `codebuddy` |
+| `.commandcode/skills` | Command Code | `command-code` |
+| `.continue/skills` | Continue | `continue` |
+| `.cortex/skills` | Cortex Code | `cortex` |
+| `.crush/skills` | Crush | `crush` |
+| `.factory/skills` | Droid | `droid` |
+| `.goose/skills` | Goose | `goose` |
+| `.junie/skills` | Junie | `junie` |
+| `.iflow/skills` | iFlow CLI | `iflow-cli` |
+| `.kilocode/skills` | Kilo Code | `kilo` |
+| `.kiro/skills` | Kiro CLI | `kiro-cli` |
+| `.kode/skills` | Kode | `kode` |
+| `.skills` | Letta | `letta` |
+| `.mcpjam/skills` | MCPJam | `mcpjam` |
+| `.vibe/skills` | Mistral Vibe | `mistral-vibe` |
+| `.mux/skills` | Mux | `mux` |
+| `.openhands/skills` | OpenHands | `openhands` |
+| `.pi/skills` | Pi | `pi` |
+| `.qoder/skills` | Qoder | `qoder` |
+| `.qwen/skills` | Qwen Code | `qwen-code` |
+| `.roo/skills` | Roo Code | `roo` |
+| `.trae/skills` | Trae, Trae CN | `trae`, `trae-cn` |
+| `.windsurf/skills` | Windsurf | `windsurf` |
+| `.zencoder/skills` | Zencoder | `zencoder` |
+| `.neovate/skills` | Neovate | `neovate` |
+| `.pochi/skills` | Pochi | `pochi` |
+| `.adal/skills` | AdaL | `adal` |
+
+Run `flins agents` when you want the live project and global folder matrix.
 
 ## Installation
 
 ```bash
-# Using npx (recommended)
-npx flins@latest add <source>
-
 # Using bunx
 bunx --bun flins@latest add <source>
 
-# Install globally
-npm install -g flins
+# Using npx
+npx flins@latest add <source>
+
+# Install globally with Bun
+bun add -g flins
 flins add <source>
 ```
 
@@ -82,6 +83,9 @@ flins add expo/skills
 # Install to specific agent
 flins add expo -a claude-code
 
+# Inspect supported agents and folders
+flins agents
+
 # Install globally
 flins add expo --global
 
@@ -93,34 +97,12 @@ flins search
 
 > See [Source Formats](#source-formats) below for all supported sources (GitHub, GitLab, Codeberg, etc.)
 
-## Commands (Experimental)
-
-> **Note:** Command support is experimental and varies by agent. No standard exists yet. Commands may work in one agent but fail in another due to incompatible syntax or features.
-
-### Command Types
-
-| Type       | Status            | Agents                       |
-| ---------- | ----------------- | ---------------------------- |
-| Markdown   | Supported         | Claude Code, OpenCode, Droid |
-| JSON       | Not supported yet | OpenCode only                |
-| Executable | Not supported yet | Factory Droid only           |
-
-### Markdown Compatibility
-
-| Feature         | Claude Code | OpenCode | Factory Droid |
-| --------------- | ----------- | -------- | ------------- |
-| `$ARGUMENTS`    | ✅          | ✅       | ✅            |
-| `$1`, `$2`...   | ✅          | ✅       | ❌            |
-| Bash `!command` | ✅          | ✅       | ❌            |
-| File refs `@`   | ✅          | ✅       | ❌            |
-| `allowed-tools` | ✅          | ❌       | ❌            |
-| `hooks`         | ✅          | ❌       | ❌            |
-
 ## CLI Commands
 
 | Command           | Description                         |
 | ----------------- | ----------------------------------- |
 | `flins add <src>` | Install skills/commands from source |
+| `flins agents`    | Show supported agents and folders   |
 | `flins update`    | Update installed skills/commands    |
 | `flins outdated`  | Check for available updates         |
 | `flins remove`    | Uninstall skills/commands           |
@@ -131,12 +113,16 @@ flins search
 **Common options:**
 
 - `-g, --global` - Install globally (user-level)
-- `-a, --agent <name>` - Target specific agent
+- `-a, --agent <name>` - Target a specific canonical agent name or shared-folder group member
 - `-s, --skill <name>` - Install specific skill by name
 - `-y, --yes` - Auto-confirm all prompts
 - `-f, --force` - Skip all confirmations
 - `--silent` - Suppress non-error output
 - `--no-symlink` - Copy files directly instead of symlinks
+
+Use `flins agents` when you need the current canonical ids and folder layout.
+
+Command installation exists, but it is still experimental and currently limited to `claude-code`, `opencode`, and `droid`.
 
 ### Source Formats
 
@@ -194,12 +180,13 @@ By default, flins uses symlinks for efficient skill management:
 └── commands/
     └── deploy.md
 
-# Symlinks created for each agent:
+# Agents that use .agents/skills directly read from it:
+.agents/skills/better-auth     # amp, cline, codex, cursor, gemini-cli, github-copilot, kimi-cli, opencode, replit, universal
+
+# Agent-specific folders receive symlinks:
 .claude/skills/better-auth   → .agents/skills/better-auth
-.cursor/skills/better-auth   → .agents/skills/better-auth
 .windsurf/skills/better-auth → .agents/skills/better-auth
-.gemini/skills/better-auth   → .agents/skills/better-auth
-.codex/skills/better-auth    → .agents/skills/better-auth
+.roo/skills/better-auth      → .agents/skills/better-auth
 ```
 
 **Benefits:**
@@ -211,33 +198,9 @@ Use `--no-symlink` to copy files directly instead.
 
 ## Where Files Go
 
-| Agent         | Skills (project)           | Skills (global)                        | Commands (project)             | Commands (global)                       |
-| ------------- | -------------------------- | -------------------------------------- | ------------------------------ | --------------------------------------- |
-| Claude Code   | `.claude/skills/<name>/`   | `~/.claude/skills/<name>/`             | `.claude/commands/<name>.md`   | `~/.claude/commands/<name>.md`          |
-| Cursor        | `.cursor/skills/<name>/`   | `~/.cursor/skills/<name>/`             | —                              | —                                       |
-| Copilot       | `.github/skills/<name>/`   | `~/.copilot/skills/<name>/`            | —                              | —                                       |
-| Gemini CLI    | `.gemini/skills/<name>/`   | `~/.gemini/skills/<name>/`             | —                              | —                                       |
-| Windsurf      | `.windsurf/skills/<name>/` | `~/.codeium/windsurf/skills/<name>/`   | —                              | —                                       |
-| Trae          | `.trae/skills/<name>/`     | Project-level only                     | —                              | —                                       |
-| Factory Droid | `.factory/skills/<name>/`  | `~/.factory/skills/<name>/`            | `.factory/commands/<name>.md`  | `~/.factory/commands/<name>.md`         |
-| Letta         | `.skills/<name>/`          | `~/.letta/skills/<name>/`              | —                              | —                                       |
-| OpenCode      | `.opencode/skills/<name>/` | `~/.config/opencode/skills/<name>/`    | `.opencode/commands/<name>.md` | `~/.config/opencode/commands/<name>.md` |
-| Codex         | `.codex/skills/<name>/`    | `~/.codex/skills/<name>/`              | —                              | —                                       |
-| Antigravity   | `.agent/skills/<name>/`    | `~/.gemini/antigravity/skills/<name>/` | —                              | —                                       |
-| Amp           | `.agents/skills/<name>/`   | `~/.config/agents/skills/<name>/`      | —                              | —                                       |
-| Kilo Code     | `.kilocode/skills/<name>/` | `~/.kilocode/skills/<name>/`           | —                              | —                                       |
-| Roo Code      | `.roo/skills/<name>/`      | `~/.roo/skills/<name>/`                | —                              | —                                       |
-| Goose         | `.goose/skills/<name>/`    | `~/.config/goose/skills/<name>/`       | —                              | —                                       |
-| Qoder         | `.qoder/skills/<name>/`    | `~/.qoder/skills/<name>/`              | —                              | —                                       |
-| Qwen Code     | `.qwen/skills/<name>/`     | `~/.qwen/skills/<name>/`                | —                              | —                                       |
-| Clawdbot      | `.clawdbot/skills/<name>/` | `~/.clawdbot/skills/<name>/`            | —                              | —                                       |
-| Kiro          | `.kiro/skills/<name>/`     | `~/.kiro/skills/<name>/`                | —                              | —                                       |
-| OpenHands     | `.openhands/skills/<name>/`| `~/.openhands/skills/<name>/`           | —                              | —                                       |
-| Zencoder      | `.zencoder/skills/<name>/` | `~/.zencoder/skills/<name>/`            | —                              | —                                       |
-| Neovate       | `.neovate/skills/<name>/`  | `~/.neovate/skills/<name>/`             | —                              | —                                       |
-| CommandCode   | `.commandcode/skills/<name>/` | `~/.commandcode/skills/<name>/`       | —                              | —                                       |
-| Pi            | `.pi/skills/<name>/`       | `~/.pi/agent/skills/<name>/`            | —                              | —                                       |
-| CodeBuddy     | `.codebuddy/skills/<name>/` | `~/.codebuddy/skills/<name>/`          | —                              | —                                       |
+Project and global folders vary by agent, and some agents intentionally share the same canonical folder.
+
+Use `flins agents` for the live project and global folder matrix.
 
 For global installations, source files are stored in `~/.flins/.agents/skills/` and `~/.flins/.agents/commands/`.
 

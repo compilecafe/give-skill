@@ -1,4 +1,5 @@
 import * as p from "@clack/prompts";
+import type { Option } from "@clack/prompts";
 import pc from "picocolors";
 import { parseSource, buildFileUrl, isWellKnownSource } from "@/core/git/source-parser";
 import { cloneRepo, cleanupTempDir, getCommitHash } from "@/infrastructure/git-client";
@@ -19,7 +20,13 @@ import {
   getCommandSupportAgents,
 } from "@/infrastructure/command-installer";
 import { detectInstalledAgents } from "@/core/agents/detector";
-import { agents } from "@/config";
+import {
+  agents,
+  getAgentNames,
+  getAgentOptionHint,
+  getSharedAgentDirectoryNotes,
+  normalizeAgentNames,
+} from "@/config";
 import { addSkill } from "@/core/state/global";
 import { addLocalSkill } from "@/core/state/local";
 import type { Skill, ParsedSource } from "@/types/skills";
@@ -404,16 +411,15 @@ async function selectAgentsForSkills(
   context: ServiceContext,
 ): Promise<AgentType[] | null> {
   if (options.agent && options.agent.length > 0) {
-    const validAgents = Object.keys(agents) as AgentType[];
-    const invalidAgents = options.agent.filter((a) => !validAgents.includes(a as AgentType));
+    const parsedAgents = normalizeAgentNames(options.agent);
 
-    if (invalidAgents.length > 0) {
-      p.log.error(`Invalid agents: ${invalidAgents.join(", ")}`);
-      p.log.info(`Valid agents: ${validAgents.join(", ")}`);
+    if (parsedAgents.invalid.length > 0) {
+      p.log.error(`Invalid agents: ${parsedAgents.invalid.join(", ")}`);
+      p.log.info("Run flins agents to inspect supported names and shared folders.");
       return null;
     }
 
-    return options.agent as AgentType[];
+    return parsedAgents.agents;
   }
 
   context.spinner.start("Finding AI tools...");
@@ -424,9 +430,10 @@ async function selectAgentsForSkills(
 
   if (options.yes || options.force) {
     if (installedAgents.length === 0) {
-      const allAgentsList = Object.keys(agents) as AgentType[];
-      p.log.info("Installing to all agents (none detected)");
-      return allAgentsList;
+      p.log.info(
+        "No installed agents detected. Defaulting to Universal (.agents/skills). Use --agent to target a specific tool.",
+      );
+      return ["universal"];
     }
     if (installedAgents.length === 1) {
       const firstAgent = installedAgents[0]!;
@@ -441,16 +448,17 @@ async function selectAgentsForSkills(
     return installedAgents;
   }
 
-  const allAgentChoices = Object.entries(agents).map(([key, config]) => {
-    const isInstalled = installedAgents.includes(key as AgentType);
+  const allAgentChoices: Option<string>[] = getAgentNames().map((agent) => {
+    const config = agents[agent];
+    const isInstalled = installedAgents.includes(agent);
     return {
-      value: key as AgentType,
+      value: agent,
       label: config.displayName,
-      hint: isInstalled ? pc.green("installed") : pc.dim("not installed"),
+      hint: `${isInstalled ? pc.green("installed") : pc.dim("not installed")} ${pc.dim(`• ${getAgentOptionHint(agent)}`)}`,
     };
   });
 
-  const selected = await p.multiselect({
+  const selected = await p.multiselect<string>({
     message: "Choose agents to install to",
     options: allAgentChoices,
     required: true,
@@ -472,18 +480,15 @@ async function selectAgentsForCommands(
   const validAgentsForCommands = getCommandSupportAgents();
 
   if (options.agent && options.agent.length > 0) {
-    const validAgents = Object.keys(agents) as AgentType[];
-    const invalidAgents = options.agent.filter((a) => !validAgents.includes(a as AgentType));
+    const parsedAgents = normalizeAgentNames(options.agent);
 
-    if (invalidAgents.length > 0) {
-      p.log.error(`Invalid agents: ${invalidAgents.join(", ")}`);
-      p.log.info(`Valid agents: ${validAgents.join(", ")}`);
+    if (parsedAgents.invalid.length > 0) {
+      p.log.error(`Invalid agents: ${parsedAgents.invalid.join(", ")}`);
+      p.log.info("Run flins agents to inspect supported names and shared folders.");
       return null;
     }
 
-    const commandAgents = options.agent.filter((a) =>
-      supportsCommands(a as AgentType),
-    ) as AgentType[];
+    const commandAgents = parsedAgents.agents.filter((agent) => supportsCommands(agent));
 
     if (commandAgents.length === 0) {
       p.log.error(
@@ -493,15 +498,23 @@ async function selectAgentsForCommands(
       return null;
     }
 
-    const filtered = options.agent.filter((a) => !supportsCommands(a as AgentType));
+    const filtered = parsedAgents.agents.filter((agent) => !supportsCommands(agent));
     if (filtered.length > 0) {
-      p.log.warn(`Filtering out agents that don't support commands: ${filtered.join(", ")}`);
+      p.log.warn(
+        `Filtering out agents that don't support commands: ${filtered
+          .map((agent) => agents[agent].displayName)
+          .join(", ")}`,
+      );
     }
 
     return commandAgents;
   }
 
   const availableCommandAgents = validAgentsForCommands.filter((a) => agents[a]?.commandsDir);
+  const installedAgents = await detectInstalledAgents();
+  const detectedCommandAgents = installedAgents.filter((agent) =>
+    availableCommandAgents.includes(agent),
+  );
 
   if (availableCommandAgents.length === 0) {
     p.log.warn("No agents with command support detected");
@@ -511,24 +524,31 @@ async function selectAgentsForCommands(
   const autoConfirm = options.yes || options.force;
 
   if (autoConfirm) {
+    if (detectedCommandAgents.length === 0) {
+      p.log.info(
+        "No installed command-capable agents detected. Use --agent to target Claude Code, OpenCode, or Droid.",
+      );
+      return [];
+    }
+
     p.log.info(
-      `Installing commands to: ${availableCommandAgents
+      `Installing commands to: ${detectedCommandAgents
         .map((a) => pc.cyan(agents[a].displayName))
         .join(", ")}`,
     );
-    return availableCommandAgents;
+    return detectedCommandAgents;
   }
 
-  const commandAgentChoices = availableCommandAgents.map((a) => ({
+  const commandAgentChoices: Option<string>[] = availableCommandAgents.map((a) => ({
     value: a,
     label: agents[a].displayName,
   }));
 
-  const selected = await p.multiselect({
+  const selected = await p.multiselect<string>({
     message: "Choose agents to install commands to",
     options: commandAgentChoices,
     required: true,
-    initialValues: availableCommandAgents,
+    initialValues: detectedCommandAgents,
   });
 
   if (p.isCancel(selected)) {
@@ -578,12 +598,13 @@ async function showSummaryAndConfirm(
   skillsAgents: AgentType[] | null,
   selectedCommands: Command[] | null,
   commandsAgents: AgentType[] | null,
-  _installGlobally: boolean,
+  installGlobally: boolean,
   sourceName: string,
 ): Promise<boolean> {
   p.log.step(pc.bold("Installation Summary"));
 
   p.log.message(pc.bold(pc.cyan("Source:")) + " " + sourceName);
+  p.log.message(pc.bold(pc.cyan("Scope:")) + " " + (installGlobally ? "Global" : "Project"));
 
   if (selectedSkills && selectedSkills.length > 0 && skillsAgents) {
     p.log.message(
@@ -594,6 +615,18 @@ async function showSummaryAndConfirm(
     p.log.message(
       pc.bold(pc.cyan("Agents:")) + " " + skillsAgents.map((a) => agents[a].displayName).join(", "),
     );
+
+    const sharedDirectoryNotes = getSharedAgentDirectoryNotes(
+      skillsAgents,
+      installGlobally ? "global" : "project",
+    );
+
+    if (sharedDirectoryNotes.length > 0) {
+      p.log.message(pc.bold(pc.cyan("Shared folders:")));
+      for (const note of sharedDirectoryNotes) {
+        p.log.message(`  ${pc.dim("•")} ${note}`);
+      }
+    }
   }
 
   if (

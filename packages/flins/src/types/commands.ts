@@ -5,7 +5,7 @@ export interface Command {
   type: "markdown";
 }
 
-export const COMMANDS_SUPPORT_AGENTS = ["claude-code", "opencode", "factory"] as const;
+export const COMMANDS_SUPPORT_AGENTS = ["claude-code", "opencode", "droid"] as const;
 
 export type CommandsSupportAgent = (typeof COMMANDS_SUPPORT_AGENTS)[number];
 
