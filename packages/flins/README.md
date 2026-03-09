@@ -7,11 +7,14 @@ Install, manage, and update skills and commands across 42 supported agent integr
 ## Installation
 
 ```bash
-# Using bunx
+# Local install with bunx (default)
 bunx --bun flins@latest add <source>
 
-# Using npx
+# Local install with npx (default)
 npx flins@latest add <source>
+
+# Explicit global install
+bunx --bun flins@latest add <source> --global
 
 # Install globally with Bun
 bun add -g flins
@@ -44,12 +47,6 @@ bunx --bun flins@latest add developer.cloudflare.com
 
 # Install from well-known endpoint (RFC) with npx
 npx flins@latest add developer.cloudflare.com
-
-# Inspect supported agents and folders
-bunx --bun flins@latest agents
-
-# Inspect supported agents and folders with npx
-npx flins@latest agents
 
 # Install globally
 bunx --bun flins@latest add expo --global
@@ -86,7 +83,6 @@ Works with any RFC-compatible domain.
 | Command          | Description                         |
 | ---------------- | ----------------------------------- |
 | `flins add`      | Install skills/commands from source |
-| `flins agents`   | Show supported agents and folders   |
 | `flins update`   | Update installed skills/commands    |
 | `flins outdated` | Check for available updates         |
 | `flins remove`   | Uninstall skills/commands           |
@@ -97,6 +93,8 @@ Works with any RFC-compatible domain.
 ## Supported Agents
 
 flins supports these canonical `--agent` values:
+
+Local installs default to `universal`, which writes to `.agents/skills` and is picked up by Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi Code CLI, OpenCode, Replit, and Universal. In the interactive local installer, that shared folder appears once as `universal` instead of repeating those agents as separate checkboxes.
 
 | Project folder        | Agents                                                                                            | `--agent` values                                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -133,7 +131,7 @@ flins supports these canonical `--agent` values:
 | `.pochi/skills`       | Pochi                                                                                             | `pochi`                                                                                                          |
 | `.adal/skills`        | AdaL                                                                                              | `adal`                                                                                                           |
 
-Run `flins agents` when you want the live project and global folder matrix.
+See the Supported Agents table above when you need canonical ids and project folders.
 
 ## Symlink-First Architecture
 

@@ -20,6 +20,8 @@ Install, manage, and update skills and commands across 42 supported agent integr
 
 flins supports these canonical `--agent` values:
 
+Local installs default to `universal`, which writes to `.agents/skills` and is picked up by Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi Code CLI, OpenCode, Replit, and Universal. In the interactive local installer, that shared folder appears once as `universal` instead of repeating those agents as separate checkboxes.
+
 | Project folder | Agents | `--agent` values |
 | --- | --- | --- |
 | `.agents/skills` | Amp, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi Code CLI, OpenCode, Replit, Universal | `amp`, `cline`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, `kimi-cli`, `opencode`, `replit`, `universal` |
@@ -55,16 +57,17 @@ flins supports these canonical `--agent` values:
 | `.pochi/skills` | Pochi | `pochi` |
 | `.adal/skills` | AdaL | `adal` |
 
-Run `flins agents` when you want the live project and global folder matrix.
-
 ## Installation
 
 ```bash
-# Using bunx
+# Local install with bunx (default)
 bunx --bun flins@latest add <source>
 
-# Using npx
+# Local install with npx (default)
 npx flins@latest add <source>
+
+# Explicit global install
+bunx --bun flins@latest add <source> --global
 
 # Install globally with Bun
 bun add -g flins
@@ -83,9 +86,6 @@ flins add expo/skills
 # Install to specific agent
 flins add expo -a claude-code
 
-# Inspect supported agents and folders
-flins agents
-
 # Install globally
 flins add expo --global
 
@@ -102,7 +102,6 @@ flins search
 | Command           | Description                         |
 | ----------------- | ----------------------------------- |
 | `flins add <src>` | Install skills/commands from source |
-| `flins agents`    | Show supported agents and folders   |
 | `flins update`    | Update installed skills/commands    |
 | `flins outdated`  | Check for available updates         |
 | `flins remove`    | Uninstall skills/commands           |
@@ -112,15 +111,15 @@ flins search
 
 **Common options:**
 
-- `-g, --global` - Install globally (user-level)
-- `-a, --agent <name>` - Target a specific canonical agent name or shared-folder group member
+- `-g, --global` - Install globally (user-level). Local is the default.
+- `-a, --agent <name>` - Target specific canonical agents. For local installs, `universal` covers the shared `.agents/skills` folder.
 - `-s, --skill <name>` - Install specific skill by name
 - `-y, --yes` - Auto-confirm all prompts
 - `-f, --force` - Skip all confirmations
 - `--silent` - Suppress non-error output
 - `--no-symlink` - Copy files directly instead of symlinks
 
-Use `flins agents` when you need the current canonical ids and folder layout.
+See the Supported Agents table above when you need canonical ids and project folders.
 
 Command installation exists, but it is still experimental and currently limited to `claude-code`, `opencode`, and `droid`.
 
@@ -200,7 +199,7 @@ Use `--no-symlink` to copy files directly instead.
 
 Project and global folders vary by agent, and some agents intentionally share the same canonical folder.
 
-Use `flins agents` for the live project and global folder matrix.
+See the Supported Agents table above for canonical project folders and `--agent` values.
 
 For global installations, source files are stored in `~/.flins/.agents/skills/` and `~/.flins/.agents/commands/`.
 
