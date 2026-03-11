@@ -5,6 +5,24 @@ import { dirname, join } from "node:path";
 
 const directoryUrl = "https://flins.tech/directory.json";
 const wellKnownPath = "/.well-known/skills";
+const knownGitHosts = new Set([
+  "bitbucket.org",
+  "dev.azure.com",
+  "codeberg.org",
+  "framagit.org",
+  "gitea.com",
+  "git.sr.ht",
+  "git.disroot.org",
+  "github.com",
+  "git.launchpad.net",
+  "gitlab.com",
+  "hg.sr.ht",
+  "launchpad.net",
+  "notabug.org",
+  "pagure.io",
+  "repo.or.cz",
+  "sourcehut.org",
+]);
 
 export interface DirectoryEntry {
   name: string;
@@ -29,8 +47,67 @@ export interface SourceBundle {
   subpath?: string;
 }
 
-function normalizeHost(host: string) {
-  return host.replace(/^https?:\/\//, "").replace(/\/$/, "");
+function hasWellKnownPrefix(value: string) {
+  return value.startsWith("well-known:");
+}
+
+function trimWellKnownPrefix(value: string) {
+  return hasWellKnownPrefix(value) ? value.slice("well-known:".length) : value;
+}
+
+function parseHttpUrl(value: string) {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function isDomainHost(value: string) {
+  return /^(?:[a-z0-9][-a-z0-9]*\.)+[a-z]{2,}$/i.test(value);
+}
+
+function normalizeHost(value: string) {
+  const parsed = parseHttpUrl(value);
+  if (parsed) {
+    return parsed.hostname.toLowerCase();
+  }
+
+  return value.split("/")[0]!.replace(/\/$/, "").toLowerCase();
+}
+
+export function getWellKnownHost(value: string) {
+  const normalizedValue = trimWellKnownPrefix(value).trim().replace(/\/+$/, "");
+  if (!normalizedValue || normalizedValue.endsWith(".git")) {
+    return null;
+  }
+
+  const explicitWellKnown = hasWellKnownPrefix(value);
+  const parsed = parseHttpUrl(normalizedValue);
+  if (parsed) {
+    const host = parsed.hostname.toLowerCase();
+    if (!isDomainHost(host)) {
+      return null;
+    }
+
+    if (!explicitWellKnown && knownGitHosts.has(host)) {
+      return null;
+    }
+
+    return host;
+  }
+
+  const host = normalizeHost(normalizedValue);
+  if (!isDomainHost(host)) {
+    return null;
+  }
+
+  if (!explicitWellKnown && knownGitHosts.has(host)) {
+    return null;
+  }
+
+  return host;
 }
 
 function getWellKnownIndexUrl(host: string) {
@@ -156,15 +233,7 @@ export function isDirectoryName(value: string) {
 }
 
 export function isWellKnownSource(value: string) {
-  if (value.includes("/") && !value.includes("://")) {
-    return false;
-  }
-
-  if (value.includes("github.com") || value.includes("gitlab.com") || value.endsWith(".git")) {
-    return false;
-  }
-
-  return /^(?:https?:\/\/)?([a-z0-9][-a-z0-9]*\.)+[a-z]{2,}$/i.test(value);
+  return getWellKnownHost(value) !== null;
 }
 
 export function parseGitSource(value: string): ParsedGitSource {
@@ -201,9 +270,10 @@ export function parseGitSource(value: string): ParsedGitSource {
   }
 
   const githubShorthand = value.match(/^([^/]+)\/([^/]+)(?:\/(.+))?$/);
-  if (githubShorthand && !value.includes(":")) {
+  const shorthandOwner = githubShorthand?.[1];
+  if (shorthandOwner && githubShorthand[2] && !value.includes(":") && !shorthandOwner.includes(".")) {
     return {
-      url: `https://github.com/${githubShorthand[1]}/${githubShorthand[2]}.git`,
+      url: `https://github.com/${shorthandOwner}/${githubShorthand[2]}.git`,
       subpath: githubShorthand[3],
     };
   }
@@ -221,22 +291,40 @@ export async function resolveDirectorySource(name: string) {
 }
 
 export async function listWellKnownSource(source: string) {
-  const normalized = source.startsWith("well-known:") ? source.slice("well-known:".length) : source;
-  if (!isWellKnownSource(normalized)) {
+  const host = getWellKnownHost(source);
+  if (!host) {
     return null;
   }
 
-  return {
-    host: normalizeHost(normalized),
-    skills: await listWellKnownSkills(normalized),
-  };
+  try {
+    return {
+      host,
+      skills: await listWellKnownSkills(host),
+    };
+  } catch (error) {
+    if (hasWellKnownPrefix(source)) {
+      throw error;
+    }
+
+    return null;
+  }
 }
 
 export async function downloadSource(source: string) {
-  const normalized = source.startsWith("well-known:") ? source.slice("well-known:".length) : source;
-  return isWellKnownSource(normalized)
-    ? downloadWellKnownSource(normalized)
-    : downloadGitSource(normalized);
+  const host = getWellKnownHost(source);
+  if (!host) {
+    return downloadGitSource(trimWellKnownPrefix(source));
+  }
+
+  if (hasWellKnownPrefix(source)) {
+    return downloadWellKnownSource(host);
+  }
+
+  try {
+    return await downloadWellKnownSource(host);
+  } catch {
+    return downloadGitSource(trimWellKnownPrefix(source));
+  }
 }
 
 export async function getLatestCommit(url: string, branch: string = "main") {
