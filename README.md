@@ -153,7 +153,7 @@ flins add developer.cloudflare.com
 
 ### Well-Known Skills Discovery (RFC)
 
-flins supports [Cloudflare's Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc). Install skills directly from any domain hosting a `/.well-known/skills/index.json` endpoint:
+flins supports [Cloudflare's Agent Skills Discovery RFC](https://github.com/cloudflare/agent-skills-discovery-rfc). Install skills directly from any domain hosting a `/.well-known/agent-skills/index.json` endpoint:
 
 ```bash
 # Install from Cloudflare docs
@@ -166,7 +166,7 @@ flins add developer.cloudflare.com --list
 flins add developer.cloudflare.com --skill cloudflare
 ```
 
-Works with any RFC-compatible domain — just run `flins add <domain>` to fetch from `/.well-known/skills/`.
+Works with any RFC-compatible domain. `flins add <domain>` and `flins add https://<domain>` both fetch from `/.well-known/agent-skills/`.
 
 ## Symlink-First Architecture
 

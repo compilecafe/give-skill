@@ -472,12 +472,14 @@ function App() {
                   RFC Supported
                 </span>
               </div>
-              <h2 className="text-5xl">Install from .well-known/skills</h2>
+              <h2 className="text-5xl">
+                Install from .well-known/agent-skills
+              </h2>
               <p className="text-muted-foreground text-lg text-balance leading-relaxed">
                 flins supports Cloudflare's Agent Skills Discovery RFC. Install
                 skills directly from any domain hosting a{' '}
                 <code className="text-cyan-400">
-                  .well-known/skills/index.json
+                  .well-known/agent-skills/index.json
                 </code>{' '}
                 endpoint.
               </p>
@@ -546,7 +548,7 @@ function App() {
                     # Works with any RFC-compatible domain
                   </span>
                   <code className="text-xs text-zinc-400">
-                    flins add {'<domain>'} → fetches /.well-known/skills/
+                    flins add {'<domain>'} → fetches /.well-known/agent-skills/
                   </code>
                 </div>
               </div>
